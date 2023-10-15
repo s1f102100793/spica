@@ -1,0 +1,93 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  padding: 0 60px;
+  border-bottom: 1px solid #eee;
+}
+
+.left {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.right {
+  display: flex;
+  gap: 20px;
+}
+
+.menuButton {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 50px;
+  height: 46px;
+  padding-top: 11px;
+  padding-bottom: 11px;
+  cursor: pointer;
+}
+
+.menuButton div {
+  width: 30px;
+  height: 4px;
+  background-color: #000;
+}
+
+.menuButton.open div:first-child {
+  position: relative;
+  top: 12px;
+  width: 33px;
+  transform: rotate(45deg);
+}
+
+.menuButton.open div:last-child {
+  position: relative;
+  bottom: 8px;
+  width: 33px;
+  transform: rotate(-45deg);
+}
+
+.menuButton.open div:nth-child(2) {
+  opacity: 0;
+}
+
+.menu {
+  display: flex;
+  height: 100%;
+  background-color: #000;
+}
+
+.dropdown {
+  position: absolute;
+  top: 70px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  padding: 0 25px;
+  border-radius: 5px;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  border-bottom: 1px solid #eee;
+}
+
+@media (max-width: 800px) {
+  .container {
+    padding: 0 25px;
+  }
+
+  .right > span {
+    display: none;
+  }
+
+  .menuButton,
+  .dropdown {
+    display: flex;
+  }
+}
