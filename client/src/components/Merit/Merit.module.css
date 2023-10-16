@@ -1,0 +1,43 @@
+.container {
+  width: 100%;
+  height: auto;
+  padding: 50px 0 0;
+  color: #555;
+  text-align: center;
+  background-color: #f3f7fc;
+}
+
+.merits {
+  display: flex;
+  flex-wrap: wrap;
+  align-self: center;
+  justify-content: center;
+  max-width: 1200px;
+  padding: 50px;
+  margin: 0 auto;
+}
+
+.meritItem {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10px;
+}
+
+.meritItem h2 {
+  padding: 0 0 15px;  
+}
+
+.meritItem h3 {
+  width: 80%;
+  padding: 30px 0 0;
+}
+
+.meritItem img {
+  width: 70%;
+  height: auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 10px 10px 30px #055ec11a;
+}
