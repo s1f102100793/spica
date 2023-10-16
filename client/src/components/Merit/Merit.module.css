@@ -9,7 +9,7 @@
 
 .merits {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
   align-self: center;
   justify-content: center;
   max-width: 1200px;
@@ -26,7 +26,7 @@
 }
 
 .meritItem h2 {
-  padding: 0 0 15px;  
+  padding: 0 0 15px;
 }
 
 .meritItem h3 {
@@ -40,4 +40,11 @@
   background: #fff;
   border-radius: 10px;
   box-shadow: 10px 10px 30px #055ec11a;
+}
+
+@media (max-width: 700px) {
+  .merits {
+    flex-direction: column;
+    gap: 70px;
+  }
 }
