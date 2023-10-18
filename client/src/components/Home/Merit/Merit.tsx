@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Merit.module.css';
 
-export const Merit = () => {
+export const MeritSection = () => {
   const merits = [
     {
       name: '時給アップ',

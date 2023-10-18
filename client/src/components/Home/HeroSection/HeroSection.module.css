@@ -23,7 +23,7 @@
 
 .heroImage {
   flex: 1;
-  background-image: url('../../assets/home/HeroSection.png');
+  background-image: url('/home/HeroSection.png');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: contain;
