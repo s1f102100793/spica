@@ -8,32 +8,41 @@
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: bold;
+  text-align: center;
 }
 
 .news {
   display: flex;
   flex-direction: column;
+  width: 70%;
   max-width: 1200px;
   margin: 0 auto;
 }
 
 .newsItem {
   display: flex;
-  flex-direction: column;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px; 
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  padding: 15px 20px;
+  margin: 10px;
+  background-color: #fff;
+  border-radius: 5px;
   box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
 }
 
 .newsDate {
+  align-self: center;
   font-weight: bold;
   color: #333;
 }
 
 .newsCategory {
+  padding: 5px;
   margin-top: 5px;
-  color: #07c;
+  color: #333;
+  background-color: #b2e8f2;
+  border-radius: 2px;
 }
 
 .newsTitle {

@@ -1,17 +1,22 @@
 import React from 'react';
 import styles from './LatestNews.module.css';
 
-export const LatestNews: React.FC = () => {
+export const LatestNewsSection: React.FC = () => {
   const newsItems = [
     {
-      date: '2023/10/05',
+      date: '2023/10/15',
       category: 'プレスリリース',
-      title: '[back check] が次世代の法人カード「アウトラベンジャーカード」 [緊急情報]',
+      title: '作成開始しました',
     },
     {
-      date: '2023/07/10',
+      date: '2023/10/18',
       category: 'プレスリリース',
-      title: '厚生労働省後援 日本の人事部 [HRアワード2023] 最終審査において入賞',
+      title: 'お知らせ欄が作成されました',
+    },
+    {
+      date: '2023/10/15',
+      category: 'プレスリリース',
+      title: '作成開始しました',
     },
   ];
 
