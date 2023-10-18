@@ -1,0 +1,42 @@
+.container {
+  width: 100%;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.title {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.news {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.newsItem {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px; 
+  box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+}
+
+.newsDate {
+  font-weight: bold;
+  color: #333;
+}
+
+.newsCategory {
+  margin-top: 5px;
+  color: #07c;
+}
+
+.newsTitle {
+  margin-top: 5px;
+  color: #666;
+}

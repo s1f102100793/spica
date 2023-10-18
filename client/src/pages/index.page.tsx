@@ -1,7 +1,9 @@
 import { useAtom } from 'jotai';
 import { Header } from 'src/components/Header/Header';
-import { HeroSection } from 'src/components/HeroSection/HeroSection';
-import { Merit } from 'src/components/Merit/Merit';
+import { HeroSection } from 'src/components/Home/HeroSection/HeroSection';
+import { LatestNews } from 'src/components/Home/LatestNews/LatestNews';
+import { MeritSection } from 'src/components/Home/Merit/Merit';
+import { PossibleSection } from 'src/components/Home/PossibleSection/PossibleSection';
 import { userAtom } from '../atoms/user';
 
 const Home = () => {
@@ -11,7 +13,9 @@ const Home = () => {
     <>
       <Header />
       <HeroSection />
-      <Merit />
+      <MeritSection />
+      <PossibleSection />
+      <LatestNews />
     </>
   );
 };

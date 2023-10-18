@@ -47,4 +47,18 @@
     flex-direction: column;
     gap: 70px;
   }
+
+  .container h1 {
+    align-self: center;
+    width: 80%;
+    margin: 0 auto;
+    line-height: 1.5;
+    text-align: center;
+    white-space: pre-line;
+  }
+
+  .container h1::before {
+    display: none;
+    content: 'Spicaで得られる\nメリット';
+  }
 }
