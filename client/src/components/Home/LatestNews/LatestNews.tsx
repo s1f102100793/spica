@@ -30,4 +30,3 @@ export const LatestNews: React.FC = () => {
     </div>
   );
 };
-
