@@ -1,7 +1,11 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Header.module.css';
 
-export const Header = () => {
+type HeaderProps = {
+  login: () => void;
+};
+
+export const Header: React.FC<HeaderProps> = ({ login }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -36,8 +40,10 @@ export const Header = () => {
           <span>ビジョン</span>
           <span>ニュース</span>
           <span>お問い合わせ</span>
-          <span>サインイン</span>
-          <span>サインアップ</span>
+          <span>ログイン</span>
+          <span className={styles.account} onClick={login}>
+            アカウント開設
+          </span>
         </div>
         <div
           className={`${styles.menuButton} ${isMenuOpen ? styles.open : ''}`}
