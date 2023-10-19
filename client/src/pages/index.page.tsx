@@ -1,4 +1,5 @@
 import { useAtom } from 'jotai';
+import { Footer } from 'src/components/Footer/Footer';
 import { Header } from 'src/components/Header/Header';
 import { HeroSection } from 'src/components/Home/HeroSection/HeroSection';
 import { LatestNewsSection } from 'src/components/Home/LatestNewsSection/LatestNewsSection';
@@ -16,6 +17,7 @@ const Home = () => {
       <MeritSection />
       <PossibleSection />
       <LatestNewsSection />
+      <Footer />
     </>
   );
 };
