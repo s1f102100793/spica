@@ -5,6 +5,7 @@
 }
 
 .title {
+  padding-top: 20px;
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: bold;
@@ -40,6 +41,7 @@
 .newsCategory {
   padding: 5px;
   margin-top: 5px;
+  font-weight: bold;
   color: #333;
   background-color: #b2e8f2;
   border-radius: 2px;
