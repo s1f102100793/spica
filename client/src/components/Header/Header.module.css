@@ -24,7 +24,12 @@
   align-items: center;
 }
 
-.account {
+.right > span {
+  font-weight: bold;
+  color: #666;
+}
+
+.right > span.account {
   padding: 10px 20px;
   font-weight: bold;
   color: #fff;
