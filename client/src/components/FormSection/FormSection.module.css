@@ -122,3 +122,11 @@
   color: #fff;
   background-color: #007aff;
 }
+
+.formLabel {
+  font-weight: bold;
+}
+
+.formGroup p {
+  padding-left: 5px;
+}

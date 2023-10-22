@@ -1,3 +1,5 @@
+import type { ErrorsType } from '../FormSectioon';
+
 type StepOneSectionProps = {
   firstName: string;
   setFirstName: (value: string) => void;
@@ -18,6 +20,7 @@ type StepOneSectionProps = {
     password?: string;
     passwordConfirmation?: string;
   };
+  setErrors: (value: any) => void;
   handleNextClick: () => void;
   styles: any;
 };
@@ -37,9 +40,29 @@ export const StepOneSection: React.FC<StepOneSectionProps> = ({
   emailPreferences,
   setEmailPreferences,
   errors,
+  setErrors,
   handleNextClick,
   styles,
 }) => {
+  const handlePasswordBlur = () => {
+    if (password.length < 6) {
+      setErrors((prevErrors: ErrorsType) => ({
+        ...prevErrors,
+        password: 'パスワードは6文字以上の半角英数字で入力してください。',
+      }));
+      return; 
+    }
+
+    const alphanumericPattern = /^[a-zA-Z0-9]+$/;
+    if (!alphanumericPattern.test(password)) {
+      setErrors((prevErrors: ErrorsType) => ({
+        ...prevErrors,
+        password: 'パスワードは6文字以上の半角英数字で入力してください。',
+      }));
+      return;
+    }
+  };
+
   return (
     <div>
       <div className={styles.title}>アカウント登録</div>
@@ -85,6 +108,7 @@ export const StepOneSection: React.FC<StepOneSectionProps> = ({
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onBlur={handlePasswordBlur}
             placeholder="6文字以上の半角英数字"
           />
           {errors.password !== null && <div className={styles.error}>{errors.password}</div>}
