@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from './FormSection.module.css';
+import { StepOneSection } from './StepSection/StepOneSection';
 
 type ErrorsType = {
   lastName?: string;
@@ -9,9 +10,8 @@ type ErrorsType = {
   passwordConfirmation?: string;
 };
 
-// eslint-disable-next-line complexity
 export const FormSection = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(2);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -63,90 +63,25 @@ export const FormSection = () => {
         </div>
       </div>
       <div className={styles.form}>
-        <div className={styles.title}>アカウント登録</div>
-        <form>
-          <div className={styles.formGroup}>
-            <label>氏名</label>
-            <div className={styles.nameInput}>
-              <div className={styles.nameArea}>
-                <input
-                  type="text"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  placeholder="山田"
-                />
-                {errors.lastName !== null && <div className={styles.error}>{errors.lastName}</div>}
-              </div>
-              <div className={styles.nameArea}>
-                <input
-                  type="text"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  placeholder="太郎"
-                />
-                {errors.firstName !== null && (
-                  <div className={styles.error}>{errors.firstName}</div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.formGroup}>
-            <label>メールアドレス</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="example@example.com"
-            />
-            {errors.email !== null && <div className={styles.error}>{errors.email}</div>}
-          </div>
-
-          <div className={styles.formGroup}>
-            <label>パスワード</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="6文字以上の半角英数字"
-            />
-            {errors.password !== null && <div className={styles.error}>{errors.password}</div>}
-          </div>
-
-          <div className={styles.formGroup}>
-            <label>パスワード（確認）</label>
-            <input
-              type="password"
-              value={passwordConfirmation}
-              onChange={(e) => setPasswordConfirmation(e.target.value)}
-              placeholder="6文字以上の半角英数字"
-            />
-            {errors.passwordConfirmation !== null && (
-              <div className={styles.error}>{errors.passwordConfirmation}</div>
-            )}
-          </div>
-
-          <div className={styles.mailGroup}>
-            <input
-              type="checkbox"
-              id="emailPreferences"
-              checked={emailPreferences}
-              onChange={(e) => setEmailPreferences(e.target.checked)}
-            />
-            <label htmlFor="emailPreferences">
-              製品の更新、お知らせ、オファーのメールを希望する
-            </label>
-          </div>
-        </form>
-
-        <button className={styles.createButton} type="button" onClick={handleNextClick}>
-          つぎへ
-        </button>
-
-        {/* <p>
-          アカウントを作成することで、<a href="/terms">利用規約</a>および
-          <a href="/privacy">プライバシーポリシー</a>に同意するものとします。
-        </p> */}
+        {currentStep === 1 && (
+          <StepOneSection
+            firstName={firstName}
+            setFirstName={setFirstName}
+            lastName={lastName}
+            setLastName={setLastName}
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            passwordConfirmation={passwordConfirmation}
+            setPasswordConfirmation={setPasswordConfirmation}
+            emailPreferences={emailPreferences}
+            setEmailPreferences={setEmailPreferences}
+            errors={errors}
+            handleNextClick={handleNextClick}
+            styles={styles}
+          />
+        )}
       </div>
     </div>
   );
