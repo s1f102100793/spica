@@ -130,3 +130,22 @@
 .formGroup p {
   padding-left: 5px;
 }
+
+.buttonContainer {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  width: calc(100% - 50px);
+  margin: 0 25px;
+}
+
+.changeStepButton {
+  width: 100%;
+  padding: 7px 5px;
+  font-size: large;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007aff;
+  border: none;
+  border-radius: 5px;
+}

@@ -5,6 +5,8 @@ type StepTwoSectionProps = {
   email: string;
   password: string;
   emailPreferences: boolean;
+  handleNextClick: () => void;
+  handlebackClick: () => void;
 };
 
 export const StepTwoSection: React.FC<StepTwoSectionProps> = ({
@@ -14,6 +16,8 @@ export const StepTwoSection: React.FC<StepTwoSectionProps> = ({
   email,
   password,
   emailPreferences,
+  handleNextClick,
+  handlebackClick,
 }) => {
   return (
     <div>
@@ -41,6 +45,15 @@ export const StepTwoSection: React.FC<StepTwoSectionProps> = ({
           <p>{emailPreferences ? '希望する' : '希望しない'}</p>
         </div>
       </form>
+
+      <div className={styles.buttonContainer}>
+        <button className={styles.changeStepButton} type="button" onClick={handlebackClick}>
+          修正する
+        </button>
+        <button className={styles.changeStepButton} type="button" onClick={handleNextClick}>
+          つぎへ
+        </button>
+      </div>
     </div>
   );
 };

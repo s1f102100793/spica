@@ -69,10 +69,14 @@ export const FormSection = () => {
     const formErrors = validateForm();
 
     if (Object.keys(formErrors).length === 0) {
-      setCurrentStep(2);
+      setCurrentStep(currentStep + 1);
     } else {
       setErrors(formErrors);
     }
+  };
+
+  const handlebackClick = () => {
+    setCurrentStep(currentStep - 1);
   };
 
   return (
@@ -116,6 +120,8 @@ export const FormSection = () => {
             email={email}
             password={password}
             emailPreferences={emailPreferences}
+            handleNextClick={handleNextClick}
+            handlebackClick={handlebackClick}
             styles={styles}
           />
         )}

@@ -50,7 +50,7 @@ export const StepOneSection: React.FC<StepOneSectionProps> = ({
         ...prevErrors,
         password: 'パスワードは6文字以上の半角英数字で入力してください。',
       }));
-      return; 
+      return;
     }
 
     const alphanumericPattern = /^[a-zA-Z0-9]+$/;
