@@ -6,11 +6,9 @@ import { LatestNewsSection } from 'src/components/Home/LatestNewsSection/LatestN
 import { MeritSection } from 'src/components/Home/Merit/Merit';
 import { PossibleSection } from 'src/components/Home/PossibleSection/PossibleSection';
 import { userAtom } from '../atoms/user';
-import { useLoading } from './@hooks/useLoading';
 
 const Home = () => {
   const [user] = useAtom(userAtom);
-  const { loadingElm } = useLoading();
 
   return (
     <>
@@ -20,7 +18,6 @@ const Home = () => {
       <PossibleSection />
       <LatestNewsSection />
       <Footer />
-      {loadingElm}
     </>
   );
 };
