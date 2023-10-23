@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './FormSection.module.css';
 import { StepOneSection } from './StepSection/StepOneSection';
+import { StepThreeSection } from './StepSection/StepThreeSection';
 import { StepTwoSection } from './StepSection/StepTwoSection';
 
 export type ErrorsType = {
@@ -13,7 +14,7 @@ export type ErrorsType = {
 
 // eslint-disable-next-line complexity
 export const FormSection = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(3);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -21,6 +22,8 @@ export const FormSection = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [emailPreferences, setEmailPreferences] = useState(false);
   const [errors, setErrors] = useState<ErrorsType>({});
+  const [verificationCode, setVerificationCode] = useState<string[]>([]);
+  const [sentCode, setSentCode] = useState<string | null>(null);
 
   // eslint-disable-next-line complexity
   const validateForm = () => {
@@ -69,6 +72,9 @@ export const FormSection = () => {
     const formErrors = validateForm();
 
     if (Object.keys(formErrors).length === 0) {
+      if (currentStep === 2) {
+        // TODO: ここにメール送信の関数を呼ぶ
+      }
       setCurrentStep(currentStep + 1);
     } else {
       setErrors(formErrors);
@@ -77,6 +83,20 @@ export const FormSection = () => {
 
   const handlebackClick = () => {
     setCurrentStep(currentStep - 1);
+  };
+
+  const generateVerificationCode = () => {
+    const code = Math.floor(Math.random() * 1000000)
+      .toString()
+      .padStart(6, '0');
+    return code.split('');
+  };
+
+  const sendEmailVerification = () => {
+    const code = generateVerificationCode();
+    setSentCode(code.join(''));
+
+    console.log(`Send email to ${email} with verification code: ${code.join('')}`);
   };
 
   return (
@@ -122,6 +142,17 @@ export const FormSection = () => {
             emailPreferences={emailPreferences}
             handleNextClick={handleNextClick}
             handlebackClick={handlebackClick}
+            styles={styles}
+          />
+        )}
+        {currentStep === 3 && (
+          <StepThreeSection
+            email={email}
+            handleNextClick={handleNextClick}
+            verificationCode={verificationCode}
+            setVerificationCode={setVerificationCode}
+            sentCode={sentCode}
+            sendEmailVerification={sendEmailVerification}
             styles={styles}
           />
         )}

@@ -149,3 +149,40 @@
   border: none;
   border-radius: 5px;
 }
+
+.certificationMail {
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.mail {
+  margin-bottom: 20px;
+}
+
+.codeInputContainer {
+  display: flex;
+  gap: 10px;
+  align-self: center;
+  justify-content: space-between;
+  width: 50%;
+  margin: 15px 0;
+}
+
+.codeInput {
+  width: 30px;
+  height: 40px;
+  padding: 10px;
+  font-size: 16px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.resendButton {
+  width: calc(100% - 50px);
+  padding: 7px 5px;
+  margin: 15px 25px;
+  color: #007aff;
+  background-color: transparent;
+  border: none;
+}
