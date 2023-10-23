@@ -1,16 +1,18 @@
+import { MAILADDRESS, MAILPASSWORD } from '$/service/envValues';
 import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'your_email@gmail.com',
-    pass: 'your_password',
+    user: MAILADDRESS,
+    pass: MAILPASSWORD,
   },
 });
 
-const sendVerificationEmail = async (email: string, code: string) => {
+export const sendVerificationEmail = async (email: string, code: string) => {
+  console.log(MAILPASSWORD);
   const mailOptions = {
-    from: 'your_email@gmail.com',
+    from: MAILADDRESS,
     to: email,
     subject: '認証コード',
     text: `あなたの認証コードは ${code} です。`,

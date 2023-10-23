@@ -9,6 +9,5 @@ export type Methods = DefineMethods<{
       email: string;
       code: string;
     };
-    resBody: string;
   };
 }>;
