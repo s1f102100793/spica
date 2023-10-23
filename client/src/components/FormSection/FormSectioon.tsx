@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { apiClient } from 'src/utils/apiClient';
 import styles from './FormSection.module.css';
 import { StepOneSection } from './StepSection/StepOneSection';
 import { StepThreeSection } from './StepSection/StepThreeSection';
@@ -97,6 +98,7 @@ export const FormSection = () => {
     setSentCode(code.join(''));
 
     console.log(`Send email to ${email} with verification code: ${code.join('')}`);
+    apiClient.mailVerification.$post({ body: { email, code: code.join('') } });
   };
 
   return (
