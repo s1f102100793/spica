@@ -30,12 +30,24 @@ export const StepThreeSection: React.FC<StepThreeSectionProps> = ({
   };
 
   const handleInputChange = (index: number, value: string) => {
-    if (value === '' || value.match(/^\d$/)) {
+    const toHalfWidth = (str: string) => {
+      if (str.match(/[０-９]/)) {
+        return str.replace(/[０-９]/g, (s) => {
+          return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+        });
+      }
+      return str;
+    };
+  
+    const convertedValue = toHalfWidth(value);
+  
+    if (convertedValue === '' || convertedValue.match(/^\d$/)) {
       const newCodes = [...verificationCode];
-      newCodes[index] = value;
+      newCodes[index] = convertedValue;
       setVerificationCode(newCodes);
     }
   };
+  
 
   return (
     <div>

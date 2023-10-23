@@ -1,16 +1,15 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useLoading } from 'src/pages/@hooks/useLoading';
-import { loginWithGitHub } from 'src/utils/login';
 import styles from './Header.module.css';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { addLoading, removeLoading } = useLoading();
   const login = async () => {
-    addLoading();
-    await loginWithGitHub();
-    removeLoading();
+    // addLoading();
+    // await signInWithEmail();
+    // removeLoading();
   };
   const router = useRouter();
   const crearteAccount = () => {

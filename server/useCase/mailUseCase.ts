@@ -10,7 +10,6 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendVerificationEmail = async (email: string, code: string) => {
-  console.log(MAILPASSWORD);
   const mailOptions = {
     from: MAILADDRESS,
     to: email,

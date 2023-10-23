@@ -1,5 +1,7 @@
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
+import { signUpWithEmail } from 'src/utils/signup';
 import styles from './FormSection.module.css';
 import { StepOneSection } from './StepSection/StepOneSection';
 import { StepThreeSection } from './StepSection/StepThreeSection';
@@ -15,6 +17,7 @@ export type ErrorsType = {
 
 // eslint-disable-next-line complexity
 export const FormSection = () => {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -79,17 +82,24 @@ export const FormSection = () => {
   const sendEmailVerification = () => {
     const code = generateVerificationCode();
     setSentCode(code.join(''));
-
-    console.log(`Send email to ${email} with verification code: ${code.join('')}`);
     apiClient.mailVerification.$post({ body: { email, code: code.join('') } });
   };
 
-  const handleNextClick = () => {
+  const handleNextClick = async () => {
     const formErrors = validateForm();
 
     if (Object.keys(formErrors).length === 0) {
       if (currentStep === 2) {
         sendEmailVerification();
+      } else if (currentStep === 3) {
+        try {
+          await signUpWithEmail(email, password);
+          console.log('signed up');
+          router.push('/mypage');
+          setCurrentStep(1);
+        } catch (error) {
+          console.error('Error signing up:', error);
+        }
       }
       setCurrentStep(currentStep + 1);
     } else {
