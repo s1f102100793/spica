@@ -33,21 +33,20 @@ export const StepThreeSection: React.FC<StepThreeSectionProps> = ({
     const toHalfWidth = (str: string) => {
       if (str.match(/[０-９]/)) {
         return str.replace(/[０-９]/g, (s) => {
-          return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+          return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
         });
       }
       return str;
     };
-  
+
     const convertedValue = toHalfWidth(value);
-  
+
     if (convertedValue === '' || convertedValue.match(/^\d$/)) {
       const newCodes = [...verificationCode];
       newCodes[index] = convertedValue;
       setVerificationCode(newCodes);
     }
   };
-  
 
   return (
     <div>
