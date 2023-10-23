@@ -30,7 +30,7 @@ export const StepThreeSection: React.FC<StepThreeSectionProps> = ({
   };
 
   const handleInputChange = (index: number, value: string) => {
-    if (value.match(/^\d$/)) {
+    if (value === '' || value.match(/^\d$/)) {
       const newCodes = [...verificationCode];
       newCodes[index] = value;
       setVerificationCode(newCodes);
@@ -52,7 +52,7 @@ export const StepThreeSection: React.FC<StepThreeSectionProps> = ({
               <input
                 key={index}
                 type="text"
-                value={verificationCode[index] || ''}
+                value={verificationCode[index]}
                 onChange={(e) => handleInputChange(index, e.target.value)}
                 maxLength={1}
                 className={styles.codeInput}

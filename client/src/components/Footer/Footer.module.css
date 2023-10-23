@@ -12,7 +12,7 @@
   flex-direction: row;
   gap: 60px;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
   width: 70%;
   max-width: 1200px;
   padding: 30px 0;
