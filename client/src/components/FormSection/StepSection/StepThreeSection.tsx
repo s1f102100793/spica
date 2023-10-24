@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 type StepThreeSectionProps = {
   email: string;
@@ -29,6 +29,8 @@ export const StepThreeSection: React.FC<StepThreeSectionProps> = ({
     }
   };
 
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
   const handleInputChange = (index: number, value: string) => {
     const toHalfWidth = (str: string) => {
       if (str.match(/[０-９]/)) {
@@ -45,6 +47,12 @@ export const StepThreeSection: React.FC<StepThreeSectionProps> = ({
       const newCodes = [...verificationCode];
       newCodes[index] = convertedValue;
       setVerificationCode(newCodes);
+      if (convertedValue.match(/^\d$/)) {
+        const nextInput = inputRefs.current[index + 1];
+        if (nextInput) {
+          nextInput.focus();
+        }
+      }
     }
   };
 
@@ -67,6 +75,7 @@ export const StepThreeSection: React.FC<StepThreeSectionProps> = ({
                 onChange={(e) => handleInputChange(index, e.target.value)}
                 maxLength={1}
                 className={styles.codeInput}
+                ref={(el) => (inputRefs.current[index] = el)}
               />
             ))}
           </div>
