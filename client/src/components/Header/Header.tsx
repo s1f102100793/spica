@@ -1,18 +1,14 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { useLoading } from 'src/pages/@hooks/useLoading';
-import { loginWithGitHub } from 'src/utils/login';
 import styles from './Header.module.css';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { addLoading, removeLoading } = useLoading();
-  const login = async () => {
-    addLoading();
-    await loginWithGitHub();
-    removeLoading();
-  };
   const router = useRouter();
+  const login = async () => {
+    router.push('/login');
+  };
+
   const crearteAccount = () => {
     router.push('/signup');
   };
@@ -49,7 +45,7 @@ export const Header = () => {
           <span>ビジョン</span>
           <span>ニュース</span>
           <span>お問い合わせ</span>
-          <span onClick={login}>ログイン</span>
+          {router.pathname !== '/login' && <span onClick={login}>ログイン</span>}
           {router.pathname !== '/signup' && (
             <span className={styles.account} onClick={crearteAccount}>
               アカウント開設
