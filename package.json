@@ -39,5 +39,9 @@
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.0",
+    "react-chartjs-2": "^5.2.0"
   }
 }
