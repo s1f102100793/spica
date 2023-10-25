@@ -1,5 +1,9 @@
+import { BarController, BarElement, CategoryScale, Chart, LinearScale } from 'chart.js';
 import { useEffect, useState } from 'react';
+import { Bar } from 'react-chartjs-2';
 import styles from './RightSection.module.css';
+
+Chart.register(CategoryScale, LinearScale, BarElement, BarController);
 
 export const RightSection = () => {
   const [count, setCount] = useState(0);
@@ -21,11 +25,39 @@ export const RightSection = () => {
     { place: 'マクドナルド', duration: '1か月' },
   ];
 
+  const salaries = [
+    { month: '1月', amount: 10 },
+    { month: '2月', amount: 12 },
+    { month: '1月', amount: 10 },
+    { month: '2月', amount: 12 },
+    { month: '1月', amount: 10 },
+    { month: '2月', amount: 12 },
+    { month: '1月', amount: 10 },
+    { month: '2月', amount: 12 },
+    { month: '1月', amount: 10 },
+    { month: '2月', amount: 12 },
+    { month: '1月', amount: 10 },
+    { month: '2月', amount: 12 },
+  ];
+
+  const salaryData = {
+    labels: salaries.map((s) => s.month),
+    datasets: [
+      {
+        label: '給料',
+        data: salaries.map((s) => s.amount),
+        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
   return (
     <div className={styles.right}>
       <div className={styles.jobExperience}>
         <div className={styles.jobList}>
-          <h2 className={styles.jobTitle}>バイト歴</h2>
+          <h3 className={styles.jobTitle}>バイト歴</h3>
           <div className={styles.jobHistoryList}>
             {jobHistory.map((job, index) => (
               <div className={styles.jobHistory} key={index}>
@@ -35,14 +67,26 @@ export const RightSection = () => {
           </div>
         </div>
         <div className={styles.totalAmount}>
-          <h2 className={styles.totalTile}>今まで稼いだ金額</h2>
+          <h3 className={styles.totalTitle}>今まで稼いだ金額</h3>
           <div className={styles.totalAmountYen}>
             <span className={styles.smallText}>今まで稼いだ金額は</span>
             <span className={styles.largeText}>{count}万円</span>
           </div>
         </div>
       </div>
-      <div className={styles.earningsBarChart} />
+      <div className={styles.earningsBarChart}>
+        <h3 className={styles.barTitle}>月別金額</h3>
+        <Bar
+          className={styles.barChart}
+          data={salaryData}
+          options={{
+            scales: {
+              y: { beginAtZero: true, title: { display: true } },
+              x: { title: { display: true } },
+            },
+          }}
+        />
+      </div>
     </div>
   );
 };
