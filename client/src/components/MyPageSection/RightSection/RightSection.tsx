@@ -1,6 +1,7 @@
 import { BarController, BarElement, CategoryScale, Chart, LinearScale } from 'chart.js';
 import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
+import { apiClient } from 'src/utils/apiClient';
 import styles from './RightSection.module.css';
 
 Chart.register(CategoryScale, LinearScale, BarElement, BarController);
@@ -61,6 +62,11 @@ export const RightSection = () => {
     { icon: 'badge-icon2.png', description: '獲得アルゴリズム100', date: '2023-09-07' },
   ];
 
+  const getQRCode = async () => {
+    const qrcode = await apiClient.paypay.qrcode.$post();
+    console.log(qrcode);
+  };
+
   return (
     <div className={styles.right}>
       <div className={styles.jobExperience}>
@@ -110,6 +116,15 @@ export const RightSection = () => {
             },
           }}
         />
+      </div>
+
+      <div className={styles.qrcodeSection}>
+        <h3 className={styles.qrcodeTitle}>QRコードを表示</h3>
+        <div className={styles.qrcodeContainer}>
+          <button type="button" className={styles.qrcodeButton} onClick={getQRCode}>
+            QRコードを表示
+          </button>
+        </div>
       </div>
     </div>
   );
