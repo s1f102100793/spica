@@ -4,5 +4,5 @@ export type Methods = DefineMethods<{
   get: {
     resBody: string;
   };
-  post: { resBody: unknown };
+  post: { resBody: string };
 }>;

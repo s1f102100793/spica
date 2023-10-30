@@ -1,4 +1,5 @@
 import { BarController, BarElement, CategoryScale, Chart, LinearScale } from 'chart.js';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { apiClient } from 'src/utils/apiClient';
@@ -9,6 +10,8 @@ Chart.register(CategoryScale, LinearScale, BarElement, BarController);
 export const RightSection = () => {
   const [count, setCount] = useState(0);
   const totalAmount = 100;
+  const [qrCodeUrl, setQRCodeUrl] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (count < totalAmount) {
@@ -61,10 +64,12 @@ export const RightSection = () => {
     { icon: 'badge-icon2.png', description: '獲得アルゴリズム100', date: '2023-09-07' },
     { icon: 'badge-icon2.png', description: '獲得アルゴリズム100', date: '2023-09-07' },
   ];
-
   const getQRCode = async () => {
     const qrcode = await apiClient.paypay.qrcode.$post();
     console.log(qrcode);
+    if (qrcode) {
+      router.push(qrcode);
+    }
   };
 
   return (
@@ -124,6 +129,15 @@ export const RightSection = () => {
           <button type="button" className={styles.qrcodeButton} onClick={getQRCode}>
             QRコードを表示
           </button>
+          {/* {qrCodeUrl !== null && (
+            <a
+              className={styles.qrcode}
+              href={qrCodeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          )} */}
+          {qrCodeUrl !== null && <iframe src={qrCodeUrl} width="100" height="100" />}
         </div>
       </div>
     </div>
