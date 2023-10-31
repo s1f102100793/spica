@@ -15,6 +15,9 @@ const S3_SECRET_KEY = process.env.S3_SECRET_KEY ?? '';
 const S3_REGION = process.env.S3_REGION ?? '';
 const MAILADDRESS = process.env.MAILADDRESS ?? '';
 const MAILPASSWORD = process.env.MAILPASSWORD ?? '';
+const PAYPAY_CLIENT_ID = process.env.PAYPAY_CLIENT_ID ?? '';
+const PAYPAY_CLIENT_SECRET = process.env.PAYPAY_CLIENT_SECRET ?? '';
+const PAYPAY_MERCHANT_ID = process.env.PAYPAY_MERCHANT_ID ?? '';
 
 export {
   API_BASE_PATH,
@@ -24,6 +27,9 @@ export {
   FIREBASE_SERVER_KEY,
   MAILADDRESS,
   MAILPASSWORD,
+  PAYPAY_CLIENT_ID,
+  PAYPAY_CLIENT_SECRET,
+  PAYPAY_MERCHANT_ID,
   PORT,
   S3_ACCESS_KEY,
   S3_BUCKET,
