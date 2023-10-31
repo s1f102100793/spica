@@ -26,6 +26,7 @@ type ExtendedHttpsClientSuccess = HttpsClientSuccess & {
 };
 
 export const generateQRCode = async () => {
+  console.log('generateQRCode');
   const paymentDetails = {
     merchantPaymentId: `${user}ヘの${amount}円の支払い(${Date.now()})})`,
     amount: {
@@ -38,12 +39,10 @@ export const generateQRCode = async () => {
     orderDescription: `${user}ヘの${amount}円の支払い(${Date.now()})})`,
     isAuthorization: false,
   };
-
-  console.log('paymentDetails:', paymentDetails);
+  console.log(paymentDetails);
 
   try {
     const response = await PayPaySDK.QRCodeCreate(paymentDetails);
-    console.log('PayPay Response:', response);
 
     if ('STATUS' in response && response.STATUS === 201) {
       const successResponse = response as ExtendedHttpsClientSuccess;
@@ -70,4 +69,80 @@ export const generateQRCode = async () => {
     console.error('PayPay Error:', error);
     throw error;
   }
+};
+
+export const createPayPayPayment = async (amount: number, feedback: string) => {
+  const paymentDetails = {
+    merchantPaymentId: `Payment for ${feedback} (${Date.now()})`,
+    amount: {
+      amount,
+      currency: 'JPY',
+    },
+    orderDescription: `Payment for ${feedback} (${Date.now()})`,
+
+    isAuthorization: false,
+  };
+
+  try {
+    const response = await PayPaySDK.CreatePayment(paymentDetails);
+
+    if ('STATUS' in response && response.STATUS === 201) {
+      const successResponse = response as ExtendedHttpsClientSuccess;
+      return successResponse.BODY.data;
+    } else if ('ERROR' in response) {
+      const errorResponse = response as HttpsClientError;
+      throw new Error(errorResponse.ERROR);
+    } else {
+      throw new Error('Unexpected response format');
+    }
+  } catch (error) {
+    console.error('PayPay Error:', error);
+    throw error;
+  }
+};
+
+export const generateAppInvokeQRCode = async (user: string, amount: number) => {
+  const paymentDetails = {
+    merchantPaymentId: `${user}ヘの${amount}円の支払い(${Date.now()})`,
+    amount: {
+      amount,
+      currency: 'JPY',
+    },
+    codeType: 'ORDER_QR',
+    redirectUrl: 'YOUR_APP_SCHEME://callback',
+    redirectType: 'APP_DEEP_LINK',
+    orderDescription: `${user}ヘの${amount}円の支払い(${Date.now()})`,
+    isAuthorization: false,
+  };
+
+  try {
+    const response = await PayPaySDK.QRCodeCreate(paymentDetails);
+
+    if ('STATUS' in response && response.STATUS === 201) {
+      const successResponse = response as ExtendedHttpsClientSuccess;
+      if (
+        successResponse.BODY !== null &&
+        successResponse.BODY.data !== null &&
+        successResponse.BODY.data.url
+      ) {
+        console.log(successResponse.BODY.data.url);
+        return successResponse.BODY.data.url;
+      } else {
+        throw new Error('Unexpected response format');
+      }
+    } else if ('ERROR' in response) {
+      const errorResponse = response as HttpsClientError;
+      throw new Error(errorResponse.ERROR);
+    } else {
+      throw new Error('Unexpected response format');
+    }
+  } catch (error) {
+    console.error('PayPay Error:', error);
+    throw error;
+  }
+};
+
+export const paypay = async () => {
+  console.log('paypay');
+  return 'paypay';
 };

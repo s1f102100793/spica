@@ -8,6 +8,8 @@ import styles from './RightSection.module.css';
 Chart.register(CategoryScale, LinearScale, BarElement, BarController);
 
 export const RightSection = () => {
+  const user_id = 'test';
+  const company_id = 'test_company';
   const [count, setCount] = useState(0);
   const totalAmount = 100;
   const [qrCodeUrl, setQRCodeUrl] = useState<string | null>(null);
@@ -65,11 +67,18 @@ export const RightSection = () => {
     { icon: 'badge-icon2.png', description: '獲得アルゴリズム100', date: '2023-09-07' },
   ];
   const getQRCode = async () => {
+    console.log('getQRCode');
+    await apiClient.paypay.qrcode.$get();
+    // const qrcode = await apiClient.paypay.qrcode.$post({ body: { user: user_id, amount: 1000 } });
     const qrcode = await apiClient.paypay.qrcode.$post();
     console.log(qrcode);
     if (qrcode) {
       router.push(qrcode);
     }
+  };
+
+  const navigateToChipPage = () => {
+    router.push(`/chip/${company_id}/${user_id}`);
   };
 
   return (
@@ -137,6 +146,9 @@ export const RightSection = () => {
               rel="noopener noreferrer"
             />
           )} */}
+          <button type="button" className={styles.qrcodeButton} onClick={navigateToChipPage}>
+            PayPay支払いページにとぶ
+          </button>
           {qrCodeUrl !== null && <iframe src={qrCodeUrl} width="100" height="100" />}
         </div>
       </div>
