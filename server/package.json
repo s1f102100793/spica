@@ -35,9 +35,12 @@
     "date-fns": "^2.30.0",
     "dotenv": "^16.3.1",
     "fastify": "^4.21.0",
+    "frourio": "^1.0.0",
     "firebase-admin": "^11.10.1",
     "nodemailer": "^6.9.7",
     "velona": "^0.8.0",
+    "esbuild-register": "^3.4.2",
+    "esbuild-node-externals": "^1.8.0",
     "zod": "^3.22.2"
   },
   "devDependencies": {
@@ -48,10 +51,8 @@
     "axios": "^1.4.0",
     "commonTypesWithClient": "file:./commonTypesWithClient",
     "esbuild": "^0.18.18",
-    "esbuild-node-externals": "^1.8.0",
-    "esbuild-register": "^3.4.2",
+
     "firebase": "^10.3.0",
-    "frourio": "^1.0.0",
     "node-dev": "^8.0.0",
     "notios": "^0.4.1",
     "prisma": "^5.1.1",
