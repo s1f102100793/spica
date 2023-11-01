@@ -6,6 +6,7 @@ import type {
 } from '@paypayopa/paypayopa-sdk-node/dist/lib/httpsClient';
 
 PayPaySDK.Configure({
+  env: 'STAGING',
   clientId: PAYPAY_CLIENT_ID,
   clientSecret: PAYPAY_CLIENT_SECRET,
   merchantId: PAYPAY_MERCHANT_ID,
@@ -28,7 +29,7 @@ type ExtendedHttpsClientSuccess = HttpsClientSuccess & {
 export const generateQRCode = async () => {
   console.log('generateQRCode');
   const paymentDetails = {
-    merchantPaymentId: `${user}ヘの${amount}円の支払い(${Date.now()})})`,
+    merchantPaymentId: `${user}ヘの${amount}円の支払い(${Date.now()})`,
     amount: {
       amount,
       currency: 'JPY',
@@ -36,7 +37,7 @@ export const generateQRCode = async () => {
     codeType: 'ORDER_QR',
     redirectUrl: 'https://paypay.ne.jp/',
     redirectType: 'WEB_LINK',
-    orderDescription: `${user}ヘの${amount}円の支払い(${Date.now()})})`,
+    orderDescription: `${user}ヘの${amount}円の支払い(${Date.now()})`,
     isAuthorization: false,
   };
   console.log(paymentDetails);
@@ -79,12 +80,12 @@ export const createPayPayPayment = async (amount: number, feedback: string) => {
       currency: 'JPY',
     },
     orderDescription: `Payment for ${feedback} (${Date.now()})`,
-
     isAuthorization: false,
   };
 
   try {
     const response = await PayPaySDK.CreatePayment(paymentDetails);
+    console.log(response);
 
     if ('STATUS' in response && response.STATUS === 201) {
       const successResponse = response as ExtendedHttpsClientSuccess;
@@ -146,3 +147,27 @@ export const paypay = async () => {
   console.log('paypay');
   return 'paypay';
 };
+
+// export const AccountLinkQRCodeCreate = async (payload: any) => {
+//   try {
+//       const response = await PayPaySDK.AccountLinkQRCodeCreate(payload);
+
+//       if ('STATUS' in response && response.STATUS === 201) {
+//           const successResponse = response as ExtendedHttpsClientSuccess;
+//           return successResponse.BODY.data.linkQRCodeURL;
+//       } else if ('ERROR' in response) {
+//           const errorResponse = response as HttpsClientError;
+//           throw new Error(errorResponse.ERROR);
+//       } else {
+//           throw new Error('Unexpected response format');
+//       }
+//   } catch (error) {
+//       console.error('PayPay Error:', error);
+//       throw error;
+//   }
+// };
+
+// export const retrieveUserAuthorizationId = (token: string) => {
+//   const jwtResponse = PayPaySDK.ValidateJWT(token, PAYPAY_CLIENT_SECRET);
+//   return jwtResponse["userAuthorizationId"];
+// };
