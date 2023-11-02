@@ -82,9 +82,11 @@ export const RightSection = () => {
     router.push(`/chip/${company_id}/${user_id}`);
   };
 
-  const generateQRCode = async (text: string) => {
+  const generateQRCode = async () => {
+    const urlToEncode = `/chip/${company_id}/${user_id}`;
     try {
-      return await QRCode.toDataURL(text);
+      const response = await QRCode.toDataURL(urlToEncode);
+      setQRCodeUrl(response);
     } catch (err) {
       console.error(err);
       return null;
@@ -159,7 +161,12 @@ export const RightSection = () => {
           <button type="button" className={styles.qrcodeButton} onClick={navigateToChipPage}>
             PayPay支払いページにとぶ
           </button>
-          {qrCodeUrl !== null && <iframe src={qrCodeUrl} width="100" height="100" />}
+          <button type="button" className={styles.qrcodeButton} onClick={generateQRCode}>
+            QRコード作成
+          </button>
+          {qrCodeUrl !== null && (
+            <iframe className={styles.qrcode} src={qrCodeUrl} width="300px" height="300px" />
+          )}
         </div>
       </div>
     </div>
