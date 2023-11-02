@@ -21,6 +21,7 @@
     "heroku-postbuild": "npm install --prefix server && npm run build --prefix server"
   },
   "devDependencies": {
+    "@types/qrcode": "^1.5.4",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "eslint": "^8.46.0",

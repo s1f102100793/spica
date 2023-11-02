@@ -1,5 +1,6 @@
 import { BarController, BarElement, CategoryScale, Chart, LinearScale } from 'chart.js';
 import { useRouter } from 'next/router';
+import QRCode from 'qrcode';
 import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { apiClient } from 'src/utils/apiClient';
@@ -79,6 +80,15 @@ export const RightSection = () => {
 
   const navigateToChipPage = () => {
     router.push(`/chip/${company_id}/${user_id}`);
+  };
+
+  const generateQRCode = async (text: string) => {
+    try {
+      return await QRCode.toDataURL(text);
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
   };
 
   return (
