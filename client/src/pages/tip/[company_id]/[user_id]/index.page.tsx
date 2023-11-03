@@ -34,6 +34,15 @@ const UserTipPage = () => {
             <button className={styles.tipButton}>チップを設定する</button>
           </div>
         </div>
+        <div className={styles.tipMessageArea}>
+          <div className={styles.tipMessage}>{user_id}さんへのメッセージ</div>
+          <textarea className={styles.tipMessageInput} />
+        </div>
+        <div className={styles.tippingArea}>
+          <button className={styles.tippingButton} onClick={handleSendTip}>
+            チップを送る
+          </button>
+        </div>
       </div>
     </>
   );

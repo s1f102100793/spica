@@ -14,7 +14,6 @@
   justify-content: center;
   width: 100%;
   padding: 32px;
-  margin-bottom: 1rem;
   background-color: aquamarine;
 }
 
@@ -97,7 +96,51 @@
   width: 240px;
   height: 48px;
   margin-bottom: 16px;
-  font-size: 24px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.tipMessageArea {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  padding: 32px;
+  background-color: azure;
+}
+
+.tipMessage {
+  display: flex;
+  width: 246px;
+  padding-left: 8px;
+}
+
+.tipMessageInput {
+  display: flex;
+  width: 246px;
+  padding: 24px;
+}
+
+.tippingArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: aquamarine;
+}
+
+.tippingButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 240px;
+  height: 48px;
+  margin: 32px;
+  font-size: 16px;
   font-weight: bold;
   color: #333;
   background-color: #fff;
