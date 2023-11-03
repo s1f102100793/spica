@@ -48,7 +48,13 @@ const UserTipPage = () => {
             <div className={styles.icon}>
               <div className={styles.iconImage} />
             </div>
-            <div className={styles.tipName}>aaa</div>
+            <div className={styles.tipName}>
+              {company_id}
+              <br />
+              {user_id}
+              <br />
+              さんへ
+            </div>
           </div>
           <div className={styles.tipDetailsLower}>
             <div className={styles.tipAmountDetail}>
