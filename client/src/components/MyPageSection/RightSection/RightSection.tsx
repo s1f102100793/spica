@@ -3,13 +3,12 @@ import { useRouter } from 'next/router';
 import QRCode from 'qrcode';
 import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
-import { apiClient } from 'src/utils/apiClient';
 import styles from './RightSection.module.css';
 
 Chart.register(CategoryScale, LinearScale, BarElement, BarController);
 
 export const RightSection = () => {
-  const user_id = 'test';
+  const user_id = 'test_user';
   const company_id = 'test_company';
   const [count, setCount] = useState(0);
   const totalAmount = 100;
@@ -67,16 +66,6 @@ export const RightSection = () => {
     { icon: 'badge-icon2.png', description: '獲得アルゴリズム100', date: '2023-09-07' },
     { icon: 'badge-icon2.png', description: '獲得アルゴリズム100', date: '2023-09-07' },
   ];
-  const getQRCode = async () => {
-    console.log('getQRCode');
-    await apiClient.paypay.qrcode.$get();
-    // const qrcode = await apiClient.paypay.qrcode.$post({ body: { user: user_id, amount: 1000 } });
-    const qrcode = await apiClient.paypay.qrcode.$post();
-    console.log(qrcode);
-    if (qrcode) {
-      router.push(qrcode);
-    }
-  };
 
   const navigateToTipPage = () => {
     router.push(`/tip/${company_id}/${user_id}`);
@@ -147,17 +136,6 @@ export const RightSection = () => {
       <div className={styles.qrcodeSection}>
         <h3 className={styles.qrcodeTitle}>QRコードを表示</h3>
         <div className={styles.qrcodeContainer}>
-          <button type="button" className={styles.qrcodeButton} onClick={getQRCode}>
-            QRコードを表示
-          </button>
-          {/* {qrCodeUrl !== null && (
-            <a
-              className={styles.qrcode}
-              href={qrCodeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            />
-          )} */}
           <button type="button" className={styles.qrcodeButton} onClick={navigateToTipPage}>
             PayPay支払いページにとぶ
           </button>

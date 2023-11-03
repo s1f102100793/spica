@@ -6,13 +6,20 @@ import styles from './index.module.css';
 
 const UserTipPage = () => {
   const router = useRouter();
-  const { user_id } = router.query;
+  const pathSegments = router.asPath.split('/').filter(Boolean);
+  const company_id = pathSegments[pathSegments.length - 2] || '';
+  const user_id = pathSegments[pathSegments.length - 1] || '';
 
   const [amount, setAmount] = useState('');
   const [feedback, setFeedback] = useState('');
 
-  const handleSendTip = () => {
-    apiClient.paypay.payment.$post({ body: { amount: Number(amount), feedback } });
+  const handleSendTip = async () => {
+    const response = await apiClient.paypay.qrcode.$post({
+      body: { company_id, user_id, amount: Number(amount) },
+    });
+    if (response) {
+      router.push(response);
+    }
   };
 
   return (
