@@ -13,9 +13,6 @@ PayPaySDK.Configure({
   productionMode: false,
 });
 
-const user = 'test';
-const amount = 100;
-
 type QRCodeData = {
   url: string;
 };
@@ -26,10 +23,14 @@ type ExtendedHttpsClientSuccess = HttpsClientSuccess & {
   };
 };
 
-export const generateQRCode = async () => {
-  console.log('generateQRCode');
+export const generateQRCode = async (
+  company_id: string,
+  user_id: string,
+  amount: number,
+  feedback: string
+) => {
   const paymentDetails = {
-    merchantPaymentId: `${user}ヘの${amount}円の支払い(${Date.now()})`,
+    merchantPaymentId: `${company_id}-${user_id}-${Date.now()}`,
     amount: {
       amount,
       currency: 'JPY',
@@ -37,10 +38,9 @@ export const generateQRCode = async () => {
     codeType: 'ORDER_QR',
     redirectUrl: 'https://paypay.ne.jp/',
     redirectType: 'WEB_LINK',
-    orderDescription: `${user}ヘの${amount}円の支払い(${Date.now()})`,
+    orderDescription: `${company_id}の${user_id}ヘの${amount}円のチップ`,
     isAuthorization: false,
   };
-  console.log(paymentDetails);
 
   try {
     const response = await PayPaySDK.QRCodeCreate(paymentDetails);
@@ -101,73 +101,3 @@ export const createPayPayPayment = async (amount: number, feedback: string) => {
     throw error;
   }
 };
-
-export const generateAppInvokeQRCode = async (user: string, amount: number) => {
-  const paymentDetails = {
-    merchantPaymentId: `${user}ヘの${amount}円の支払い(${Date.now()})`,
-    amount: {
-      amount,
-      currency: 'JPY',
-    },
-    codeType: 'ORDER_QR',
-    redirectUrl: 'YOUR_APP_SCHEME://callback',
-    redirectType: 'APP_DEEP_LINK',
-    orderDescription: `${user}ヘの${amount}円の支払い(${Date.now()})`,
-    isAuthorization: false,
-  };
-
-  try {
-    const response = await PayPaySDK.QRCodeCreate(paymentDetails);
-
-    if ('STATUS' in response && response.STATUS === 201) {
-      const successResponse = response as ExtendedHttpsClientSuccess;
-      if (
-        successResponse.BODY !== null &&
-        successResponse.BODY.data !== null &&
-        successResponse.BODY.data.url
-      ) {
-        console.log(successResponse.BODY.data.url);
-        return successResponse.BODY.data.url;
-      } else {
-        throw new Error('Unexpected response format');
-      }
-    } else if ('ERROR' in response) {
-      const errorResponse = response as HttpsClientError;
-      throw new Error(errorResponse.ERROR);
-    } else {
-      throw new Error('Unexpected response format');
-    }
-  } catch (error) {
-    console.error('PayPay Error:', error);
-    throw error;
-  }
-};
-
-export const paypay = async () => {
-  console.log('paypay');
-  return 'paypay';
-};
-
-// export const AccountLinkQRCodeCreate = async (payload: any) => {
-//   try {
-//       const response = await PayPaySDK.AccountLinkQRCodeCreate(payload);
-
-//       if ('STATUS' in response && response.STATUS === 201) {
-//           const successResponse = response as ExtendedHttpsClientSuccess;
-//           return successResponse.BODY.data.linkQRCodeURL;
-//       } else if ('ERROR' in response) {
-//           const errorResponse = response as HttpsClientError;
-//           throw new Error(errorResponse.ERROR);
-//       } else {
-//           throw new Error('Unexpected response format');
-//       }
-//   } catch (error) {
-//       console.error('PayPay Error:', error);
-//       throw error;
-//   }
-// };
-
-// export const retrieveUserAuthorizationId = (token: string) => {
-//   const jwtResponse = PayPaySDK.ValidateJWT(token, PAYPAY_CLIENT_SECRET);
-//   return jwtResponse["userAuthorizationId"];
-// };

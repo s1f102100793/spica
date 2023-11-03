@@ -1,11 +1,10 @@
-import { generateQRCode, paypay } from '$/useCase/paypayUseCase';
+import { generateQRCode } from '$/useCase/paypayUseCase';
 import { defineController } from './$relay';
 
 export default defineController(() => ({
-  get: async () => ({ status: 200, body: await paypay() }),
-  post: async () => ({ status: 201, body: await generateQRCode() }),
-  // post: async ({ body }) => ({
-  //   status: 201,
-  //   body: await generateAppInvokeQRCode(body.user, body.amount),
-  // }),
+  get: () => ({ status: 200, body: 'Hello' }),
+  post: async ({ body }) => ({
+    status: 201,
+    body: await generateQRCode(body.company_id, body.user_id, body.amount, body.feedback),
+  }),
 }));
