@@ -1,5 +1,6 @@
 import { BarController, BarElement, CategoryScale, Chart, LinearScale } from 'chart.js';
 import { useRouter } from 'next/router';
+import QRCode from 'qrcode';
 import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { apiClient } from 'src/utils/apiClient';
@@ -77,8 +78,19 @@ export const RightSection = () => {
     }
   };
 
-  const navigateToChipPage = () => {
-    router.push(`/chip/${company_id}/${user_id}`);
+  const navigateToTipPage = () => {
+    router.push(`/tip/${company_id}/${user_id}`);
+  };
+
+  const generateQRCode = async () => {
+    const urlToEncode = `/tip/${company_id}/${user_id}`;
+    try {
+      const response = await QRCode.toDataURL(urlToEncode);
+      setQRCodeUrl(response);
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
   };
 
   return (
@@ -146,10 +158,15 @@ export const RightSection = () => {
               rel="noopener noreferrer"
             />
           )} */}
-          <button type="button" className={styles.qrcodeButton} onClick={navigateToChipPage}>
+          <button type="button" className={styles.qrcodeButton} onClick={navigateToTipPage}>
             PayPay支払いページにとぶ
           </button>
-          {qrCodeUrl !== null && <iframe src={qrCodeUrl} width="100" height="100" />}
+          <button type="button" className={styles.qrcodeButton} onClick={generateQRCode}>
+            QRコード作成
+          </button>
+          {qrCodeUrl !== null && (
+            <iframe className={styles.qrcode} src={qrCodeUrl} width="300px" height="300px" />
+          )}
         </div>
       </div>
     </div>
