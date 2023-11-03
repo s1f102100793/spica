@@ -78,12 +78,12 @@ export const RightSection = () => {
     }
   };
 
-  const navigateToChipPage = () => {
-    router.push(`/chip/${company_id}/${user_id}`);
+  const navigateToTipPage = () => {
+    router.push(`/tip/${company_id}/${user_id}`);
   };
 
   const generateQRCode = async () => {
-    const urlToEncode = `/chip/${company_id}/${user_id}`;
+    const urlToEncode = `/tip/${company_id}/${user_id}`;
     try {
       const response = await QRCode.toDataURL(urlToEncode);
       setQRCodeUrl(response);
@@ -158,7 +158,7 @@ export const RightSection = () => {
               rel="noopener noreferrer"
             />
           )} */}
-          <button type="button" className={styles.qrcodeButton} onClick={navigateToChipPage}>
+          <button type="button" className={styles.qrcodeButton} onClick={navigateToTipPage}>
             PayPay支払いページにとぶ
           </button>
           <button type="button" className={styles.qrcodeButton} onClick={generateQRCode}>

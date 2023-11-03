@@ -1,0 +1,105 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding-top: 70px;
+}
+
+.tipDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 32px;
+  margin-bottom: 1rem;
+  background-color: aquamarine;
+}
+
+.tipDetailsUpper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 296px;
+  border-radius: 8px 8px 0 0;
+}
+
+.tipDetailsLower {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 296px;
+  background-color: cadetblue;
+  border-radius: 0 0 8px 8px;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  padding: 15px;
+  background-color: azure;
+  border-radius: 8px 0 0;
+}
+
+.iconImage {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: aliceblue;
+  background-image: url('/images/harukamirai.jpeg');
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+}
+
+.tipName {
+  width: 176px;
+  height: 120px;
+  padding: 24px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-align: flex-start;
+  background-color: bisque;
+  border-radius: 0 8px 0 0;
+}
+
+.tipAmountDetail {
+  display: flex;
+  justify-content: space-between;
+  width: 240px;
+  padding: 8px;
+  color: #333;
+}
+
+.tipAmount {
+  display: flex;
+  align-items: flex-end;
+  font-size: 16px;
+}
+
+.tipAmountValue {
+  display: flex;
+  font-size: 32px;
+}
+
+.tipButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 240px;
+  height: 48px;
+  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  background-color: #fff;
+  border-radius: 8px;
+}
