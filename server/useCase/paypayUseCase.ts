@@ -23,7 +23,12 @@ type ExtendedHttpsClientSuccess = HttpsClientSuccess & {
   };
 };
 
-export const generateQRCode = async (company_id: string, user_id: string, amount: number) => {
+export const generateQRCode = async (
+  company_id: string,
+  user_id: string,
+  amount: number,
+  feedback: string
+) => {
   const paymentDetails = {
     merchantPaymentId: `${company_id}-${user_id}-${Date.now()}`,
     amount: {
