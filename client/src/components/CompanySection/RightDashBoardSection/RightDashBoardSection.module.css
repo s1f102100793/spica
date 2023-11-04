@@ -89,7 +89,7 @@
 .middleArea {
   display: flex;
   flex-direction: row;
-  gap: 24px;
+  gap: 32px;
   background-color: aquamarine;
 }
 

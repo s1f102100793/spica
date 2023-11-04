@@ -2,7 +2,7 @@ import { LeftSidebarSection } from 'src/components/CompanySection/LeftSidebarSec
 import { RighDashBoardtSection } from 'src/components/CompanySection/RightDashBoardSection/RightDashBoardSection';
 import styles from '../index.module.css';
 
-const Company = () => {
+const DashBoars = () => {
   return (
     <div className={styles.container}>
       <LeftSidebarSection />
@@ -11,4 +11,4 @@ const Company = () => {
   );
 };
 
-export default Company;
+export default DashBoars;
