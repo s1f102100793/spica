@@ -1,14 +1,14 @@
 import { LeftSidebarSection } from 'src/components/CompanySection/LeftSidebarSection/LeftSidebarSection';
-import { RighDashBoardtSection } from 'src/components/CompanySection/RightDashBoardSection/RightDashBoardSection';
+import { RightQRcodeSection } from 'src/components/CompanySection/RightQRcodeSection/RightQRcodeSection';
 import styles from '../index.module.css';
 
-const DashBoard = () => {
+const Qrcode = () => {
   return (
     <div className={styles.container}>
       <LeftSidebarSection />
-      <RighDashBoardtSection />
+      <RightQRcodeSection />
     </div>
   );
 };
 
-export default DashBoard;
+export default Qrcode;

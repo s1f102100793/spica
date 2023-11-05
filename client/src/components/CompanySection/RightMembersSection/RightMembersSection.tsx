@@ -125,6 +125,7 @@ export const RightMembersSection = () => {
             <Autocomplete
               options={sortOptions}
               getOptionLabel={(option) => option.label}
+              isOptionEqualToValue={(option, value) => option.value === value.value}
               className={styles.sortSelect}
               renderInput={(params) => <TextField {...params} label="ソート" variant="outlined" />}
               onChange={handleSortChange}
