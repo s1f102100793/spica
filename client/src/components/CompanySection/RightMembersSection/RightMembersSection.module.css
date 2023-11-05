@@ -1,0 +1,88 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100% - 256px);
+  min-height: 101vh;
+  background-color: blanchedalmond;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  height: 72px;
+  padding: 24px;
+  background-color: #fff;
+}
+
+.companyName {
+  font-size: 24px;
+  background-color: aqua;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 944px;
+  margin: 32px;
+}
+
+.memberList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: burlywood;
+}
+
+.memberListTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 16px 8px 24px;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: aqua;
+  border-bottom: solid 4px #ccc;
+}
+
+.sortSelect {
+  width: 240px;
+  cursor: pointer;
+}
+
+.membersTable {
+  width: calc(100% - 32px);
+  margin: 16px;
+}
+
+.membersTable th,
+.membersTable td {
+  width: 2%;
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.membersTable thead {
+  padding-bottom: 16px;
+  background-color: #fff;
+}
+
+.addMemberButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 32px);
+  height: 48px;
+  margin: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  background-color: #00bcd4;
+  border: none;
+  border-radius: 4px;
+}
