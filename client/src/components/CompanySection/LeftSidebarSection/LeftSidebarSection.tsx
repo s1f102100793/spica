@@ -1,11 +1,8 @@
-import { useRouter } from 'next/router';
 import styles from './LeftSidebarSection.module.css';
 
 export const LeftSidebarSection = () => {
-  const router = useRouter();
-
   const navigateTo = (path: string) => {
-    router.push(path);
+    window.location.href = path;
   };
 
   return (
