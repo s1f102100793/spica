@@ -16,6 +16,9 @@ export const LeftSidebarSection = () => {
         <div className={styles.menuItem} onClick={() => navigateTo('/company/members/')}>
           メンバー
         </div>
+        <div className={styles.menuItem} onClick={() => navigateTo('/company/qrcode/')}>
+          QRコード
+        </div>
       </div>
     </div>
   );
