@@ -25,12 +25,24 @@ type ExtendedHttpsClientSuccess = HttpsClientSuccess & {
 
 export const generateQRCode = async (
   company_id: string,
-  user_id: string,
+  user_id: string | null,
   amount: number,
   feedback: string
 ) => {
+  const timestamp = Date.now();
+  let merchantPaymentId: string;
+  let orderDescription: string;
+
+  if (user_id !== null && user_id.trim() !== '') {
+    merchantPaymentId = `${company_id}-${user_id}-${timestamp}`;
+    orderDescription = `${company_id}の${user_id}ヘの${amount}円のチップ`;
+  } else {
+    merchantPaymentId = `${company_id}-${timestamp}`;
+    orderDescription = `${company_id}への${amount}円のチップ`;
+  }
+
   const paymentDetails = {
-    merchantPaymentId: `${company_id}-${user_id}-${Date.now()}`,
+    merchantPaymentId,
     amount: {
       amount,
       currency: 'JPY',
@@ -38,7 +50,7 @@ export const generateQRCode = async (
     codeType: 'ORDER_QR',
     redirectUrl: 'https://paypay.ne.jp/',
     redirectType: 'WEB_LINK',
-    orderDescription: `${company_id}の${user_id}ヘの${amount}円のチップ`,
+    orderDescription,
     isAuthorization: false,
   };
 
