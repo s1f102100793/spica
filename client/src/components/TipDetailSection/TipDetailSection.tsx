@@ -61,6 +61,7 @@ const TipDetailSection: React.FC<TipDetailSectionProps> = ({
                 handleClose();
               }}
               renderInput={(params) => <TextField className={styles.tipTextField} {...params} />}
+              getOptionLabel={(option) => option.toString()}
               className={styles.tipAmountInput}
             />
           )}
