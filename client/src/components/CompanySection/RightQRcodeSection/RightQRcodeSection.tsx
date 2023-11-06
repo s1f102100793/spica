@@ -143,6 +143,10 @@ export const RightQRcodeSection = () => {
     link.click();
   };
 
+  const onClick = () => {
+    window.location.href = `/tip/${company_id}/`;
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -183,6 +187,7 @@ export const RightQRcodeSection = () => {
                   画像を保存
                 </Button>
               </div>
+              <button onClick={onClick}>チップページに移動</button>
             </div>
           </div>
         </div>
