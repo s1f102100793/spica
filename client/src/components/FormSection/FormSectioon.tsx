@@ -94,7 +94,6 @@ export const FormSection = () => {
       } else if (currentStep === 3) {
         try {
           await signUpWithEmail(email, password);
-          console.log('signed up');
           router.push('/mypage');
         } catch (error) {
           console.error('Error signing up:', error);

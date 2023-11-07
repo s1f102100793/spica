@@ -23,6 +23,7 @@ type ExtendedHttpsClientSuccess = HttpsClientSuccess & {
   };
 };
 
+// eslint-disable-next-line complexity
 export const generateQRCode = async (
   company_id: string,
   user_id: string | null,

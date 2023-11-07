@@ -14,3 +14,19 @@ model Task {
   done      Boolean
   createdAt DateTime
 }
+
+model User {
+  name        String
+  email       String   @unique
+  displayId   String   @unique
+  firebaseUid String   @id
+  createdAt   DateTime
+}
+
+model UserProfile {
+  id            String   @id
+  userId        String
+  name          String
+  profile_image String
+  createdAt     DateTime
+}
