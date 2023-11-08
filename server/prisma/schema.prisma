@@ -15,17 +15,16 @@ model Task {
   createdAt DateTime
 }
 
-model User {
+model Employee {
   name        String
   email       String   @unique
-  displayId   String   @unique
   firebaseUid String   @id
   createdAt   DateTime
 }
 
-model UserProfile {
+model EmployeeProfile {
   id            String   @id
-  userId        String
+  employeeId    String
   name          String
   profile_image String
   createdAt     DateTime

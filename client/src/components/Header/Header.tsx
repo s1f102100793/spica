@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styles from './Header.module.css';
 
+// eslint-disable-next-line complexity
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
@@ -45,8 +46,10 @@ export const Header = () => {
           <span>ビジョン</span>
           <span>ニュース</span>
           <span>お問い合わせ</span>
-          {router.pathname !== '/login' && <span onClick={login}>ログイン</span>}
-          {router.pathname !== '/signup' && (
+          {router.pathname !== '/login' && router.pathname !== '/mypage' && (
+            <span onClick={login}>ログイン</span>
+          )}
+          {router.pathname !== '/signup' && router.pathname !== '/mypage' && (
             <span className={styles.account} onClick={crearteAccount}>
               アカウント開設
             </span>
@@ -73,12 +76,16 @@ export const Header = () => {
             <span className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
               お問い合わせ
             </span>
-            <span className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
-              サインイン
-            </span>
-            <span className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
-              サインアップ
-            </span>
+            {router.pathname !== '/login' && router.pathname !== '/mypage' && (
+              <span className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
+                ログイン
+              </span>
+            )}
+            {router.pathname !== '/signup' && router.pathname !== '/mypage' && (
+              <span className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
+                アカウント開設
+              </span>
+            )}
           </div>
         )}
       </div>
