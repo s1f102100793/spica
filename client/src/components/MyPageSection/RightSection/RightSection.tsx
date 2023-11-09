@@ -60,11 +60,31 @@ export const RightSection = () => {
   };
 
   const badges = [
-    { icon: 'badge-icon1.png', description: '獲得アルゴリズム200', date: '2023-10-19' },
-    { icon: 'badge-icon2.png', description: '獲得アルゴリズム100', date: '2023-09-07' },
-    { icon: 'badge-icon1.png', description: '獲得アルゴリズム200', date: '2023-10-19' },
-    { icon: 'badge-icon2.png', description: '獲得アルゴリズム100', date: '2023-09-07' },
-    { icon: 'badge-icon2.png', description: '獲得アルゴリズム100', date: '2023-09-07' },
+    {
+      icon: '/images/trophy/gold_trophy.png',
+      description: '獲得アルゴリズム200',
+      date: '2023-10-19',
+    },
+    {
+      icon: '/images/trophy/gold_trophy.png',
+      description: '獲得アルゴリズム100',
+      date: '2023-09-07',
+    },
+    {
+      icon: '/images/trophy/bronze_trophy.png',
+      description: '獲得アルゴリズム200',
+      date: '2023-10-19',
+    },
+    {
+      icon: '/images/trophy/silber_trophy.png',
+      description: '獲得アルゴリズム100',
+      date: '2023-09-07',
+    },
+    {
+      icon: '/images/trophy/gold_trophy.png',
+      description: '獲得アルゴリズム100',
+      date: '2023-09-07',
+    },
   ];
 
   const navigateToTipPage = () => {
@@ -105,7 +125,7 @@ export const RightSection = () => {
       </div>
       <div className={styles.badgeSection}>
         <h3 className={styles.badgeTitle}>
-          獲得したバッジ
+          獲得したトロフィー
           {badges.length >= 5 && <span className={styles.viewAll}>すべて見る＞</span>}
         </h3>
         <div className={styles.badgeContainer}>

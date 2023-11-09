@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { userAtom } from 'src/atoms/user';
 import { apiClient } from 'src/utils/apiClient';
 import { LeftSection } from './LeftSection.tsx/LeftSection';
@@ -8,12 +8,16 @@ import { RightSection } from './RightSection/RightSection';
 
 export const MyPageSection = () => {
   const [user] = useAtom(userAtom);
+  const [userProfileImage, setUserProfileImage] = useState<string>('/images/default.png');
 
   const getUserInfomation = async () => {
     if (!user) return;
     const userInfomaion = await apiClient.employee
       ._employeeId(user.id)
       .$post({ body: { firebaseUid: user.id } });
+    if (userInfomaion !== null) {
+      setUserProfileImage(userInfomaion.profileImage);
+    }
     console.log(userInfomaion);
   };
 
@@ -24,7 +28,7 @@ export const MyPageSection = () => {
   return (
     <div className={styles.container}>
       <form className={styles.form}>
-        <LeftSection />
+        <LeftSection userProfileImage={userProfileImage} />
         <RightSection />
       </form>
     </div>
