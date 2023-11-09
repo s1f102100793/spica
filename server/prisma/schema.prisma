@@ -16,16 +16,17 @@ model Task {
 }
 
 model Employee {
+  firebaseUid String           @id
   name        String
-  email       String   @unique
-  firebaseUid String   @id
+  email       String           @unique
   createdAt   DateTime
+  profile     EmployeeProfile?
 }
 
 model EmployeeProfile {
-  id            String   @id
-  employeeId    String
-  name          String
+  profileId     Int      @id @default(autoincrement())
+  employeeId    String   @unique
   profile_image String
   createdAt     DateTime
+  employee      Employee @relation(fields: [employeeId], references: [firebaseUid])
 }
