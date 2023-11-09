@@ -1,8 +1,26 @@
+import { useAtom } from 'jotai';
+import { useEffect } from 'react';
+import { userAtom } from 'src/atoms/user';
+import { apiClient } from 'src/utils/apiClient';
 import { LeftSection } from './LeftSection.tsx/LeftSection';
 import styles from './MySection.module.css';
 import { RightSection } from './RightSection/RightSection';
 
 export const MyPageSection = () => {
+  const [user] = useAtom(userAtom);
+
+  const getUserInfomation = async () => {
+    if (!user) return;
+    const userInfomaion = await apiClient.employee
+      ._employeeId(user.id)
+      .$post({ body: { firebaseUid: user.id } });
+    console.log(userInfomaion);
+  };
+
+  useEffect(() => {
+    getUserInfomation();
+  });
+
   return (
     <div className={styles.container}>
       <form className={styles.form}>

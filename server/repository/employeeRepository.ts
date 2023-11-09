@@ -17,7 +17,6 @@ const toEmployeeModel = (
 
 export const createEmployee = async (name: string, email: string, firebaseUid: string) => {
   try {
-    console.log('createEmployee');
     const prismaEmployee = await prismaClient.employee.create({
       data: {
         name,
@@ -31,5 +30,22 @@ export const createEmployee = async (name: string, email: string, firebaseUid: s
     return toEmployeeModel(prismaEmployee);
   } catch (e) {
     console.log(e);
+  }
+};
+
+export const getEmployee = async (firebaseUid: string): Promise<EmployeeModel | null> => {
+  try {
+    const prismaEmployee = await prismaClient.employee.findUnique({
+      where: { firebaseUid },
+      include: { profile: true },
+    });
+    if (prismaEmployee) {
+      return toEmployeeModel(prismaEmployee);
+    } else {
+      return null;
+    }
+  } catch (e) {
+    console.log(e);
+    return null;
   }
 };
