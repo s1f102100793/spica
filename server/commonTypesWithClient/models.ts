@@ -17,3 +17,14 @@ export const taskParser = z.object({
 });
 
 export type TaskModel = z.infer<typeof taskParser>;
+
+export const employeeParser = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  firebaseUid: z.string(),
+  createdAt: z.number(),
+  profileId: z.number().optional(),
+  profileImage: z.string(),
+});
+
+export type EmployeeModel = z.infer<typeof employeeParser>;

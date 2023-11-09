@@ -127,7 +127,7 @@ export const StepOneSection: React.FC<StepOneSectionProps> = ({
           )}
         </div>
 
-        <div className={styles.mailGroup}>
+        {/* <div className={styles.mailGroup}>
           <input
             type="checkbox"
             id="emailPreferences"
@@ -135,7 +135,7 @@ export const StepOneSection: React.FC<StepOneSectionProps> = ({
             onChange={(e) => setEmailPreferences(e.target.checked)}
           />
           <label htmlFor="emailPreferences">製品の更新、お知らせ、オファーのメールを希望する</label>
-        </div>
+        </div> */}
       </form>
 
       <button className={styles.createButton} type="button" onClick={handleNextClick}>

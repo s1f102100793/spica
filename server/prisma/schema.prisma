@@ -14,3 +14,19 @@ model Task {
   done      Boolean
   createdAt DateTime
 }
+
+model Employee {
+  firebaseUid String           @id
+  name        String
+  email       String           @unique
+  createdAt   DateTime
+  profile     EmployeeProfile?
+}
+
+model EmployeeProfile {
+  profileId     Int      @id @default(autoincrement())
+  employeeId    String   @unique
+  profile_image String
+  createdAt     DateTime
+  employee      Employee @relation(fields: [employeeId], references: [firebaseUid])
+}

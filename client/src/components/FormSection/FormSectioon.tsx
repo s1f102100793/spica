@@ -93,8 +93,10 @@ export const FormSection = () => {
         sendEmailVerification();
       } else if (currentStep === 3) {
         try {
-          await signUpWithEmail(email, password);
-          console.log('signed up');
+          const user = await signUpWithEmail(email, password);
+          await apiClient.employee.$post({
+            body: { name: `${lastName} ${firstName}`, email, firebaseUid: user.uid },
+          });
           router.push('/mypage');
         } catch (error) {
           console.error('Error signing up:', error);
