@@ -11,7 +11,7 @@ const toEmployeeModel = (
     firebaseUid: prismaEmployee.firebaseUid,
     createdAt: prismaEmployee.createdAt.getTime(),
     profileId: prismaEmployee.profile?.profileId,
-    profileImage: prismaEmployee.profile?.profile_image ?? '/images/default.png',
+    profileImage: prismaEmployee.profile?.profileImage ?? '/images/default.png',
   };
 };
 
@@ -23,7 +23,7 @@ export const createEmployee = async (name: string, email: string, firebaseUid: s
         email,
         firebaseUid,
         createdAt: new Date(),
-        profile: { create: { profile_image: '/images/default.png', createdAt: new Date() } },
+        profile: { create: { profileImage: '/images/default.png', createdAt: new Date() } },
       },
       include: { profile: true },
     });

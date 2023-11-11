@@ -16,65 +16,64 @@ model Task {
 }
 
 model Employee {
-  firebaseUid String           @id
-  name        String
-  email       String           @unique
-  createdAt   DateTime
-  profile     EmployeeProfile?
-  Company     Company?         @relation(fields: [companyId], references: [id])
-  companyId   Int?
-  UserCompany UserCompany[]
-  UserRole    UserRole[]
-  Tip         Tip[]
+  firebaseUid     String            @id
+  name            String
+  email           String            @unique
+  createdAt       DateTime          @default(now())
+  isDeleted       Boolean           @default(false)
+  profile         EmployeeProfile?
+  EmployeeCompany EmployeeCompany[]
+  UserRole        EmployeeRole[]
+  Tip             Tip[]
 }
 
 model EmployeeProfile {
-  profileId     Int      @id @default(autoincrement())
-  employeeId    String   @unique
-  profile_image String
-  createdAt     DateTime
-  employee      Employee @relation(fields: [employeeId], references: [firebaseUid])
+  profileId    Int      @id @default(autoincrement())
+  employeeId   String   @unique
+  profileImage String
+  createdAt    DateTime
+  employee     Employee @relation(fields: [employeeId], references: [firebaseUid], onDelete: Cascade)
 }
 
 model Company {
-  id          Int           @id @default(autoincrement())
-  name        String
-  address     String
-  description String
-  employees   Employee[]
-  tips        Tip[]
-  UserCompany UserCompany[]
+  id              Int               @id @default(autoincrement())
+  name            String
+  address         String
+  description     String
+  tips            Tip[]
+  EmployeeCompany EmployeeCompany[]
 }
 
-model UserCompany {
-  id        Int      @id @default(autoincrement())
-  user      Employee @relation(fields: [userId], references: [firebaseUid])
-  userId    String
-  company   Company  @relation(fields: [companyId], references: [id])
-  companyId Int
-  @@unique([userId, companyId])
+model EmployeeCompany {
+  id         Int      @id @default(autoincrement())
+  employee   Employee @relation(fields: [employeeId], references: [firebaseUid], onDelete: Cascade)
+  employeeId String
+  company    Company  @relation(fields: [companyId], references: [id])
+  companyId  Int
+
+  @@unique([employeeId, companyId])
 }
 
 model Role {
-  id       Int        @id @default(autoincrement())
-  roleName String
-  users    UserRole[]
+  id        Int            @id @default(autoincrement())
+  roleName  String
+  employees EmployeeRole[]
 }
 
-model UserRole {
-  id     Int      @id @default(autoincrement())
-  user   Employee @relation(fields: [userId], references: [firebaseUid])
-  userId String
-  role   Role     @relation(fields: [roleId], references: [id])
-  roleId Int
+model EmployeeRole {
+  id       Int      @id @default(autoincrement())
+  employee Employee @relation(fields: [employeeId], references: [firebaseUid], onDelete: Cascade)
+  employeeId String
+  role       Role   @relation(fields: [roleId], references: [id])
+  roleId     Int
 }
 
 model Tip {
-  id        Int      @id @default(autoincrement())
-  user      Employee @relation(fields: [userId], references: [firebaseUid])
-  userId    String
-  company   Company  @relation(fields: [companyId], references: [id])
-  companyId Int
-  amount    Float
-  date      DateTime
+  id         Int      @id @default(autoincrement())
+  employee   Employee @relation(fields: [employeeId], references: [firebaseUid])
+  employeeId String
+  company    Company  @relation(fields: [companyId], references: [id])
+  companyId  Int
+  amount     Float
+  createdAt  DateTime @default(now())
 }
