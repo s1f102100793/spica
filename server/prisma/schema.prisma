@@ -23,7 +23,6 @@ model Employee {
   isDeleted       Boolean           @default(false)
   profile         EmployeeProfile?
   EmployeeCompany EmployeeCompany[]
-  UserRole        EmployeeRole[]
   Tip             Tip[]
 }
 
@@ -32,6 +31,7 @@ model EmployeeProfile {
   employeeId   String   @unique
   profileImage String   @default("/images/default.png")
   createdAt    DateTime
+  uodatedAt    DateTime @updatedAt
   employee     Employee @relation(fields: [employeeId], references: [firebaseUid], onDelete: Cascade)
 }
 
@@ -51,22 +51,16 @@ model EmployeeCompany {
   employeeId String
   company    Company  @relation(fields: [companyId], references: [id])
   companyId  Int
+  roleId     Int
+  role       Role     @relation(fields: [roleId], references: [id])
 
   @@unique([employeeId, companyId])
 }
 
 model Role {
-  id        Int            @id @default(autoincrement())
-  roleName  String
-  employees EmployeeRole[]
-}
-
-model EmployeeRole {
-  id         Int      @id @default(autoincrement())
-  employee   Employee @relation(fields: [employeeId], references: [firebaseUid], onDelete: Cascade)
-  employeeId String
-  role       Role     @relation(fields: [roleId], references: [id])
-  roleId     Int
+  id              Int               @id @default(autoincrement())
+  roleName        String
+  EmployeeCompany EmployeeCompany[]
 }
 
 model Tip {
