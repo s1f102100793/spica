@@ -9,17 +9,19 @@ export const LeftSection = () => {
       <div className={styles.icon}>
         <div className={styles.iconImage} />
       </div>
-      <div className={styles.name}>aaa</div>
-      <button className={styles.button}>プロフィールを編集</button>
-      <div className={styles.profileCompletion}>
-        <div className={styles.profileCompletionLabel}>
-          プロフィール入力率: {profileCompletion}% 完了
-        </div>
-        <div className={styles.profileCompletionBar}>
-          <div
-            className={styles.profileCompletionBarFill}
-            style={{ width: `${profileCompletion}%` }}
-          />
+      <div className={styles.userInfo}>
+        <div className={styles.name}>aaa</div>
+        <button className={styles.button}>プロフィールを編集</button>
+        <div className={styles.profileCompletion}>
+          <div className={styles.profileCompletionLabel}>
+            プロフィール入力率: {profileCompletion}% 完了
+          </div>
+          <div className={styles.profileCompletionBar}>
+            <div
+              className={styles.profileCompletionBarFill}
+              style={{ width: `${profileCompletion}%` }}
+            />
+          </div>
         </div>
       </div>
     </div>
