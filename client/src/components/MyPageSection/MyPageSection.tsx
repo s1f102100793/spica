@@ -27,10 +27,10 @@ export const MyPageSection = () => {
 
   return (
     <div className={styles.container}>
-      <form className={styles.form}>
+      <div className={styles.form}>
         <LeftSection userProfileImage={userProfileImage} />
         <RightSection />
-      </form>
+      </div>
     </div>
   );
 };

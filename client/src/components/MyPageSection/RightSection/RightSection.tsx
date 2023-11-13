@@ -125,11 +125,11 @@ export const RightSection = () => {
       </div>
       <div className={styles.badgeSection}>
         <h3 className={styles.badgeTitle}>
-          獲得したトロフィー
+          <div className={styles.badgeTitleName}>獲得したバッジ</div>
           {badges.length >= 5 && <span className={styles.viewAll}>すべて見る＞</span>}
         </h3>
         <div className={styles.badgeContainer}>
-          {badges.map((badge, index) => (
+          {badges.slice(0, 5).map((badge, index) => (
             <div className={styles.badgeItem} key={index}>
               <img src={badge.icon} alt={badge.description} className={styles.badgeIcon} />
               <p className={styles.badgeDescription}>{badge.description}</p>
@@ -156,15 +156,13 @@ export const RightSection = () => {
       <div className={styles.qrcodeSection}>
         <h3 className={styles.qrcodeTitle}>QRコードを表示</h3>
         <div className={styles.qrcodeContainer}>
-          <button type="button" className={styles.qrcodeButton} onClick={navigateToTipPage}>
+          <button className={styles.qrcodeButton} onClick={navigateToTipPage}>
             PayPay支払いページにとぶ
           </button>
-          <button type="button" className={styles.qrcodeButton} onClick={generateQRCode}>
+          <button className={styles.qrcodeButton} onClick={generateQRCode}>
             QRコード作成
           </button>
-          {qrCodeUrl !== null && (
-            <iframe className={styles.qrcode} src={qrCodeUrl} width="300px" height="300px" />
-          )}
+          {qrCodeUrl !== null && <img className={styles.qrcode} src={qrCodeUrl} />}
         </div>
       </div>
     </div>
