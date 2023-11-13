@@ -3,35 +3,42 @@
   flex-direction: column;
   align-items: center;
   width: 256px;
-  background-color: aquamarine;
+  background-color: #f3f7fd;
 }
 
 .spica {
   display: flex;
   width: 100%;
-  padding: 16px 16px 16px 24px;
+  padding: 16px 16px 16px 32px;
   font-size: 32px;
-  background-color: blueviolet;
+  font-weight: bold;
+  color: #003087;
+  border-right: 1px solid #dae1ea;
+  border-bottom: 2px solid #dae1ea;
 }
 
 .menu {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
   width: 100%;
   padding: 16px 24px;
-  background-color: cadetblue;
+  color: #4b5f7e;
 }
 
 .menuTitle,
 .menuItem {
   display: flex;
   align-items: center;
-  height: 40px;
+  padding: 8px;
   font-size: 16px;
-  background-color: coral;
 }
 
 .menuTitle {
-  color: white;
+  color: #4b5f7e;
+}
+
+.menuItem {
+  background-color: #e3ecfa;
+  border-radius: 8px;
 }

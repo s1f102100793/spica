@@ -209,7 +209,7 @@
   border: solid 4px #203e84;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1000px) {
   .right {
     width: 100%;
   }

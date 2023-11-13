@@ -60,16 +60,31 @@ export const RightSection = () => {
   };
 
   const badges = [
-    { icon: 'badge-icon1.png', description: '獲得アルゴリズム200', date: '2023-10-19' },
-    { icon: 'badge-icon2.png', description: '獲得アルゴリズム100', date: '2023-09-07' },
-    { icon: 'badge-icon1.png', description: '獲得アルゴリズム200', date: '2023-10-19' },
-    { icon: 'badge-icon2.png', description: '獲得アルゴリズム100', date: '2023-09-07' },
-    { icon: 'badge-icon2.png', description: '獲得アルゴリズム100', date: '2023-09-07' },
-    { icon: 'badge-icon1.png', description: '獲得アルゴリズム200', date: '2023-10-19' },
-    { icon: 'badge-icon2.png', description: '獲得アルゴリズム100', date: '2023-09-07' },
-    { icon: 'badge-icon1.png', description: '獲得アルゴリズム200', date: '2023-10-19' },
-    { icon: 'badge-icon2.png', description: '獲得アルゴリズム100', date: '2023-09-07' },
-    { icon: 'badge-icon2.png', description: '獲得アルゴリズム100', date: '2023-09-07' },
+    {
+      icon: '/images/trophy/gold_trophy.png',
+      description: '獲得アルゴリズム200',
+      date: '2023-10-19',
+    },
+    {
+      icon: '/images/trophy/gold_trophy.png',
+      description: '獲得アルゴリズム100',
+      date: '2023-09-07',
+    },
+    {
+      icon: '/images/trophy/bronze_trophy.png',
+      description: '獲得アルゴリズム200',
+      date: '2023-10-19',
+    },
+    {
+      icon: '/images/trophy/silber_trophy.png',
+      description: '獲得アルゴリズム100',
+      date: '2023-09-07',
+    },
+    {
+      icon: '/images/trophy/gold_trophy.png',
+      description: '獲得アルゴリズム100',
+      date: '2023-09-07',
+    },
   ];
 
   const navigateToTipPage = () => {

@@ -77,12 +77,12 @@ export const Header = () => {
               お問い合わせ
             </span>
             {router.pathname !== '/login' && router.pathname !== '/mypage' && (
-              <span className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
+              <span className={styles.menuItem} onClick={login}>
                 ログイン
               </span>
             )}
             {router.pathname !== '/signup' && router.pathname !== '/mypage' && (
-              <span className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
+              <span className={styles.menuItem} onClick={crearteAccount}>
                 アカウント開設
               </span>
             )}
