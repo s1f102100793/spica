@@ -4,17 +4,31 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding-top: 70px;
+  margin-top: 70px;
 }
 
 .form {
   display: flex;
   gap: 30px;
   justify-content: space-between;
-  width: 1200px;
+  max-width: 1200px;
   padding: 20px;
   margin: 50px 0;
   background-color: #eef3fb;
   border: #edf3ff 10px solid;
   border-radius: 5px;
+}
+
+@media (max-width: 1000px) {
+  .container {
+    align-self: center;
+    width: 100%;
+  }
+
+  .form {
+    flex-direction: column;
+    gap: 30px;
+    width: 90%;
+    padding: 8px;
+  }
 }
