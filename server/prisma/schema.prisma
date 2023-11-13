@@ -42,6 +42,7 @@ model Company {
   description     String
   tips            Tip[]
   EmployeeCompany EmployeeCompany[]
+  CompanyTip      CompanyTip[]
 }
 
 model EmployeeCompany {
@@ -63,20 +64,19 @@ model Role {
 }
 
 model Tip {
-  id         Int       @id @default(autoincrement())
-  employee   Employee? @relation(fields: [employeeId], references: [firebaseUid])
-  employeeId String?
-  company    Company   @relation(fields: [companyId], references: [id])
+  id         Int      @id @default(autoincrement())
+  employee   Employee @relation(fields: [employeeId], references: [firebaseUid])
+  employeeId String
+  company    Company  @relation(fields: [companyId], references: [id])
   companyId  Int
   amount     Int
-  createdAt  DateTime  @default(now())
-  tipType    TipType   @default(EMPLOYEE)
-
-  @@index([employeeId])
-  @@index([companyId])
+  createdAt  DateTime @default(now())
 }
 
-enum TipType {
-  EMPLOYEE
-  COMPANY
+model CompanyTip {
+  id        Int      @id @default(autoincrement())
+  companyId Int
+  amount    Int
+  createdAt DateTime @default(now())
+  company   Company  @relation(fields: [companyId], references: [id])
 }
