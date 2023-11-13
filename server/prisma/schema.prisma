@@ -30,7 +30,7 @@ model EmployeeProfile {
   profileId    Int      @id @default(autoincrement())
   employeeId   String   @unique
   profileImage String   @default("/images/default.png")
-  createdAt    DateTime
+  createdAt    DateTime @default(now())
   uodatedAt    DateTime @updatedAt
   employee     Employee @relation(fields: [employeeId], references: [firebaseUid], onDelete: Cascade)
 }
@@ -42,7 +42,6 @@ model Company {
   description     String
   tips            Tip[]
   EmployeeCompany EmployeeCompany[]
-  CompanyTip      CompanyTip[]
 }
 
 model EmployeeCompany {
@@ -64,19 +63,20 @@ model Role {
 }
 
 model Tip {
-  id         Int      @id @default(autoincrement())
-  employee   Employee @relation(fields: [employeeId], references: [firebaseUid])
-  employeeId String
-  company    Company  @relation(fields: [companyId], references: [id])
+  id         Int       @id @default(autoincrement())
+  employee   Employee? @relation(fields: [employeeId], references: [firebaseUid])
+  employeeId String?
+  company    Company   @relation(fields: [companyId], references: [id])
   companyId  Int
-  amount     Float
-  createdAt  DateTime @default(now())
+  amount     Int
+  createdAt  DateTime  @default(now())
+  tipType    TipType   @default(EMPLOYEE)
+
+  @@index([employeeId])
+  @@index([companyId])
 }
 
-model CompanyTip {
-  id        Int      @id @default(autoincrement())
-  companyId Int
-  amount    Float
-  createdAt DateTime @default(now())
-  company   Company  @relation(fields: [companyId], references: [id])
+enum TipType {
+  EMPLOYEE
+  COMPANY
 }
