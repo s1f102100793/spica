@@ -77,12 +77,13 @@
   background-color: #203e84;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1000px) {
   .left {
     flex-direction: row;
     gap: 16px;
     justify-content: space-between;
     width: 100%;
+    max-width: 400PX;
   }
 
   .icon {

@@ -68,8 +68,7 @@ const TipDetailSection: React.FC<TipDetailSectionProps> = ({
         </div>
       </div>
       <div className={styles.tipMessageArea}>
-        <div className={styles.tipMessage} />
-        {message}
+        <div className={styles.tipMessage}>{message}</div>
         <textarea
           className={styles.tipMessageInput}
           value={feedback}

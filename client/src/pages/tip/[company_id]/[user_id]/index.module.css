@@ -1,6 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
+  gap: 24px;
   align-items: center;
   justify-content: center;
   height: 100%;
@@ -13,8 +14,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 32px;
-  background-color: aquamarine;
+  padding-top: 32px;
 }
 
 .tipDetailsUpper {
@@ -23,6 +23,8 @@
   align-items: center;
   justify-content: space-between;
   width: 296px;
+  color: #fff;
+  background-color: #0070ba;
   border-radius: 8px 8px 0 0;
 }
 
@@ -32,7 +34,8 @@
   align-items: center;
   justify-content: center;
   width: 296px;
-  background-color: cadetblue;
+  background-color: #f5f7fa;
+  border: #ccc 1px solid;
   border-radius: 0 0 8px 8px;
 }
 
@@ -43,7 +46,6 @@
   width: 120px;
   height: 120px;
   padding: 15px;
-  background-color: azure;
   border-radius: 8px 0 0;
 }
 
@@ -51,7 +53,6 @@
   display: flex;
   width: 100%;
   height: 100%;
-  background-color: aliceblue;
   background-image: url('/images/harukamirai.jpeg');
   background-position: center;
   background-size: cover;
@@ -64,9 +65,7 @@
   padding: 24px;
   font-size: 16px;
   font-weight: bold;
-  color: #333;
   text-align: flex-start;
-  background-color: bisque;
   border-radius: 0 8px 0 0;
 }
 
@@ -118,14 +117,17 @@
   flex-direction: column;
   gap: 16px;
   align-items: center;
-  width: 100%;
+  width: 296px;
   padding: 32px;
+  background-color: #0070ba;
+  border-radius: 8px;
 }
 
 .tipMessage {
   display: flex;
   width: 246px;
   padding-left: 8px;
+  color: #fff;
 }
 
 .tipMessageInput {
@@ -139,8 +141,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  background-color: aquamarine;
+  width: 296px;
+  background-color: #f5f7fa;
+  border: #ccc 1px solid;
+  border-radius: 8px;
 }
 
 .tippingButton {

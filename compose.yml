@@ -8,6 +8,8 @@ services:
     env_file:
       - ./docker/dev/.env
     working_dir: /opt/workspace
+    # volumes:
+    #   - ./docker/dev/firebase/seeder/auth_export:/seeder/auth_export
     command: firebase emulators:start --only=auth --project=emulator --import=seeder
 
   minio:

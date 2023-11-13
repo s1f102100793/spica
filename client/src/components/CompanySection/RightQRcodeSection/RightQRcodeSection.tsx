@@ -175,7 +175,7 @@ export const RightQRcodeSection = () => {
               ))}
             </div>
             <div className={styles.qrcode}>
-              <img src={qrcodeUrl} alt={`QR code for ${qrcodeUrl}`} />
+              <img className={styles.qrcodeimg} src={qrcodeUrl} alt={`QR code for ${qrcodeUrl}`} />
               <div className={styles.buttonContainer}>
                 <Button
                   variant="contained"
