@@ -39,7 +39,7 @@ export const getEmployee = async (firebaseUid: string): Promise<EmployeeModel | 
       where: { firebaseUid },
       include: { profile: true },
     });
-    if (prismaEmployee) {
+    if (prismaEmployee !== null) {
       return toEmployeeModel(prismaEmployee);
     } else {
       return null;
