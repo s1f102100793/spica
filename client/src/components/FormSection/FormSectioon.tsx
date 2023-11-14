@@ -122,7 +122,7 @@ export const FormSection = () => {
           2.仮登録確認
         </div>
         <div className={`${styles.progressStep} ${currentStep === 3 ? styles.activeStep : ''}`}>
-          3.メールアドレス認証
+          3.メール認証
         </div>
       </div>
       <div className={styles.form}>

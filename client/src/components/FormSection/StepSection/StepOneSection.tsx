@@ -66,7 +66,7 @@ export const StepOneSection: React.FC<StepOneSectionProps> = ({
   return (
     <div>
       <div className={styles.title}>アカウント登録</div>
-      <form>
+      <div className={styles.formcontainer}>
         <div className={styles.formGroup}>
           <label>氏名</label>
           <div className={styles.nameInput}>
@@ -136,7 +136,7 @@ export const StepOneSection: React.FC<StepOneSectionProps> = ({
           />
           <label htmlFor="emailPreferences">製品の更新、お知らせ、オファーのメールを希望する</label>
         </div> */}
-      </form>
+      </div>
 
       <button className={styles.createButton} type="button" onClick={handleNextClick}>
         つぎへ
