@@ -12,9 +12,9 @@ export const MyPageSection = () => {
 
   const getUserInfomation = async () => {
     if (!user) return;
-    const userInfomaion = await apiClient.employee
-      ._employeeId(user.id)
-      .$post({ body: { firebaseUid: user.id } });
+    const userInfomaion = await apiClient.employee.employeeId.$post({
+      body: { firebaseUid: user.id },
+    });
     if (userInfomaion !== null) {
       setUserProfileImage(userInfomaion.profileImage);
     }
