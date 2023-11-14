@@ -86,7 +86,6 @@ export const StepThreeSection: React.FC<StepThreeSectionProps> = ({
       <button className={styles.createButton} onClick={verifyCode}>
         確認
       </button>
-
       <button className={styles.resendButton} onClick={sendEmailVerification}>
         コードを再送
       </button>
