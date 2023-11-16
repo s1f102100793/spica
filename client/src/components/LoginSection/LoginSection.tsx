@@ -8,11 +8,14 @@ export const LoginSection = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const navigateTo = (path: string) => {
+    window.location.href = path;
+  };
+
+  const handleSubmit = async () => {
     try {
       await signInWithEmail(email, password);
-      router.push('/mypage');
+      navigateTo('/mypage');
     } catch (error) {
       console.log(error);
     }
@@ -21,7 +24,7 @@ export const LoginSection = () => {
   return (
     <div className={styles.container}>
       <h1>Spica</h1>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className={styles.form}>
         <div className={styles.formGroup}>
           <label htmlFor="email">メールアドレス</label>
           <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -36,7 +39,7 @@ export const LoginSection = () => {
           />
         </div>
         <div className={styles.formGroup}>
-          <button className={styles.loginbutton} type="submit">
+          <button className={styles.loginbutton} onClick={handleSubmit}>
             ログイン
           </button>
         </div>
