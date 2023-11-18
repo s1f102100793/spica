@@ -1,5 +1,4 @@
 import type { EmployeeModel } from 'commonTypesWithClient/models';
-import { useState } from 'react';
 import styles from './LeftSection.module.css';
 
 type LeftSectionProps = {
@@ -7,7 +6,7 @@ type LeftSectionProps = {
 };
 
 export const LeftSection: React.FC<LeftSectionProps> = ({ employeeInformation }) => {
-  const [profileCompletion, setProfileCompletion] = useState(50);
+  const profileCompletion = 50;
   const navigateTo = (path: string) => {
     window.location.href = path;
   };
