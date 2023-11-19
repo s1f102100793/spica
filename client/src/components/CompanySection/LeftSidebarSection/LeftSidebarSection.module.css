@@ -40,5 +40,6 @@
 
 .menuItem {
   background-color: #e3ecfa;
+  border: none;
   border-radius: 8px;
 }

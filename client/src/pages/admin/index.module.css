@@ -1,0 +1,119 @@
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.rightContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100% - 256px);
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  height: 77px;
+  padding: 24px;
+  background-color: #fff;
+  border-bottom: solid 2px #dae1ea;
+  border-left: solid 1px #dae1ea;
+}
+
+.adminName {
+  font-size: 24px;
+  color: #203e84;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  width: 944px;
+  margin: 32px;
+  background-color: aqua;
+}
+
+.contentTitle {
+  display: flex;
+  align-items: center;
+  padding: 16px 16px 8px 24px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #0070ba;
+  border-bottom: solid 4px #ccc;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 24px;
+  background-color: #f5f7fa;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.formLabel {
+  font-size: 16px;
+  color: #203e84;
+}
+
+.formInput {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.zipCodeInputContainer,
+.phoneInputContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.zipCodeInput,
+.phoneInput {
+  width: 56px;
+}
+
+.formInput,
+.zipCodeInput,
+.phoneInput {
+  padding: 8px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 40px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #0070ba;
+  border: none;
+  border-radius: 4px;
+}
