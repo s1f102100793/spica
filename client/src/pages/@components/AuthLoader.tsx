@@ -1,7 +1,8 @@
 import { onAuthStateChanged } from 'firebase/auth';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
-import { useEffect, useReducer } from 'react';
+import { useEffect, useState } from 'react';
+import { isAdminAtom } from 'src/atoms/admin';
 import { userAtom } from 'src/atoms/user';
 import { apiClient } from 'src/utils/apiClient';
 import { createAuth } from 'src/utils/firebase';
@@ -11,7 +12,8 @@ import { Loading } from '../../components/Loading/Loading';
 export const AuthLoader = () => {
   const router = useRouter();
   const [user, setUser] = useAtom(userAtom);
-  const [isInitedAuth, dispatchIsInitedAuth] = useReducer(() => true, false);
+  const [isAdmin, setIsAdmin] = useAtom(isAdminAtom);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(createAuth(), async (fbUser) => {
@@ -20,26 +22,37 @@ export const AuthLoader = () => {
           .getIdToken()
           .then((idToken) => apiClient.session.$post({ body: { idToken } }))
           .catch(returnNull);
-        await apiClient.me.$get().catch(returnNull).then(setUser);
+        const userData = await apiClient.me.$get().catch(returnNull);
+        setUser(userData);
+        if (userData !== null) {
+          await apiClient.admin
+            .$post({ body: userData?.id })
+            .then(setIsAdmin)
+            .catch(() => setIsAdmin(false));
+        }
       } else {
         await apiClient.session.$delete();
         setUser(null);
+        setIsAdmin(false);
       }
-
-      dispatchIsInitedAuth();
+      setIsLoading(false);
     });
 
     return unsubscribe;
-  }, [setUser]);
+  }, [setUser, setIsAdmin]);
 
+  // eslint-disable-next-line complexity
   useEffect(() => {
+    if (isLoading) return;
     const protectedRoutes = ['/mypage'];
-    if (!isInitedAuth) return;
+    const adminProtectedRoutes = ['/admin'];
 
     if (protectedRoutes.includes(router.pathname) && !user) {
       router.push('/');
+    } else if (adminProtectedRoutes.includes(router.pathname) && !isAdmin) {
+      router.push('/');
     }
-  }, [router, isInitedAuth, user]);
+  }, [router, user, isAdmin, isLoading]);
 
-  return <Loading visible={!isInitedAuth} />;
+  return <Loading visible={isLoading} />;
 };

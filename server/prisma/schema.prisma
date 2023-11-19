@@ -80,3 +80,8 @@ model CompanyTip {
   createdAt DateTime @default(now())
   company   Company  @relation(fields: [companyId], references: [id])
 }
+
+model Admin {
+  firebaseUid String   @id
+  createdAt   DateTime @default(now())
+}
