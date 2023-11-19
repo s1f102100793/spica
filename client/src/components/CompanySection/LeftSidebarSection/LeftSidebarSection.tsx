@@ -10,15 +10,15 @@ export const LeftSidebarSection = () => {
       <div className={styles.spica}>Spica</div>
       <div className={styles.menu}>
         <div className={styles.menuTitle}>menu</div>
-        <div className={styles.menuItem} onClick={() => navigateTo('/company/dashboard/')}>
+        <button className={styles.menuItem} onClick={() => navigateTo('/company/dashboard/')}>
           ダッシュボード
-        </div>
-        <div className={styles.menuItem} onClick={() => navigateTo('/company/members/')}>
+        </button>
+        <button className={styles.menuItem} onClick={() => navigateTo('/company/members/')}>
           メンバー
-        </div>
-        <div className={styles.menuItem} onClick={() => navigateTo('/company/qrcode/')}>
+        </button>
+        <button className={styles.menuItem} onClick={() => navigateTo('/company/qrcode/')}>
           QRコード
-        </div>
+        </button>
       </div>
     </div>
   );
