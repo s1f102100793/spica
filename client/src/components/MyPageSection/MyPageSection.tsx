@@ -1,34 +1,22 @@
-import { useAtom } from 'jotai';
-import { useEffect, useState } from 'react';
-import { userAtom } from 'src/atoms/user';
-import { apiClient } from 'src/utils/apiClient';
+import { useEffect } from 'react';
+import { useEmployee } from 'src/hooks/useEmployee';
 import { LeftSection } from './LeftSection.tsx/LeftSection';
 import styles from './MySection.module.css';
 import { RightSection } from './RightSection/RightSection';
 
 export const MyPageSection = () => {
-  const [user] = useAtom(userAtom);
-  const [userProfileImage, setUserProfileImage] = useState<string>('/images/default.png');
-
-  const getUserInfomation = async () => {
-    if (!user) return;
-    const userInfomaion = await apiClient.employee.employeeId.$post({
-      body: { firebaseUid: user.id },
-    });
-    if (userInfomaion !== null) {
-      setUserProfileImage(userInfomaion.profileImage);
-    }
-    console.log(userInfomaion);
-  };
+  const { employeeInformation, getEmployeeInformation } = useEmployee();
 
   useEffect(() => {
-    getUserInfomation();
-  });
+    if (!employeeInformation) {
+      getEmployeeInformation();
+    }
+  }, [employeeInformation, getEmployeeInformation]);
 
   return (
     <div className={styles.container}>
       <div className={styles.form}>
-        <LeftSection userProfileImage={userProfileImage} />
+        <LeftSection employeeInformation={employeeInformation} />
         <RightSection />
       </div>
     </div>

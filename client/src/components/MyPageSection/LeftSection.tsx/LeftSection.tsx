@@ -1,21 +1,26 @@
-import { useState } from 'react';
+import type { EmployeeModel } from 'commonTypesWithClient/models';
 import styles from './LeftSection.module.css';
 
 type LeftSectionProps = {
-  userProfileImage: string;
+  employeeInformation: EmployeeModel | null;
 };
 
-export const LeftSection: React.FC<LeftSectionProps> = ({ userProfileImage }) => {
-  const [profileCompletion, setProfileCompletion] = useState(50);
+export const LeftSection: React.FC<LeftSectionProps> = ({ employeeInformation }) => {
+  const profileCompletion = 50;
 
   return (
     <div className={styles.left}>
       <div className={styles.icon}>
-        <div className={styles.iconImage} style={{ backgroundImage: `url(${userProfileImage})` }} />
+        <div
+          className={styles.iconImage}
+          style={{ backgroundImage: `url(${employeeInformation?.profileImage})` }}
+        />
       </div>
       <div className={styles.userInfo}>
-        <div className={styles.name}>aaa</div>
-        <button className={styles.button}>プロフィールを編集</button>
+        <div className={styles.name}>{employeeInformation?.name}</div>
+        <a href="/mypage/profile/" className={styles.button}>
+          プロフィールを編集
+        </a>
         <div className={styles.profileCompletion}>
           <div className={styles.profileCompletionLabel}>
             プロフィール入力率: {profileCompletion}% 完了
