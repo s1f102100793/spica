@@ -1,24 +1,20 @@
 import styles from './LeftSidebarSection.module.css';
 
 export const LeftSidebarSection = () => {
-  const navigateTo = (path: string) => {
-    window.location.href = path;
-  };
-
   return (
     <div className={styles.container}>
       <div className={styles.spica}>Spica</div>
       <div className={styles.menu}>
         <div className={styles.menuTitle}>menu</div>
-        <div className={styles.menuItem} onClick={() => navigateTo('/company/dashboard/')}>
+        <a href="/company/dashboard/" className={styles.menuItem}>
           ダッシュボード
-        </div>
-        <div className={styles.menuItem} onClick={() => navigateTo('/company/members/')}>
+        </a>
+        <a href="/company/members/" className={styles.menuItem}>
           メンバー
-        </div>
-        <div className={styles.menuItem} onClick={() => navigateTo('/company/qrcode/')}>
+        </a>
+        <a href="/company/qrcode/" className={styles.menuItem}>
           QRコード
-        </div>
+        </a>
       </div>
     </div>
   );

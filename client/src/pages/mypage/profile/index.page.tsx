@@ -8,10 +8,6 @@ import styles from './index.module.css';
 const Profile = () => {
   const { employeeInformation, getEmployeeInformation } = useEmployee();
 
-  const navigateTo = (path: string) => {
-    window.location.href = path;
-  };
-
   useEffect(() => {
     if (!employeeInformation) {
       getEmployeeInformation();
@@ -55,9 +51,9 @@ const Profile = () => {
           </tbody>
         </table>
         <div className={styles.buttonContainer}>
-          <button className={styles.button} onClick={() => navigateTo('/mypage/')}>
-            マイページに戻る
-          </button>
+          <a href="/mypage/profile/edit/" className={styles.button}>
+            プロフィールを編集
+          </a>
         </div>
       </div>
       <Footer />

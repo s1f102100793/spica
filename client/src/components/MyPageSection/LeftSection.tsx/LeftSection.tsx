@@ -7,9 +7,6 @@ type LeftSectionProps = {
 
 export const LeftSection: React.FC<LeftSectionProps> = ({ employeeInformation }) => {
   const profileCompletion = 50;
-  const navigateTo = (path: string) => {
-    window.location.href = path;
-  };
 
   return (
     <div className={styles.left}>
@@ -21,9 +18,9 @@ export const LeftSection: React.FC<LeftSectionProps> = ({ employeeInformation })
       </div>
       <div className={styles.userInfo}>
         <div className={styles.name}>{employeeInformation?.name}</div>
-        <button className={styles.button} onClick={() => navigateTo('/mypage/profile/')}>
+        <a href="/mypage/profile/" className={styles.button}>
           プロフィールを編集
-        </button>
+        </a>
         <div className={styles.profileCompletion}>
           <div className={styles.profileCompletionLabel}>
             プロフィール入力率: {profileCompletion}% 完了
