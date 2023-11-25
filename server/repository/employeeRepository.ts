@@ -5,7 +5,7 @@ import type { Employee, EmployeeCompany, EmployeeProfile, Tip } from '@prisma/cl
 const toEmployeeModel = (
   prismaEmployee: Employee & {
     profile: EmployeeProfile | null;
-    EmployeeCompany: EmployeeCompany[];
+    EmployeeCompany: (EmployeeCompany & { company?: { name: string } })[];
     Tip: Tip[];
   }
 ): EmployeeModel => {
@@ -21,6 +21,7 @@ const toEmployeeModel = (
       id: ec.id,
       companyId: ec.companyId,
       roleId: ec.roleId,
+      companyName: ec.company?.name,
     })),
     tips: prismaEmployee.Tip.map((tip) => ({
       id: tip.id,
@@ -54,10 +55,13 @@ export const getEmployee = async (firebaseUid: string): Promise<EmployeeModel | 
   try {
     const prismaEmployee = await prismaClient.employee.findUnique({
       where: { firebaseUid },
-      include: { profile: true, EmployeeCompany: true, Tip: true },
+      include: {
+        profile: true,
+        EmployeeCompany: { include: { company: { select: { name: true } } } },
+        Tip: true,
+      },
     });
     if (prismaEmployee !== null) {
-      console.log(prismaEmployee);
       return toEmployeeModel(prismaEmployee);
     } else {
       return null;

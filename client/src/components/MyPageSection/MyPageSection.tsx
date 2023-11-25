@@ -17,7 +17,7 @@ export const MyPageSection = () => {
     <div className={styles.container}>
       <div className={styles.form}>
         <LeftSection employeeInformation={employeeInformation} />
-        <RightSection />
+        <RightSection employeeInformation={employeeInformation} />
       </div>
     </div>
   );

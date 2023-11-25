@@ -22,6 +22,7 @@ export const employeeCompaniesParser = z.object({
   id: z.number(),
   companyId: z.number(),
   roleId: z.number(),
+  companyName: z.string().optional(),
 });
 
 export type EmployeeCompaniesModel = z.infer<typeof employeeCompaniesParser>;
