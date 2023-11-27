@@ -1,17 +1,16 @@
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { userAtom } from 'src/atoms/user';
 import styles from './Header.module.css';
 
 // eslint-disable-next-line complexity
 export const Header = () => {
+  const [user] = useAtom(userAtom);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
-  const login = async () => {
-    router.push('/login');
-  };
-
-  const crearteAccount = () => {
-    router.push('/signup');
+  const navigate = (path: string) => {
+    router.push(path);
   };
 
   useEffect(() => {
@@ -46,13 +45,18 @@ export const Header = () => {
           <span>ビジョン</span>
           <span>ニュース</span>
           <span>お問い合わせ</span>
-          {router.pathname !== '/login' && router.pathname !== '/mypage' && (
-            <span onClick={login}>ログイン</span>
+          {router.pathname !== '/login' && user === null && (
+            <span onClick={() => navigate('/login')}>ログイン</span>
           )}
-          {router.pathname !== '/signup' && router.pathname !== '/mypage' && (
-            <span className={styles.account} onClick={crearteAccount}>
+          {router.pathname !== '/signup' && user === null && (
+            <button className={styles.account} onClick={() => navigate('/signup')}>
               アカウント開設
-            </span>
+            </button>
+          )}
+          {router.pathname !== '/mypage' && user !== null && (
+            <button className={styles.account} onClick={() => navigate('/mypage')}>
+              マイページ
+            </button>
           )}
         </div>
         <div
@@ -76,14 +80,19 @@ export const Header = () => {
             <span className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
               お問い合わせ
             </span>
-            {router.pathname !== '/login' && router.pathname !== '/mypage' && (
-              <span className={styles.menuItem} onClick={login}>
+            {router.pathname !== '/login' && user === null && (
+              <span className={styles.menuItem} onClick={() => navigate('/login')}>
                 ログイン
               </span>
             )}
-            {router.pathname !== '/signup' && router.pathname !== '/mypage' && (
-              <span className={styles.menuItem} onClick={crearteAccount}>
+            {router.pathname !== '/signup' && user === null && (
+              <span className={styles.menuItem} onClick={() => navigate('/signup')}>
                 アカウント開設
+              </span>
+            )}
+            {router.pathname !== '/mypage' && user !== null && (
+              <span className={styles.menuItem} onClick={() => navigate('/mypage')}>
+                マイページ
               </span>
             )}
           </div>
