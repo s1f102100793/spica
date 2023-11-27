@@ -1,6 +1,6 @@
 export type TrophyType = 'gold' | 'silver' | 'bronze';
 
-const trophyOrder: TrophyType[] = ['gold', 'silver', 'bronze'];
+const trophyOrder: TrophyType[] = ['bronze', 'silver', 'gold'];
 
 export const trophyImages: Record<TrophyType, string> = {
   gold: '/images/trophy/gold_trophy.png',
@@ -26,41 +26,39 @@ export const analyzeTrophies = (
     bronze: {},
   };
 
+  const trophyThresholds = {
+    amount: [10000, 30000, 50000],
+    count: [10, 50, 100],
+    singleTip: [1000, 3000, 5000],
+  };
+
+  const updateTrophy = (
+    type: 'amount' | 'count' | 'singleTip',
+    value: number,
+    date: number,
+    thresholds: number[]
+  ) => {
+    trophyOrder.forEach((grade, index) => {
+      if (!dateTracker[grade][type] && value >= thresholds[index]) {
+        dateTracker[grade][type] = new Date(date).toLocaleDateString();
+      }
+    });
+  };
+
   tips
     .sort((a, b) => a.createdAt - b.createdAt)
-    // eslint-disable-next-line complexity
     .forEach((tip) => {
       totalAmount += tip.amount;
       totalTips++;
       highestSingleTip = Math.max(highestSingleTip, tip.amount);
 
-      // Check for amount trophies
-      if (!dateTracker.bronze['amount'] && totalAmount >= 10000)
-        dateTracker.bronze['amount'] = new Date(tip.createdAt).toLocaleDateString();
-      if (!dateTracker.silver['amount'] && totalAmount >= 30000)
-        dateTracker.silver['amount'] = new Date(tip.createdAt).toLocaleDateString();
-      if (!dateTracker.gold['amount'] && totalAmount >= 50000)
-        dateTracker.gold['amount'] = new Date(tip.createdAt).toLocaleDateString();
-
-      // Check for count trophies
-      if (!dateTracker.bronze['count'] && totalTips >= 10)
-        dateTracker.bronze['count'] = new Date(tip.createdAt).toLocaleDateString();
-      if (!dateTracker.silver['count'] && totalTips >= 50)
-        dateTracker.silver['count'] = new Date(tip.createdAt).toLocaleDateString();
-      if (!dateTracker.gold['count'] && totalTips >= 100)
-        dateTracker.gold['count'] = new Date(tip.createdAt).toLocaleDateString();
-
-      // Check for single tip trophies
-      if (!dateTracker.bronze['singleTip'] && highestSingleTip >= 1000)
-        dateTracker.bronze['singleTip'] = new Date(tip.createdAt).toLocaleDateString();
-      if (!dateTracker.silver['singleTip'] && highestSingleTip >= 3000)
-        dateTracker.silver['singleTip'] = new Date(tip.createdAt).toLocaleDateString();
-      if (!dateTracker.gold['singleTip'] && highestSingleTip >= 5000)
-        dateTracker.gold['singleTip'] = new Date(tip.createdAt).toLocaleDateString();
+      updateTrophy('amount', totalAmount, tip.createdAt, trophyThresholds.amount);
+      updateTrophy('count', totalTips, tip.createdAt, trophyThresholds.count);
+      updateTrophy('singleTip', highestSingleTip, tip.createdAt, trophyThresholds.singleTip);
     });
 
   trophyOrder.forEach((grade) => {
-    ['amount', 'count', 'singleTip'].forEach((type) => {
+    Object.keys(trophyThresholds).forEach((type) => {
       if (dateTracker[grade][type]) {
         trophyAchievements.push({
           type: type === 'amount' ? '累計金額' : type === 'count' ? 'チップ回数' : '最高チップ金額',
