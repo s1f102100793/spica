@@ -1,4 +1,5 @@
 import type { EmployeeModel } from 'commonTypesWithClient/models';
+import { useEffect, useState } from 'react';
 import styles from './LeftSection.module.css';
 
 type LeftSectionProps = {
@@ -7,6 +8,20 @@ type LeftSectionProps = {
 
 export const LeftSection: React.FC<LeftSectionProps> = ({ employeeInformation }) => {
   const profileCompletion = 50;
+  const [companyRoleList, setCompanyRoleList] = useState<
+    { companyId: number; roleId: number; companyName: string }[]
+  >([]);
+
+  useEffect(() => {
+    if (employeeInformation && employeeInformation.employeeCompanies !== null) {
+      const extractedData = employeeInformation.employeeCompanies.map((company) => ({
+        companyId: company.companyId,
+        roleId: company.roleId,
+        companyName: company.companyName,
+      }));
+      setCompanyRoleList(extractedData);
+    }
+  }, [employeeInformation]);
 
   return (
     <div className={styles.left}>
@@ -32,6 +47,13 @@ export const LeftSection: React.FC<LeftSectionProps> = ({ employeeInformation })
             />
           </div>
         </div>
+        {companyRoleList
+          .filter((company) => company.roleId === 1 || company.roleId === 2)
+          .map((company, index) => (
+            <a key={index} href={`/${company.companyId}/dashboard`} className={styles.button}>
+              {company.companyName}ページへ
+            </a>
+          ))}
       </div>
     </div>
   );

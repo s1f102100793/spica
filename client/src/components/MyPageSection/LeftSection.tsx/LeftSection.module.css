@@ -41,10 +41,10 @@
   display: flex;
   justify-content: center;
   width: 300px;
-  padding: 5px;
+  padding: 8px;
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
 }
 
 .profileCompletion {
