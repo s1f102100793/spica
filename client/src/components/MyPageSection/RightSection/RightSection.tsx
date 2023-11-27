@@ -53,7 +53,9 @@ export const RightSection: React.FC<RightSectionProps> = ({ employeeInformation 
   }, [employeeInformation]);
 
   const renderTrophies = () => {
-    return trophyList.map((trophy, index) => (
+    const reversedTrophies = [...trophyList].reverse().slice(0, 5);
+
+    return reversedTrophies.map((trophy, index) => (
       <div key={index} className={styles.badgeItem}>
         <img
           src={trophyImages[trophy.grade]}
@@ -106,7 +108,7 @@ export const RightSection: React.FC<RightSectionProps> = ({ employeeInformation 
       </div>
       <div className={styles.badgeSection}>
         <h3 className={styles.badgeTitle}>
-          <div className={styles.badgeTitleName}>獲得したバッジ</div>
+          <div className={styles.badgeTitleName}>獲得したトロフィー</div>
           {trophyList.length >= 5 && <span className={styles.viewAll}>すべて見る＞</span>}
         </h3>
         <div className={styles.badgeContainer}>{renderTrophies()}</div>
