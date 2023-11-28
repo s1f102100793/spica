@@ -25,7 +25,8 @@
   align-items: center;
 }
 
-.right > span {
+.right > span,
+.login {
   font-weight: bold;
   color: #666;
 }
@@ -110,7 +111,7 @@
   }
 
   .right > span,
-  .right > button {
+  .right > :link {
     display: none;
   }
 

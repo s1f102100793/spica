@@ -1,4 +1,5 @@
 import { useAtom } from 'jotai';
+import Link from 'next/link'; // Linkをインポート
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { userAtom } from 'src/atoms/user';
@@ -9,9 +10,6 @@ export const Header = () => {
   const [user] = useAtom(userAtom);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
-  const navigate = (path: string) => {
-    router.push(path);
-  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -46,17 +44,19 @@ export const Header = () => {
           <span>ニュース</span>
           <span>お問い合わせ</span>
           {router.pathname !== '/login' && user === null && (
-            <span onClick={() => navigate('/login')}>ログイン</span>
+            <Link href="/login" className={styles.login}>
+              ログイン
+            </Link>
           )}
           {router.pathname !== '/signup' && user === null && (
-            <button className={styles.account} onClick={() => navigate('/signup')}>
+            <Link href="/signup" className={styles.account}>
               アカウント開設
-            </button>
+            </Link>
           )}
           {router.pathname !== '/mypage' && user !== null && (
-            <button className={styles.account} onClick={() => navigate('/mypage')}>
+            <Link href="/mypage" className={styles.account}>
               マイページ
-            </button>
+            </Link>
           )}
         </div>
         <div
@@ -71,29 +71,29 @@ export const Header = () => {
       <div className={styles.menu}>
         {isMenuOpen && (
           <div className={styles.dropdown}>
-            <span className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
+            <Link href="#" className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
               ビジョン
-            </span>
-            <span className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
+            </Link>
+            <Link href="#" className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
               ニュース
-            </span>
-            <span className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
+            </Link>
+            <Link href="#" className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
               お問い合わせ
-            </span>
+            </Link>
             {router.pathname !== '/login' && user === null && (
-              <span className={styles.menuItem} onClick={() => navigate('/login')}>
+              <Link href="/login" className={styles.menuItem}>
                 ログイン
-              </span>
+              </Link>
             )}
             {router.pathname !== '/signup' && user === null && (
-              <span className={styles.menuItem} onClick={() => navigate('/signup')}>
+              <Link href="/signup" className={styles.menuItem}>
                 アカウント開設
-              </span>
+              </Link>
             )}
             {router.pathname !== '/mypage' && user !== null && (
-              <span className={styles.menuItem} onClick={() => navigate('/mypage')}>
+              <Link href="/mypage" className={styles.menuItem}>
                 マイページ
-              </span>
+              </Link>
             )}
           </div>
         )}
