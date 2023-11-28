@@ -20,7 +20,7 @@ export type TaskModel = z.infer<typeof taskParser>;
 
 export const employeeCompaniesParser = z.object({
   id: z.number(),
-  companyId: z.number(),
+  companyId: z.string(),
   roleId: z.number(),
   companyName: z.string(),
 });
@@ -30,7 +30,7 @@ export type EmployeeCompaniesModel = z.infer<typeof employeeCompaniesParser>;
 export const tipParser = z.object({
   id: z.number(),
   employeeId: z.string(),
-  companyId: z.number(),
+  companyId: z.string(),
   amount: z.number(),
   createdAt: z.number(),
 });
