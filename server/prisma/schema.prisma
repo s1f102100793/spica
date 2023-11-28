@@ -36,7 +36,7 @@ model EmployeeProfile {
 }
 
 model Company {
-  id              Int               @id @default(autoincrement())
+  id              String               @id @default(uuid())
   name            String
   address         String
   description     String
@@ -50,7 +50,7 @@ model EmployeeCompany {
   employee   Employee @relation(fields: [employeeId], references: [firebaseUid], onDelete: Cascade)
   employeeId String
   company    Company  @relation(fields: [companyId], references: [id])
-  companyId  Int
+  companyId  String
   roleId     Int
   role       Role     @relation(fields: [roleId], references: [id])
 
@@ -68,14 +68,14 @@ model Tip {
   employee   Employee @relation(fields: [employeeId], references: [firebaseUid])
   employeeId String
   company    Company  @relation(fields: [companyId], references: [id])
-  companyId  Int
+  companyId  String
   amount     Int
   createdAt  DateTime @default(now())
 }
 
 model CompanyTip {
   id        Int      @id @default(autoincrement())
-  companyId Int
+  companyId String
   amount    Int
   createdAt DateTime @default(now())
   company   Company  @relation(fields: [companyId], references: [id])

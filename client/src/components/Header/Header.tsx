@@ -68,8 +68,8 @@ export const Header = () => {
           <div />
         </div>
       </div>
-      <div className={styles.menu}>
-        {isMenuOpen && (
+      {isMenuOpen && (
+        <div className={styles.menu}>
           <div className={styles.dropdown}>
             <Link href="#" className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
               ビジョン
@@ -96,8 +96,8 @@ export const Header = () => {
               </Link>
             )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 };
