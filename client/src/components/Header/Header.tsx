@@ -1,18 +1,15 @@
+import { useAtom } from 'jotai';
+import Link from 'next/link'; // Linkをインポート
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { userAtom } from 'src/atoms/user';
 import styles from './Header.module.css';
 
 // eslint-disable-next-line complexity
 export const Header = () => {
+  const [user] = useAtom(userAtom);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
-  const login = async () => {
-    router.push('/login');
-  };
-
-  const crearteAccount = () => {
-    router.push('/signup');
-  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -46,13 +43,20 @@ export const Header = () => {
           <span>ビジョン</span>
           <span>ニュース</span>
           <span>お問い合わせ</span>
-          {router.pathname !== '/login' && router.pathname !== '/mypage' && (
-            <span onClick={login}>ログイン</span>
+          {router.pathname !== '/login' && user === null && (
+            <Link href="/login" className={styles.login}>
+              ログイン
+            </Link>
           )}
-          {router.pathname !== '/signup' && router.pathname !== '/mypage' && (
-            <span className={styles.account} onClick={crearteAccount}>
+          {router.pathname !== '/signup' && user === null && (
+            <Link href="/signup" className={styles.account}>
               アカウント開設
-            </span>
+            </Link>
+          )}
+          {router.pathname !== '/mypage' && user !== null && (
+            <Link href="/mypage" className={styles.account}>
+              マイページ
+            </Link>
           )}
         </div>
         <div
@@ -67,24 +71,29 @@ export const Header = () => {
       <div className={styles.menu}>
         {isMenuOpen && (
           <div className={styles.dropdown}>
-            <span className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
+            <Link href="#" className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
               ビジョン
-            </span>
-            <span className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
+            </Link>
+            <Link href="#" className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
               ニュース
-            </span>
-            <span className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
+            </Link>
+            <Link href="#" className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
               お問い合わせ
-            </span>
-            {router.pathname !== '/login' && router.pathname !== '/mypage' && (
-              <span className={styles.menuItem} onClick={login}>
+            </Link>
+            {router.pathname !== '/login' && user === null && (
+              <Link href="/login" className={styles.menuItem}>
                 ログイン
-              </span>
+              </Link>
             )}
-            {router.pathname !== '/signup' && router.pathname !== '/mypage' && (
-              <span className={styles.menuItem} onClick={crearteAccount}>
+            {router.pathname !== '/signup' && user === null && (
+              <Link href="/signup" className={styles.menuItem}>
                 アカウント開設
-              </span>
+              </Link>
+            )}
+            {router.pathname !== '/mypage' && user !== null && (
+              <Link href="/mypage" className={styles.menuItem}>
+                マイページ
+              </Link>
             )}
           </div>
         )}
