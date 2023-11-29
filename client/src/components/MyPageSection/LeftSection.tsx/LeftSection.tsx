@@ -9,7 +9,7 @@ type LeftSectionProps = {
 export const LeftSection: React.FC<LeftSectionProps> = ({ employeeInformation }) => {
   const profileCompletion = 50;
   const [companyRoleList, setCompanyRoleList] = useState<
-    { companyId: number; roleId: number; companyName: string }[]
+    { companyId: string; roleId: number; companyName: string }[]
   >([]);
 
   useEffect(() => {
