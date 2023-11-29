@@ -86,15 +86,16 @@ export const RightMembersSection = () => {
     },
   ]);
 
+  const [sortedMembers, setSortedMembers] = useState<Member[]>([]);
   const [sortType, setSortType] = useState<SortType>('monthlyTipAmount');
 
   useEffect(() => {
-    const sortedMembers = [...members].sort((a, b) => {
+    const newSortedMembers = [...members].sort((a, b) => {
       const aValue = a[sortType as keyof Member];
       const bValue = b[sortType as keyof Member];
-      return (bValue as number) - (aValue as number); // Ensures that we are dealing with numbers
+      return (bValue as number) - (aValue as number);
     });
-    setMembers(sortedMembers);
+    setSortedMembers(newSortedMembers);
   }, [sortType, members]);
 
   const sortOptions: { label: string; value: SortType }[] = [
@@ -143,7 +144,7 @@ export const RightMembersSection = () => {
               </tr>
             </thead>
             <tbody>
-              {members.map((member, index) => (
+              {sortedMembers.map((member, index) => (
                 <tr key={index}>
                   <td>{member.name}</td>
                   <td>{member.monthlyTipCount}</td>
