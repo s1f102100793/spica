@@ -12,6 +12,13 @@ export const LeftSection: React.FC<LeftSectionProps> = ({ employeeInformation })
     { companyId: string; roleId: number; companyName: string }[]
   >([]);
 
+  const isRelevantRole = (roleId: number) => {
+    const employeeRoleId = 1;
+    const partTimeButHaveEmployeeRoleId = 2;
+
+    return roleId === employeeRoleId || roleId === partTimeButHaveEmployeeRoleId;
+  };
+
   useEffect(() => {
     if (employeeInformation && employeeInformation.employeeCompanies !== null) {
       const extractedData = employeeInformation.employeeCompanies.map((company) => ({
@@ -48,7 +55,7 @@ export const LeftSection: React.FC<LeftSectionProps> = ({ employeeInformation })
           </div>
         </div>
         {companyRoleList
-          .filter((company) => company.roleId === 1 || company.roleId === 2)
+          .filter((company) => isRelevantRole(company.roleId))
           .map((company, index) => (
             <a key={index} href={`/${company.companyId}/dashboard`} className={styles.button}>
               {company.companyName}ページへ
