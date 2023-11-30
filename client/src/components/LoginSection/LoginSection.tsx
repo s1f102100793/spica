@@ -1,10 +1,8 @@
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { signInWithEmail } from 'src/utils/login';
 import styles from './LoginSection.module.css';
 
 export const LoginSection = () => {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
