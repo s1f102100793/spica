@@ -1,13 +1,43 @@
 import type { CompanyId } from 'commonTypesWithClient/ids';
+import type { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 import { Header } from 'src/components/Header/Header';
 import TipDetailSection from 'src/components/TipDetailSection/TipDetailSection';
 import { apiClient } from 'src/utils/apiClient';
-import styles from './[user_id]/index.module.css';
+import styles from './[userId]/index.module.css';
 
-const CompanyTipPage = () => {
+interface CompanyTipPageProps {
+  data: any;
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const companyIds = await apiClient.tip.company.$get();
+  const paths = companyIds.map((companyId: CompanyId) => ({
+    params: { companyId },
+  }));
+
+  return { paths, fallback: false };
+};
+
+export const getStaticProps: GetStaticProps<
+  CompanyTipPageProps,
+  { companyId: CompanyId }
+> = async ({ params }) => {
+  if (!params?.companyId) {
+    return { notFound: true };
+  }
+  const data = await apiClient.tip.company.$post({ body: { companyId: params?.companyId } });
+
+  return {
+    props: {
+      data,
+    },
+  };
+};
+
+const CompanyTipPage: React.FC<CompanyTipPageProps> = ({ data }) => {
   const router = useRouter();
   const companyId = router.query.companyId as CompanyId;
 
@@ -28,8 +58,8 @@ const CompanyTipPage = () => {
 
   const tipOptions = [300, 500, 1000, 1500];
 
-  const target = `${companyId}へ`;
-  const message = `${companyId}さんへのメッセージ`;
+  const target = `${data.name}へ`;
+  const message = `${data.name}さんへのメッセージ`;
 
   return (
     <>
