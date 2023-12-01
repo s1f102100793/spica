@@ -1,3 +1,4 @@
+import type { CompanyId, UserId } from '$/commonTypesWithClient/ids';
 import { PAYPAY_CLIENT_ID, PAYPAY_CLIENT_SECRET, PAYPAY_MERCHANT_ID } from '$/service/envValues';
 import PayPaySDK from '@paypayopa/paypayopa-sdk-node';
 import type {
@@ -25,8 +26,8 @@ type ExtendedHttpsClientSuccess = HttpsClientSuccess & {
 
 // eslint-disable-next-line complexity
 export const generateQRCode = async (
-  company_id: string,
-  user_id: string | null,
+  companyId: CompanyId,
+  userId: UserId | null,
   amount: number,
   feedback: string
 ) => {
@@ -34,12 +35,12 @@ export const generateQRCode = async (
   let merchantPaymentId: string;
   let orderDescription: string;
 
-  if (user_id !== null && user_id.trim() !== '') {
-    merchantPaymentId = `${company_id}-${user_id}-${timestamp}`;
-    orderDescription = `${company_id}の${user_id}ヘの${amount}円のチップ`;
+  if (userId !== null && userId.trim() !== '') {
+    merchantPaymentId = `${companyId}-${userId}-${timestamp}`;
+    orderDescription = `${companyId}の${userId}ヘの${amount}円のチップ`;
   } else {
-    merchantPaymentId = `${company_id}-${timestamp}`;
-    orderDescription = `${company_id}への${amount}円のチップ`;
+    merchantPaymentId = `${companyId}-${timestamp}`;
+    orderDescription = `${companyId}への${amount}円のチップ`;
   }
 
   const paymentDetails = {

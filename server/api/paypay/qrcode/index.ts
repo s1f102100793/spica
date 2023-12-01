@@ -1,9 +1,10 @@
 import type { DefineMethods } from 'aspida';
+import type { CompanyId, UserId } from 'commonTypesWithClient/ids';
 
 export type Methods = DefineMethods<{
   get: { resBody: string };
   post: {
-    reqBody: { company_id: string; user_id: string | null; amount: number; feedback: string };
+    reqBody: { companyId: CompanyId; userId: UserId | null; amount: number; feedback: string };
     resBody: string;
   };
 }>;

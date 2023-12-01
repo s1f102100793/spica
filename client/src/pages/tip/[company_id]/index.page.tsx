@@ -1,3 +1,4 @@
+import type { CompanyId } from 'commonTypesWithClient/ids';
 import { useRouter } from 'next/router';
 import type { ChangeEvent } from 'react';
 import { useState } from 'react';
@@ -8,7 +9,7 @@ import styles from './[user_id]/index.module.css';
 
 const CompanyTipPage = () => {
   const router = useRouter();
-  const company_id = router.query.company_id as string;
+  const companyId = router.query.companyId as CompanyId;
 
   const [amount, setAmount] = useState('500');
   const [feedback, setFeedback] = useState('');
@@ -18,7 +19,7 @@ const CompanyTipPage = () => {
 
   const handleCompanySendTip = async () => {
     const response = await apiClient.paypay.qrcode.$post({
-      body: { company_id, user_id: null, amount: Number(amount), feedback },
+      body: { companyId, userId: null, amount: Number(amount), feedback },
     });
     if (response) {
       router.push(response);
@@ -27,8 +28,8 @@ const CompanyTipPage = () => {
 
   const tipOptions = [300, 500, 1000, 1500];
 
-  const target = `${company_id}へ`;
-  const message = `${company_id}さんへのメッセージ`;
+  const target = `${companyId}へ`;
+  const message = `${companyId}さんへのメッセージ`;
 
   return (
     <>
