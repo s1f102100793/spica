@@ -1,5 +1,5 @@
 import { Autocomplete, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import styles from './RightMembersSection.module.css';
 
 type Member = {
@@ -13,7 +13,7 @@ type Member = {
 type SortType = 'monthlyTipCount' | 'averageMonthlyTip' | 'monthlyTipAmount' | 'totalTipAmount';
 
 export const RightMembersSection = () => {
-  const [members, setMembers] = useState([
+  const [members, setMembers] = useState<Member[]>([
     {
       name: '山田 太郎',
       monthlyTipCount: 5,
@@ -88,14 +88,13 @@ export const RightMembersSection = () => {
 
   const [sortType, setSortType] = useState<SortType>('monthlyTipAmount');
 
-  useEffect(() => {
-    const sortedMembers = [...members].sort((a, b) => {
+  const sortedMembers = useMemo(() => {
+    return [...members].sort((a, b) => {
       const aValue = a[sortType as keyof Member];
       const bValue = b[sortType as keyof Member];
-      return (bValue as number) - (aValue as number); // Ensures that we are dealing with numbers
+      return (bValue as number) - (aValue as number);
     });
-    setMembers(sortedMembers);
-  }, [sortType, members]);
+  }, [members, sortType]);
 
   const sortOptions: { label: string; value: SortType }[] = [
     { label: '今月のチップ回数', value: 'monthlyTipCount' },
@@ -143,7 +142,7 @@ export const RightMembersSection = () => {
               </tr>
             </thead>
             <tbody>
-              {members.map((member, index) => (
+              {sortedMembers.map((member, index) => (
                 <tr key={index}>
                   <td>{member.name}</td>
                   <td>{member.monthlyTipCount}</td>

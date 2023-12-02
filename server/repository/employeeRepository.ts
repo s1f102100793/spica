@@ -5,7 +5,7 @@ import type { Employee, EmployeeCompany, EmployeeProfile, Tip } from '@prisma/cl
 const toEmployeeModel = (
   prismaEmployee: Employee & {
     profile: EmployeeProfile | null;
-    EmployeeCompany: (EmployeeCompany & { company?: { name: string } })[];
+    EmployeeCompany: (EmployeeCompany & { company: { name: string } })[];
     Tip: Tip[];
   }
 ): EmployeeModel => {
@@ -21,7 +21,7 @@ const toEmployeeModel = (
       id: ec.id,
       companyId: ec.companyId,
       roleId: ec.roleId,
-      companyName: ec.company?.name,
+      companyName: ec.company.name,
     })),
     tips: prismaEmployee.Tip.map((tip) => ({
       id: tip.id,
@@ -43,7 +43,11 @@ export const createEmployee = async (name: string, email: string, firebaseUid: s
         createdAt: new Date(),
         profile: { create: { profileImage: '/images/default.png', createdAt: new Date() } },
       },
-      include: { profile: true, EmployeeCompany: true, Tip: true },
+      include: {
+        profile: true,
+        EmployeeCompany: { include: { company: { select: { name: true } } } },
+        Tip: true,
+      },
     });
     return toEmployeeModel(prismaEmployee);
   } catch (e) {

@@ -23,7 +23,6 @@
   gap: 4px;
   width: 100%;
   padding: 16px 24px;
-  color: #4b5f7e;
 }
 
 .menuTitle,
@@ -32,13 +31,11 @@
   align-items: center;
   padding: 8px;
   font-size: 16px;
-}
-
-.menuTitle {
   color: #4b5f7e;
 }
 
 .menuItem {
   background-color: #e3ecfa;
+  border: none;
   border-radius: 8px;
 }
