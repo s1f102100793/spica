@@ -14,9 +14,9 @@ export const allCompanyIds = async (): Promise<CompanyId[]> => {
   }
 };
 
-export const postCompanyInfo = async (
+export const getCompanyInfo = async (
   companyId: CompanyId
-): Promise<{ id: string; name: string }> => {
+): Promise<{ id: CompanyId; name: string }> => {
   try {
     const prismaCompanyInfo = await prismaClient.company.findUnique({
       where: { id: companyId },
@@ -27,7 +27,10 @@ export const postCompanyInfo = async (
       throw new Error('Company not found');
     }
 
-    return prismaCompanyInfo;
+    return {
+      id: prismaCompanyInfo.id as CompanyId,
+      name: prismaCompanyInfo.name,
+    };
   } catch (error) {
     console.error('Error posting company info:', error);
     throw error;

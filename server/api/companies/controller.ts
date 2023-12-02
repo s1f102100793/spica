@@ -1,7 +1,14 @@
-import { allCompanyIds, postCompanyInfo } from '$/repository/companyRepository';
+import { allCompanyIds, getCompanyInfo } from '$/repository/companyRepository';
 import { defineController } from './$relay';
 
 export default defineController(() => ({
-  get: async () => ({ status: 200, body: await allCompanyIds() }),
-  post: async ({ body }) => ({ status: 201, body: await postCompanyInfo(body.companyId) }),
+  get: async ({ query: { companyId } }) => {
+    if (companyId !== undefined) {
+      const companyInfo = await getCompanyInfo(companyId);
+      return { status: 200, body: companyInfo };
+    } else {
+      const companyIds = await allCompanyIds();
+      return { status: 200, body: companyIds };
+    }
+  },
 }));
