@@ -94,7 +94,7 @@ export const FormSection = () => {
       } else if (currentStep === 3) {
         try {
           const user = await signUpWithEmail(email, password);
-          await apiClient.employee.$post({
+          await apiClient.employees.$post({
             body: { name: `${lastName} ${firstName}`, email, firebaseUid: user.uid },
           });
           router.push('/mypage');

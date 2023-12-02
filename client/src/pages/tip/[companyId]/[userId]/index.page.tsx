@@ -20,12 +20,10 @@ const UserTipPage = () => {
   };
 
   const handleSendTip = async () => {
-    const response = await apiClient.paypay.qrcode.$post({
+    const response = await apiClient.tip.paypay.$post({
       body: { companyId, userId, amount: Number(amount), feedback },
     });
-    if (response) {
-      router.push(response);
-    }
+    router.push(response);
   };
 
   const tipOptions = [300, 500, 1000, 1500];

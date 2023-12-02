@@ -13,7 +13,7 @@ interface CompanyTipPageProps {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const companyIds = await apiClient.tip.company.$get();
+  const companyIds = await apiClient.companies.$get();
   const paths = companyIds.map((companyId: CompanyId) => ({
     params: { companyId },
   }));
@@ -28,7 +28,7 @@ export const getStaticProps: GetStaticProps<
   if (!params?.companyId) {
     return { notFound: true };
   }
-  const data = await apiClient.tip.company.$post({ body: { companyId: params?.companyId } });
+  const data = await apiClient.companies.$post({ body: { companyId: params?.companyId } });
 
   return {
     props: {
@@ -48,12 +48,10 @@ const CompanyTipPage: React.FC<CompanyTipPageProps> = ({ data }) => {
   };
 
   const handleCompanySendTip = async () => {
-    const response = await apiClient.paypay.qrcode.$post({
+    const response = await apiClient.tip.paypay.$post({
       body: { companyId, userId: null, amount: Number(amount), feedback },
     });
-    if (response) {
-      router.push(response);
-    }
+    router.push(response);
   };
 
   const tipOptions = [300, 500, 1000, 1500];

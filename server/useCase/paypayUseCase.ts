@@ -85,33 +85,3 @@ export const generateQRCode = async (
     throw error;
   }
 };
-
-export const createPayPayPayment = async (amount: number, feedback: string) => {
-  const paymentDetails = {
-    merchantPaymentId: `Payment for ${feedback} (${Date.now()})`,
-    amount: {
-      amount,
-      currency: 'JPY',
-    },
-    orderDescription: `Payment for ${feedback} (${Date.now()})`,
-    isAuthorization: false,
-  };
-
-  try {
-    const response = await PayPaySDK.CreatePayment(paymentDetails);
-    console.log(response);
-
-    if ('STATUS' in response && response.STATUS === 201) {
-      const successResponse = response as ExtendedHttpsClientSuccess;
-      return successResponse.BODY.data;
-    } else if ('ERROR' in response) {
-      const errorResponse = response as HttpsClientError;
-      throw new Error(errorResponse.ERROR);
-    } else {
-      throw new Error('Unexpected response format');
-    }
-  } catch (error) {
-    console.error('PayPay Error:', error);
-    throw error;
-  }
-};

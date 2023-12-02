@@ -10,7 +10,7 @@ export const useEmployee = () => {
 
   const getEmployeeInformation = useCallback(async () => {
     if (!user) return;
-    const employeeInfo = await apiClient.employee.employeeId.$post({
+    const employeeInfo = await apiClient.employees['$1'].$post({
       body: { firebaseUid: user.id },
     });
     if (employeeInfo !== null) {
