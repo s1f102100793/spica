@@ -19,6 +19,13 @@
     "types": ["vitest/importMeta"],
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "*.js", ".eslintrc.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "*.js",
+    ".eslintrc.js",
+    "src/components/MyPageSection/LeftSection"
+  ],
   "exclude": ["node_modules"]
 }
