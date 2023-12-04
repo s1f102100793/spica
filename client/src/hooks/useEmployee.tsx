@@ -3,6 +3,7 @@ import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
 import { userAtom } from 'src/atoms/user';
 import { apiClient } from 'src/utils/apiClient';
+import { returnNull } from 'src/utils/returnNull';
 
 export const useEmployee = () => {
   const [user] = useAtom(userAtom);
@@ -10,12 +11,11 @@ export const useEmployee = () => {
 
   const getEmployeeInformation = useCallback(async () => {
     if (!user) return;
-    const employeeInfo = await apiClient.employees['$1'].$post({
-      body: { firebaseUid: user.id },
-    });
-    if (employeeInfo !== null) {
-      setEmployeeInformation(employeeInfo);
-    }
+    await apiClient.employees
+      ._employeeId(user.id)
+      .$post({})
+      .catch(returnNull)
+      .then(setEmployeeInformation);
   }, [user, setEmployeeInformation]);
 
   return { employeeInformation, getEmployeeInformation };
