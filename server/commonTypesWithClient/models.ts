@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { taskIdParser } from '../service/idParsers';
+import { companyIdParser, taskIdParser, userIdParser } from '../service/idParsers';
 import type { UserId } from './ids';
 
 export type UserModel = {
@@ -36,8 +36,18 @@ export const tipParser = z.object({
 });
 
 export type TipModel = z.infer<typeof tipParser>;
+
+export const companyTipParser = z.object({
+  id: z.number(),
+  companyId: z.string(),
+  amount: z.number(),
+  createdAt: z.date(),
+});
+
+export type CompanyTipModel = z.infer<typeof companyTipParser>;
+
 export const employeeParser = z.object({
-  name: z.string(),
+  name: userIdParser,
   email: z.string().email(),
   firebaseUid: z.string(),
   createdAt: z.number(),
@@ -49,3 +59,31 @@ export const employeeParser = z.object({
 });
 
 export type EmployeeModel = z.infer<typeof employeeParser>;
+
+export const roleParser = z.object({
+  id: z.number(),
+  roleName: z.string(),
+});
+
+export type RoleModel = z.infer<typeof roleParser>;
+
+export const employeeCompanyParser = z.object({
+  id: z.number(),
+  employeeId: z.string(),
+  companyId: z.string(),
+  role: roleParser,
+});
+
+export type EmployeeCompanyModel = z.infer<typeof employeeCompanyParser>;
+
+export const companyParser = z.object({
+  id: companyIdParser,
+  name: z.string(),
+  address: z.string(),
+  description: z.string(),
+  tips: z.array(tipParser),
+  employeeCompany: z.array(employeeCompanyParser),
+  companyTip: z.array(companyTipParser),
+});
+
+export type CompanyModel = z.infer<typeof companyParser>;

@@ -1,38 +1,56 @@
 import type { CompanyId } from '$/commonTypesWithClient/ids';
+import type { CompanyModel } from '$/commonTypesWithClient/models';
 import { prismaClient } from '$/service/prismaClient';
 
-export const allCompanyIds = async (): Promise<CompanyId[]> => {
-  try {
-    const prismaAllCompanyIds = await prismaClient.company.findMany({
-      select: { id: true },
-    });
+type SelectFields = Record<string, boolean>;
 
-    return prismaAllCompanyIds.map((company) => company.id as CompanyId);
-  } catch (error) {
-    console.error('Error fetching company IDs:', error);
-    throw error;
+const createSelectFields = (fields: string): SelectFields => {
+  let selectFields: SelectFields = {};
+  const fieldsArray = fields.split(',');
+
+  if (fieldsArray.includes('*') && fieldsArray.length > 1) {
+    throw new Error("Invalid fields: '*' cannot be combined with other fields");
   }
+
+  if (fieldsArray.includes('*')) {
+    selectFields = {
+      id: true,
+      name: true,
+      address: true,
+      description: true,
+      tips: true,
+      EmployeeCompany: true,
+      CompanyTip: true,
+    };
+  } else {
+    fieldsArray.forEach((field) => {
+      selectFields[field] = true;
+    });
+  }
+
+  return selectFields;
 };
 
 export const getCompanyInfo = async (
-  companyId: CompanyId
-): Promise<{ id: CompanyId; name: string }> => {
-  try {
-    const prismaCompanyInfo = await prismaClient.company.findUnique({
-      where: { id: companyId },
-      select: { id: true, name: true },
-    });
+  companyId: CompanyId,
+  fields: string
+): Promise<Partial<CompanyModel>> => {
+  const selectFields = createSelectFields(fields);
 
-    if (!prismaCompanyInfo) {
-      throw new Error('Company not found');
-    }
+  const prismaCompanyInfo = await prismaClient.company.findUnique({
+    where: { id: companyId },
+    select: selectFields,
+  });
 
-    return {
-      id: prismaCompanyInfo.id as CompanyId,
-      name: prismaCompanyInfo.name,
-    };
-  } catch (error) {
-    console.error('Error posting company info:', error);
-    throw error;
-  }
+  return prismaCompanyInfo as Partial<CompanyModel>;
+};
+
+export const getAllCompanyInfo = async (fields: string): Promise<Partial<CompanyModel[]>> => {
+  const selectFields = createSelectFields(fields);
+
+  const prismaAllCompanyInfo = await prismaClient.company.findMany({
+    select: selectFields,
+  });
+
+  return prismaAllCompanyInfo as unknown as Partial<CompanyModel[]>;
 };

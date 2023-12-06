@@ -1,3 +1,4 @@
+import type { UserId } from '$/commonTypesWithClient/ids';
 import type { EmployeeModel } from '$/commonTypesWithClient/models';
 import { prismaClient } from '$/service/prismaClient';
 import type { Employee, EmployeeCompany, EmployeeProfile, Tip } from '@prisma/client';
@@ -10,7 +11,7 @@ const toEmployeeModel = (
   }
 ): EmployeeModel => {
   return {
-    name: prismaEmployee.name,
+    name: prismaEmployee.name as UserId,
     email: prismaEmployee.email,
     firebaseUid: prismaEmployee.firebaseUid,
     createdAt: prismaEmployee.createdAt.getTime(),

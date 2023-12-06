@@ -9,14 +9,15 @@ import { apiClient } from 'src/utils/apiClient';
 import styles from './[userId]/index.module.css';
 
 interface CompanyTipPageProps {
-  data: { id: string; name: string };
+  data: { id: CompanyId | undefined; name: string | undefined };
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const companiesResponse = await apiClient.companies.$get({ query: { companyId: undefined } });
+  const companiesResponse = await apiClient.companies.$get({ query: { fields: 'id' } });
+
   if (Array.isArray(companiesResponse)) {
-    const paths = companiesResponse.map((companyId: CompanyId) => ({
-      params: { companyId },
+    const paths = companiesResponse.map((company) => ({
+      params: { companyId: company?.id },
     }));
     return { paths, fallback: false };
   }
@@ -31,7 +32,9 @@ export const getStaticProps: GetStaticProps<
   if (!params?.companyId) {
     return { notFound: true };
   }
-  const data = await apiClient.companies.$get({ query: { companyId: params.companyId } });
+  const data = await apiClient.companies
+    ._companyId(params.companyId)
+    .$get({ query: { fields: 'id,name' } });
 
   // dataの型を確認してからpropsに渡す
   if (Array.isArray(data) || typeof data === 'undefined') {
@@ -40,7 +43,10 @@ export const getStaticProps: GetStaticProps<
 
   return {
     props: {
-      data,
+      data: {
+        id: data.id,
+        name: data.name,
+      },
     },
   };
 };
