@@ -1,5 +1,5 @@
-import type { UserId } from '$/commonTypesWithClient/ids';
 import type { EmployeeModel } from '$/commonTypesWithClient/models';
+import { userIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
 import type { Employee, EmployeeCompany, EmployeeProfile, Tip } from '@prisma/client';
 
@@ -11,10 +11,10 @@ const toEmployeeModel = (
   }
 ): EmployeeModel => {
   return {
-    name: prismaEmployee.name as UserId,
+    name: prismaEmployee.name,
     email: prismaEmployee.email,
-    firebaseUid: prismaEmployee.firebaseUid,
-    createdAt: prismaEmployee.createdAt.getTime(),
+    firebaseUid: userIdParser.parse(prismaEmployee.firebaseUid),
+    createdAt: prismaEmployee.createdAt,
     isDeleted: prismaEmployee.isDeleted,
     profileId: prismaEmployee.profile?.profileId,
     profileImage: prismaEmployee.profile?.profileImage ?? '/images/default.png',
@@ -29,7 +29,7 @@ const toEmployeeModel = (
       employeeId: tip.employeeId,
       companyId: tip.companyId,
       amount: tip.amount,
-      createdAt: tip.createdAt.getTime(),
+      createdAt: tip.createdAt,
     })),
   };
 };

@@ -14,7 +14,7 @@ export type TrophyAchievement = {
 };
 
 export const analyzeTrophies = (
-  tips: { amount: number; createdAt: number }[]
+  tips: { amount: number; createdAt: Date }[]
 ): TrophyAchievement[] => {
   let totalAmount = 0;
   let totalTips = 0;
@@ -35,7 +35,7 @@ export const analyzeTrophies = (
   const updateTrophy = (
     type: 'amount' | 'count' | 'singleTip',
     value: number,
-    date: number,
+    date: Date,
     thresholds: number[]
   ) => {
     trophyOrder.forEach((grade, index) => {
@@ -46,7 +46,7 @@ export const analyzeTrophies = (
   };
 
   tips
-    .sort((a, b) => a.createdAt - b.createdAt)
+    .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
     .forEach((tip) => {
       totalAmount += tip.amount;
       totalTips++;
