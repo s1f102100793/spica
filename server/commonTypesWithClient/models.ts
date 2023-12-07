@@ -32,7 +32,7 @@ export const tipParser = z.object({
   employeeId: z.string(),
   companyId: z.string(),
   amount: z.number(),
-  createdAt: z.number(),
+  createdAt: z.date(),
 });
 
 export type TipModel = z.infer<typeof tipParser>;
@@ -47,10 +47,10 @@ export const companyTipParser = z.object({
 export type CompanyTipModel = z.infer<typeof companyTipParser>;
 
 export const employeeParser = z.object({
-  name: userIdParser,
+  name: z.string(),
   email: z.string().email(),
-  firebaseUid: z.string(),
-  createdAt: z.number(),
+  firebaseUid: userIdParser,
+  createdAt: z.date(),
   isDeleted: z.boolean(),
   profileId: z.number().optional(),
   profileImage: z.string(),
@@ -87,3 +87,15 @@ export const companyParser = z.object({
 });
 
 export type CompanyModel = z.infer<typeof companyParser>;
+
+export const companyResponseParser = z.object({
+  id: companyIdParser.optional(),
+  name: z.string().optional(),
+  address: z.string().optional(),
+  description: z.string().optional(),
+  tips: z.array(tipParser).optional(),
+  employeeCompany: z.array(employeeCompanyParser).optional(),
+  companyTip: z.array(companyTipParser).optional(),
+});
+
+export type CompanyResponseModel = z.infer<typeof companyResponseParser>;

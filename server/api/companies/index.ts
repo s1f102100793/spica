@@ -1,9 +1,9 @@
 import type { DefineMethods } from 'aspida';
-import type { CompanyModel } from 'commonTypesWithClient/models';
+import type { CompanyResponseModel } from 'commonTypesWithClient/models';
 
 export type Methods = DefineMethods<{
   get: {
     query: { fields: string };
-    resBody: Partial<CompanyModel[]>;
+    resBody: CompanyResponseModel[];
   };
 }>;
