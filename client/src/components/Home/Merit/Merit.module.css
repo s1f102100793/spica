@@ -115,6 +115,7 @@
 
   .meritDescription {
     gap: 8px;
+    order: 0;
     width: 100%;
     padding: 16px;
   }
@@ -124,6 +125,7 @@
   }
 
   .meritItem img {
+    order: 1;
     width: 220px;
     height: auto;
     padding: 0;

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from './Merit.module.css';
 
 export const MeritSection = () => {
@@ -34,29 +34,13 @@ export const MeritSection = () => {
     },
   ];
 
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 700);
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-    };
-  }, []);
-
   return (
     <div className={styles.container}>
       <h1>スピカで得られるメリット</h1>
       <div className={styles.merits}>
         {merits.map((merit, index) => (
           <div key={index} className={styles.meritItem}>
-            {isMobile || index % 2 === 0 ? (
-              // モバイル表示または偶数インデックスの場合
+            {index % 2 === 0 ? (
               <>
                 <div className={styles.meritDescription}>
                   <div className={styles.meritTitle}>
@@ -75,7 +59,6 @@ export const MeritSection = () => {
                 <img src={merit.imageUrl} alt={merit.name} />
               </>
             ) : (
-              // PC表示の奇数インデックスの場合
               <>
                 <img src={merit.imageUrl} alt={merit.name} />
                 <div className={styles.meritDescription}>
