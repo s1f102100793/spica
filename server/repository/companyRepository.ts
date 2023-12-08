@@ -6,7 +6,7 @@ import type { Company, CompanyTip, EmployeeCompany, Tip } from '@prisma/client';
 type SelectFields = Record<string, boolean>;
 
 const toCompanyModel = (
-  prismaCompany?: Partial<Company> & {
+  prismaCompany: Partial<Company> & {
     tip?: Tip[];
     employeeCompany?: (EmployeeCompany & { role: { roleName: string } })[];
     companyTip?: CompanyTip[];
