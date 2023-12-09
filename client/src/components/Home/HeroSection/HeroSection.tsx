@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from './HeroSection.module.css';
 
 export const HeroSection = () => {
@@ -7,13 +8,13 @@ export const HeroSection = () => {
         <div className={styles.heroImage} />
         <div className={styles.heroText}>
           <h1>
-            今までの経験を
+            スピカで
             <br />
-            時給に変換
+            未来の時給体系を実現
           </h1>
-          <p>
-            Spicaはあなたの経歴と評価で、次のアルバイト現場でもっと輝かせる。あなたの価値を最大限に引き出すためのプラットフォームです。
-          </p>
+          <Link href="/signup" className={styles.account}>
+            アカウント開設
+          </Link>
         </div>
       </div>
     </div>

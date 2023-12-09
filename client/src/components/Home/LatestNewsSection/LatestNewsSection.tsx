@@ -26,8 +26,10 @@ export const LatestNewsSection: React.FC = () => {
       <div className={styles.news}>
         {newsItems.map((item, index) => (
           <div key={index} className={styles.newsItem}>
-            <div className={styles.newsDate}>{item.date}</div>
-            <div className={styles.newsCategory}>{item.category}</div>
+            <div className={styles.newsHeader}>
+              <div className={styles.newsDate}>{item.date}</div>
+              <div className={styles.newsCategory}>{item.category}</div>
+            </div>
             <div className={styles.newsTitle}>{item.title}</div>
           </div>
         ))}
