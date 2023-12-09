@@ -32,7 +32,7 @@ export const tipParser = z.object({
   employeeId: z.string(),
   companyId: z.string(),
   amount: z.number(),
-  createdAt: z.date(),
+  createdAt: z.number(),
 });
 
 export type TipModel = z.infer<typeof tipParser>;
@@ -41,7 +41,7 @@ export const companyTipParser = z.object({
   id: z.number(),
   companyId: z.string(),
   amount: z.number(),
-  createdAt: z.date(),
+  createdAt: z.number(),
 });
 
 export type CompanyTipModel = z.infer<typeof companyTipParser>;
@@ -50,7 +50,7 @@ export const employeeParser = z.object({
   name: z.string(),
   email: z.string().email(),
   firebaseUid: userIdParser,
-  createdAt: z.date(),
+  createdAt: z.number(),
   isDeleted: z.boolean(),
   profileId: z.number().optional(),
   profileImage: z.string(),

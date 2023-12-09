@@ -22,7 +22,7 @@ const toCompanyModel = (
       employeeId: tip.employeeId,
       companyId: tip.companyId,
       amount: tip.amount,
-      createdAt: tip.createdAt,
+      createdAt: tip.createdAt.getTime(),
     })),
     employeeCompany: prismaCompany?.employeeCompany?.map((ec) => ({
       id: ec.id,
@@ -37,7 +37,7 @@ const toCompanyModel = (
       id: ct.id,
       companyId: ct.companyId,
       amount: ct.amount,
-      createdAt: ct.createdAt,
+      createdAt: ct.createdAt.getTime(),
     })),
   };
 };

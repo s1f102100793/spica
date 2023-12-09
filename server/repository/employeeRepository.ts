@@ -14,7 +14,7 @@ const toEmployeeModel = (
     name: prismaEmployee.name,
     email: prismaEmployee.email,
     firebaseUid: userIdParser.parse(prismaEmployee.firebaseUid),
-    createdAt: prismaEmployee.createdAt,
+    createdAt: prismaEmployee.createdAt.getTime(),
     isDeleted: prismaEmployee.isDeleted,
     profileId: prismaEmployee.profile?.profileId,
     profileImage: prismaEmployee.profile?.profileImage ?? '/images/default.png',
@@ -29,7 +29,7 @@ const toEmployeeModel = (
       employeeId: tip.employeeId,
       companyId: tip.companyId,
       amount: tip.amount,
-      createdAt: tip.createdAt,
+      createdAt: tip.createdAt.getTime(),
     })),
   };
 };

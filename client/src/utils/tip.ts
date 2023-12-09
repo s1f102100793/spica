@@ -1,6 +1,6 @@
 type employeeTips = {
   amount: number;
-  createdAt: Date;
+  createdAt: number;
 };
 
 export const calculateMonthlyTips = (tips: employeeTips[]): Record<string, number> => {
