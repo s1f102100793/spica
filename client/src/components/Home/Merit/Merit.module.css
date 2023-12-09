@@ -1,64 +1,140 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: auto;
-  padding: 50px 0 0;
-  color: #555;
+  padding: 48px 0;
+  color: #333;
   text-align: center;
-  background-color: #f3f7fc;
+}
+
+.container h1 {
+  font-size: 32px;
+  color: #333;
+  text-decoration: underline;
+  text-decoration-thickness: 8px;
+  text-decoration-color: #007aff;
 }
 
 .merits {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
   align-self: center;
   justify-content: center;
   max-width: 1200px;
-  padding: 50px;
   margin: 0 auto;
 }
 
 .meritItem {
   display: flex;
   flex: 1;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
+  width: 920px;
+  height: 400px;
   margin: 0 10px;
 }
 
+.meritDescription {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  width: calc(100% - 220px);
+}
+
+.meritTitle {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.meritTitleIcon {
+  display: flex;
+  height: auto;
+  padding: 2px 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  background-color: #007aff;
+  border: #333 solid;
+  border-radius: 16px;
+}
+
 .meritItem h2 {
-  padding: 0 0 15px;
+  display: flex;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .meritItem h3 {
-  width: 80%;
-  padding: 30px 0 0;
+  font-size: 16px;
+  text-align: left;
 }
 
 .meritItem img {
-  width: 70%;
-  height: auto;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 10px 10px 30px #055ec11a;
+  width: 220px;
+  height: 180px;
+  padding: 0 20px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.account {
+  display: flex;
+  align-self: center;
+  padding: 16px 72px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007aff;
+  border: none;
+  border-radius: 16px;
 }
 
 @media (max-width: 700px) {
   .merits {
     flex-direction: column;
-    gap: 70px;
+    gap: 36px;
+  }
+
+  .meritItem {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+  }
+
+  .meritDescription {
+    gap: 8px;
+    order: 0;
+    width: 100%;
+    padding: 16px;
+  }
+
+  .meritDescription h2 {
+    font-size: 24px;
+  }
+
+  .meritItem img {
+    order: 1;
+    width: 220px;
+    height: auto;
+    padding: 0;
   }
 
   .container h1 {
     align-self: center;
-    width: 80%;
     margin: 0 auto;
-    line-height: 1.5;
+    font-size: 24px;
     text-align: center;
-    white-space: pre-line;
-  }
-
-  .container h1::before {
-    display: none;
-    content: 'Spicaで得られる\nメリット';
   }
 }
