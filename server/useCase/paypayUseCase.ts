@@ -1,3 +1,4 @@
+import type { CompanyId, UserId } from '$/commonTypesWithClient/ids';
 import { PAYPAY_CLIENT_ID, PAYPAY_CLIENT_SECRET, PAYPAY_MERCHANT_ID } from '$/service/envValues';
 import PayPaySDK from '@paypayopa/paypayopa-sdk-node';
 import type {
@@ -25,8 +26,8 @@ type ExtendedHttpsClientSuccess = HttpsClientSuccess & {
 
 // eslint-disable-next-line complexity
 export const generateQRCode = async (
-  company_id: string,
-  user_id: string | null,
+  companyId: CompanyId,
+  userId: UserId | null,
   amount: number,
   feedback: string
 ) => {
@@ -34,12 +35,12 @@ export const generateQRCode = async (
   let merchantPaymentId: string;
   let orderDescription: string;
 
-  if (user_id !== null && user_id.trim() !== '') {
-    merchantPaymentId = `${company_id}-${user_id}-${timestamp}`;
-    orderDescription = `${company_id}の${user_id}ヘの${amount}円のチップ`;
+  if (userId !== null && userId.trim() !== '') {
+    merchantPaymentId = `${companyId}-${userId}-${timestamp}`;
+    orderDescription = `${companyId}の${userId}ヘの${amount}円のチップ`;
   } else {
-    merchantPaymentId = `${company_id}-${timestamp}`;
-    orderDescription = `${company_id}への${amount}円のチップ`;
+    merchantPaymentId = `${companyId}-${timestamp}`;
+    orderDescription = `${companyId}への${amount}円のチップ`;
   }
 
   const paymentDetails = {
@@ -76,36 +77,6 @@ export const generateQRCode = async (
       } else {
         throw new Error('PayPay API error');
       }
-    } else {
-      throw new Error('Unexpected response format');
-    }
-  } catch (error) {
-    console.error('PayPay Error:', error);
-    throw error;
-  }
-};
-
-export const createPayPayPayment = async (amount: number, feedback: string) => {
-  const paymentDetails = {
-    merchantPaymentId: `Payment for ${feedback} (${Date.now()})`,
-    amount: {
-      amount,
-      currency: 'JPY',
-    },
-    orderDescription: `Payment for ${feedback} (${Date.now()})`,
-    isAuthorization: false,
-  };
-
-  try {
-    const response = await PayPaySDK.CreatePayment(paymentDetails);
-    console.log(response);
-
-    if ('STATUS' in response && response.STATUS === 201) {
-      const successResponse = response as ExtendedHttpsClientSuccess;
-      return successResponse.BODY.data;
-    } else if ('ERROR' in response) {
-      const errorResponse = response as HttpsClientError;
-      throw new Error(errorResponse.ERROR);
     } else {
       throw new Error('Unexpected response format');
     }

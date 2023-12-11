@@ -1,3 +1,4 @@
+import type { CompanyId, UserId } from 'commonTypesWithClient/ids';
 import { useRouter } from 'next/router';
 import type { ChangeEvent } from 'react';
 import { useState } from 'react';
@@ -9,8 +10,8 @@ import styles from './index.module.css';
 const UserTipPage = () => {
   const router = useRouter();
   const pathSegments = router.asPath.split('/').filter(Boolean);
-  const company_id = pathSegments[pathSegments.length - 2] || '';
-  const user_id = pathSegments[pathSegments.length - 1] || '';
+  const companyId = (pathSegments[pathSegments.length - 2] || '') as CompanyId;
+  const userId = (pathSegments[pathSegments.length - 1] || '') as UserId;
 
   const [amount, setAmount] = useState('500');
   const [feedback, setFeedback] = useState('');
@@ -19,27 +20,25 @@ const UserTipPage = () => {
   };
 
   const handleSendTip = async () => {
-    const response = await apiClient.paypay.qrcode.$post({
-      body: { company_id, user_id, amount: Number(amount), feedback },
+    const response = await apiClient.tip.paypay.$post({
+      body: { companyId, userId, amount: Number(amount), feedback },
     });
-    if (response) {
-      router.push(response);
-    }
+    router.push(response);
   };
 
   const tipOptions = [300, 500, 1000, 1500];
 
   const target = (
     <>
-      {company_id}
+      {companyId}
       <br />
-      {user_id}
+      {userId}
       <br />
       さんへ
     </>
   );
 
-  const message = `${user_id}さんへのメッセージ`;
+  const message = `${userId}さんへのメッセージ`;
 
   return (
     <>

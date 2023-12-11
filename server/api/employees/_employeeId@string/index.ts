@@ -6,7 +6,6 @@ export type Methods = DefineMethods<{
     resBody: string;
   };
   post: {
-    reqBody: { firebaseUid: string };
     resBody: EmployeeModel | null;
   };
 }>;
