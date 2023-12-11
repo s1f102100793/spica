@@ -1,7 +1,7 @@
-import type { CompanyResponseModel } from '$/commonTypesWithClient/models';
+import { type CompanyResponseModel } from '$/commonTypesWithClient/models';
 import { companyIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
-import type { Company, CompanyTip, EmployeeCompany, Tip } from '@prisma/client';
+import type { Company, CompanyTip, Employee, EmployeeCompany, Tip } from '@prisma/client';
 
 type SelectFields = Record<
   string,
@@ -11,7 +11,7 @@ type SelectFields = Record<
 const toCompanyModel = (
   prismaCompany: Partial<Company> & {
     Tip?: Tip[];
-    EmployeeCompany?: (EmployeeCompany & { role: { roleName: string } })[];
+    EmployeeCompany?: (EmployeeCompany & { role: { roleName: string }; employee: Employee })[];
     CompanyTip?: CompanyTip[];
   }
 ): CompanyResponseModel => {
@@ -32,6 +32,9 @@ const toCompanyModel = (
     })),
     employeeCompany: prismaCompany?.EmployeeCompany?.map((ec) => ({
       id: ec.id,
+      employee: {
+        name: ec.employee.name,
+      },
       employeeId: ec.employeeId,
       companyId: ec.companyId,
       role: {
@@ -52,6 +55,11 @@ const createSelectFieldForEmployeeCompany = () => ({
   select: {
     id: true,
     employeeId: true,
+    employee: {
+      select: {
+        name: true,
+      },
+    },
     companyId: true,
     roleId: true,
     role: {

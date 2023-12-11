@@ -70,11 +70,28 @@ export type RoleModel = z.infer<typeof roleParser>;
 export const employeeCompanyParser = z.object({
   id: z.number(),
   employeeId: z.string(),
+  employee: employeeParser,
   companyId: z.string(),
   role: roleParser,
 });
 
 export type EmployeeCompanyModel = z.infer<typeof employeeCompanyParser>;
+
+export const employeeNameResponseParser = z.object({
+  name: z.string(),
+});
+
+export type EmployeeNameResponseModel = z.infer<typeof employeeNameResponseParser>;
+
+export const employeeCompanyResponseParser = z.object({
+  id: z.number(),
+  employeeId: z.string(),
+  employee: employeeNameResponseParser,
+  companyId: z.string(),
+  role: roleParser,
+});
+
+export type EmployeeCompanyResponseModel = z.infer<typeof employeeCompanyResponseParser>;
 
 export const companyParser = z.object({
   id: companyIdParser,
@@ -94,7 +111,7 @@ export const companyResponseParser = z.object({
   address: z.string().optional(),
   description: z.string().optional(),
   tips: z.array(tipParser).optional(),
-  employeeCompany: z.array(employeeCompanyParser).optional(),
+  employeeCompany: z.array(employeeCompanyResponseParser).optional(),
   companyTip: z.array(companyTipParser).optional(),
 });
 
