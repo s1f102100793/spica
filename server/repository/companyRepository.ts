@@ -3,28 +3,34 @@ import { companyIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
 import type { Company, CompanyTip, EmployeeCompany, Tip } from '@prisma/client';
 
-type SelectFields = Record<string, boolean>;
+type SelectFields = Record<
+  string,
+  boolean | { select: Record<string, boolean | { select: Record<string, boolean> }> }
+>;
 
 const toCompanyModel = (
   prismaCompany: Partial<Company> & {
-    tip?: Tip[];
-    employeeCompany?: (EmployeeCompany & { role: { roleName: string } })[];
-    companyTip?: CompanyTip[];
+    Tip?: Tip[];
+    EmployeeCompany?: (EmployeeCompany & { role: { roleName: string } })[];
+    CompanyTip?: CompanyTip[];
   }
 ): CompanyResponseModel => {
   return {
-    id: companyIdParser.parse(prismaCompany?.id),
+    id:
+      prismaCompany?.id !== null && prismaCompany?.id !== undefined
+        ? companyIdParser.parse(prismaCompany.id)
+        : undefined,
     name: prismaCompany?.name,
     address: prismaCompany?.address,
     description: prismaCompany?.description,
-    tips: prismaCompany?.tip?.map((tip) => ({
+    tips: prismaCompany?.Tip?.map((tip) => ({
       id: tip.id,
       employeeId: tip.employeeId,
       companyId: tip.companyId,
       amount: tip.amount,
       createdAt: tip.createdAt.getTime(),
     })),
-    employeeCompany: prismaCompany?.employeeCompany?.map((ec) => ({
+    employeeCompany: prismaCompany?.EmployeeCompany?.map((ec) => ({
       id: ec.id,
       employeeId: ec.employeeId,
       companyId: ec.companyId,
@@ -33,7 +39,7 @@ const toCompanyModel = (
         roleName: ec.role.roleName,
       },
     })),
-    companyTip: prismaCompany?.companyTip?.map((ct) => ({
+    companyTip: prismaCompany?.CompanyTip?.map((ct) => ({
       id: ct.id,
       companyId: ct.companyId,
       amount: ct.amount,
@@ -42,28 +48,43 @@ const toCompanyModel = (
   };
 };
 
+const createSelectFieldForEmployeeCompany = () => ({
+  select: {
+    id: true,
+    employeeId: true,
+    companyId: true,
+    roleId: true,
+    role: {
+      select: {
+        id: true,
+        roleName: true,
+      },
+    },
+  },
+});
+
 const createSelectFields = (fields: string): SelectFields => {
-  const selectFields: SelectFields = {};
   const fieldsArray = fields.split(',');
+  const selectFields: SelectFields = {};
 
   if (fieldsArray.includes('*')) {
     if (fieldsArray.length > 1) {
       throw new Error("Invalid fields: '*' cannot be combined with other fields");
     }
-
     return {
       id: true,
       name: true,
       address: true,
       description: true,
       tips: true,
-      EmployeeCompany: true,
+      EmployeeCompany: createSelectFieldForEmployeeCompany(),
       CompanyTip: true,
     };
   }
 
   fieldsArray.forEach((field) => {
-    selectFields[field] = true;
+    selectFields[field] =
+      field === 'EmployeeCompany' ? createSelectFieldForEmployeeCompany() : true;
   });
 
   return selectFields;
