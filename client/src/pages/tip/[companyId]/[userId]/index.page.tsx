@@ -10,8 +10,8 @@ import styles from './index.module.css';
 
 interface EmployeeTipPageProps {
   data: {
-    id: CompanyId | undefined;
-    name: string | undefined;
+    id: CompanyId;
+    name: string;
     EmployeeCompany:
       | {
           id: number;
@@ -32,7 +32,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     query: { fields: 'EmployeeCompany' },
   });
 
-  const paths: { params: { companyId: string; userId: string } }[] = [];
+  const paths: { params: { companyId: CompanyId; userId: UserId } }[] = [];
 
   companiesResponse.forEach((company) => {
     if (company.employeeCompany) {
@@ -66,8 +66,8 @@ export const getStaticProps: GetStaticProps<
   return {
     props: {
       data: {
-        id: data.id,
-        name: data.name,
+        id: data.id as CompanyId,
+        name: data.name as string,
         EmployeeCompany: data.employeeCompany,
       },
     },
@@ -82,7 +82,7 @@ const UserTipPage: React.FC<EmployeeTipPageProps> = ({ data }) => {
   const companyName = data.name;
   const employeeName = data.EmployeeCompany?.find(
     (employeeCompany) => employeeCompany.employeeId === userId
-  )?.employee.name;
+  )?.employee.name as string;
 
   const [amount, setAmount] = useState('500');
   const [feedback, setFeedback] = useState('');
@@ -92,7 +92,7 @@ const UserTipPage: React.FC<EmployeeTipPageProps> = ({ data }) => {
 
   const handleSendTip = async () => {
     const response = await apiClient.tip.paypay.$post({
-      body: { companyId, userId, amount: Number(amount), feedback },
+      body: { companyName, employeeName, amount: Number(amount), feedback },
     });
     router.push(response);
   };

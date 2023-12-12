@@ -9,7 +9,7 @@ import { apiClient } from 'src/utils/apiClient';
 import styles from './[userId]/index.module.css';
 
 interface CompanyTipPageProps {
-  data: { id: CompanyId | undefined; name: string | undefined };
+  data: { id: CompanyId; name: string };
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -44,8 +44,8 @@ export const getStaticProps: GetStaticProps<
   return {
     props: {
       data: {
-        id: data.id,
-        name: data.name,
+        id: data.id as CompanyId,
+        name: data.name as string,
       },
     },
   };
@@ -54,6 +54,7 @@ export const getStaticProps: GetStaticProps<
 const CompanyTipPage: React.FC<CompanyTipPageProps> = ({ data }) => {
   const router = useRouter();
   const companyId = router.query.companyId as CompanyId;
+  const companyName = data.name;
 
   const [amount, setAmount] = useState('500');
   const [feedback, setFeedback] = useState('');
@@ -63,15 +64,15 @@ const CompanyTipPage: React.FC<CompanyTipPageProps> = ({ data }) => {
 
   const handleCompanySendTip = async () => {
     const response = await apiClient.tip.paypay.$post({
-      body: { companyId, userId: null, amount: Number(amount), feedback },
+      body: { companyName, employeeName: null, amount: Number(amount), feedback },
     });
     router.push(response);
   };
 
   const tipOptions = [300, 500, 1000, 1500];
 
-  const target = `${data.name}へ`;
-  const message = `${data.name}さんへのメッセージ`;
+  const target = `${companyName}へ`;
+  const message = `${companyName}さんへのメッセージ`;
 
   return (
     <>
