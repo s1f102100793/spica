@@ -20,7 +20,7 @@ export type TaskModel = z.infer<typeof taskParser>;
 
 export const employeeCompaniesParser = z.object({
   id: z.number(),
-  companyId: z.string(),
+  companyId: companyIdParser,
   roleId: z.number(),
   companyName: z.string(),
 });
@@ -29,8 +29,8 @@ export type EmployeeCompaniesModel = z.infer<typeof employeeCompaniesParser>;
 
 export const tipParser = z.object({
   id: z.number(),
-  employeeId: z.string(),
-  companyId: z.string(),
+  employeeId: userIdParser,
+  companyId: companyIdParser,
   amount: z.number(),
   createdAt: z.number(),
 });
@@ -39,7 +39,7 @@ export type TipModel = z.infer<typeof tipParser>;
 
 export const companyTipParser = z.object({
   id: z.number(),
-  companyId: z.string(),
+  companyId: companyIdParser,
   amount: z.number(),
   createdAt: z.number(),
 });
@@ -69,9 +69,9 @@ export type RoleModel = z.infer<typeof roleParser>;
 
 export const employeeCompanyParser = z.object({
   id: z.number(),
-  employeeId: z.string(),
+  employeeId: userIdParser,
   employee: employeeParser,
-  companyId: z.string(),
+  companyId: companyIdParser,
   role: roleParser,
 });
 
@@ -85,9 +85,9 @@ export type EmployeeNameResponseModel = z.infer<typeof employeeNameResponseParse
 
 export const employeeCompanyResponseParser = z.object({
   id: z.number(),
-  employeeId: z.string(),
+  employeeId: userIdParser,
   employee: employeeNameResponseParser,
-  companyId: z.string(),
+  companyId: companyIdParser,
   role: roleParser,
 });
 

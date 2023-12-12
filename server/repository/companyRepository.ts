@@ -1,5 +1,5 @@
 import { type CompanyResponseModel } from '$/commonTypesWithClient/models';
-import { companyIdParser } from '$/service/idParsers';
+import { companyIdParser, userIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
 import type { Company, CompanyTip, Employee, EmployeeCompany, Tip } from '@prisma/client';
 
@@ -25,8 +25,8 @@ const toCompanyModel = (
     description: prismaCompany?.description,
     tips: prismaCompany?.Tip?.map((tip) => ({
       id: tip.id,
-      employeeId: tip.employeeId,
-      companyId: tip.companyId,
+      employeeId: userIdParser.parse(tip.employeeId),
+      companyId: companyIdParser.parse(tip.companyId),
       amount: tip.amount,
       createdAt: tip.createdAt.getTime(),
     })),
@@ -35,8 +35,8 @@ const toCompanyModel = (
       employee: {
         name: ec.employee.name,
       },
-      employeeId: ec.employeeId,
-      companyId: ec.companyId,
+      employeeId: userIdParser.parse(ec.employeeId),
+      companyId: companyIdParser.parse(ec.companyId),
       role: {
         id: ec.roleId,
         roleName: ec.role.roleName,
@@ -44,7 +44,7 @@ const toCompanyModel = (
     })),
     companyTip: prismaCompany?.CompanyTip?.map((ct) => ({
       id: ct.id,
-      companyId: ct.companyId,
+      companyId: companyIdParser.parse(ct.companyId),
       amount: ct.amount,
       createdAt: ct.createdAt.getTime(),
     })),

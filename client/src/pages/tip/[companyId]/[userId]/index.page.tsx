@@ -15,9 +15,9 @@ interface EmployeeTipPageProps {
     EmployeeCompany:
       | {
           id: number;
-          employeeId: string;
+          employeeId: UserId;
           employee: { name: string };
-          companyId: string;
+          companyId: CompanyId;
           role: {
             id: number;
             roleName: string;
