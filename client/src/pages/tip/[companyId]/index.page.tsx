@@ -64,7 +64,14 @@ const CompanyTipPage: React.FC<CompanyTipPageProps> = ({ data }) => {
 
   const handleCompanySendTip = async () => {
     const response = await apiClient.tip.paypay.$post({
-      body: { companyName, employeeName: null, amount: Number(amount), feedback },
+      body: {
+        companyId,
+        employeeId: null,
+        companyName,
+        employeeName: null,
+        amount: Number(amount),
+        feedback,
+      },
     });
     router.push(response);
   };

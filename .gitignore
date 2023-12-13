@@ -32,6 +32,7 @@ npm-debug.log*
 
 # docker
 /docker/dev/minio/
+/docker/dev/redis/
 
 # server
 server/index.js

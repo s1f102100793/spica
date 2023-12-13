@@ -1,3 +1,4 @@
+import type { CompanyId, UserId } from '$/commonTypesWithClient/ids';
 import { PAYPAY_CLIENT_ID, PAYPAY_CLIENT_SECRET, PAYPAY_MERCHANT_ID } from '$/service/envValues';
 import PayPaySDK from '@paypayopa/paypayopa-sdk-node';
 import type {
@@ -25,6 +26,8 @@ type ExtendedHttpsClientSuccess = HttpsClientSuccess & {
 
 // eslint-disable-next-line complexity
 export const generateQRCode = async (
+  companyId: CompanyId,
+  employeeId: UserId | null,
   companyName: string,
   employeeName: string | null,
   amount: number,
@@ -65,6 +68,7 @@ export const generateQRCode = async (
         successResponse.BODY.data !== null &&
         successResponse.BODY.data.url
       ) {
+        // ここにredisに保存する処理を書く
         return successResponse.BODY.data.url;
       } else {
         throw new Error('Unexpected response format');

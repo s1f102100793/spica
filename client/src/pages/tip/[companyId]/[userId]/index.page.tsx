@@ -78,10 +78,10 @@ const UserTipPage: React.FC<EmployeeTipPageProps> = ({ data }) => {
   const router = useRouter();
   const pathSegments = router.asPath.split('/').filter(Boolean);
   const companyId = (pathSegments[pathSegments.length - 2] || '') as CompanyId;
-  const userId = (pathSegments[pathSegments.length - 1] || '') as UserId;
+  const employeeId = (pathSegments[pathSegments.length - 1] || '') as UserId;
   const companyName = data.name;
   const employeeName = data.EmployeeCompany?.find(
-    (employeeCompany) => employeeCompany.employeeId === userId
+    (employeeCompany) => employeeCompany.employeeId === employeeId
   )?.employee.name as string;
 
   const [amount, setAmount] = useState('500');
@@ -92,7 +92,7 @@ const UserTipPage: React.FC<EmployeeTipPageProps> = ({ data }) => {
 
   const handleSendTip = async () => {
     const response = await apiClient.tip.paypay.$post({
-      body: { companyName, employeeName, amount: Number(amount), feedback },
+      body: { companyId, employeeId, companyName, employeeName, amount: Number(amount), feedback },
     });
     router.push(response);
   };
