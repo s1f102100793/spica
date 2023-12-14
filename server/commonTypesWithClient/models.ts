@@ -116,3 +116,10 @@ export const companyResponseParser = z.object({
 });
 
 export type CompanyResponseModel = z.infer<typeof companyResponseParser>;
+
+export type TipData = {
+  companyId: string;
+  employeeId: string;
+  feedback: string;
+  merchantPaymentId: string;
+};
