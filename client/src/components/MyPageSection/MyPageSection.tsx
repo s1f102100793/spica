@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useEmployee } from 'src/hooks/useEmployee';
-import { LeftSection } from './LeftSection.tsx/LeftSection';
+import { LeftSection } from './LeftSection/LeftSection';
 import styles from './MySection.module.css';
 import { RightSection } from './RightSection/RightSection';
 
