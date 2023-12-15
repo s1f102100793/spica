@@ -1,4 +1,4 @@
-import { savePayPayDataToRedis } from '$/repository/redisRepository';
+import { redisRepository } from '$/repository/redisRepository';
 import { PAYPAY_CLIENT_ID, PAYPAY_CLIENT_SECRET, PAYPAY_MERCHANT_ID } from '$/service/envValues';
 import PayPaySDK from '@paypayopa/paypayopa-sdk-node';
 import type {
@@ -76,7 +76,8 @@ export const generateQRCode = async (
         successResponse.BODY.data.url
       ) {
         const paymentData: PayPayData = { companyId, employeeId, feedback, merchantPaymentId };
-        await savePayPayDataToRedis(merchantPaymentId, paymentData);
+        const expiryInSeconds = 24 * 60 * 60;
+        await redisRepository.save(merchantPaymentId, JSON.stringify(paymentData), expiryInSeconds);
         return successResponse.BODY.data.url;
       } else {
         throw new Error('Unexpected response format');

@@ -1,4 +1,5 @@
-import { getPayPayDataFromRedis } from '$/repository/redisRepository';
+import type { TipData } from '$/commonTypesWithClient/models';
+import { redisRepository } from '$/repository/redisRepository';
 import { createTipData } from '$/repository/tipRepository';
 import { defineHooks } from './$relay';
 
@@ -18,14 +19,15 @@ interface PayPayWebhookBody {
 
 export default defineHooks(() => ({
   preHandler: async (req, reply, done) => {
-    const webhookData = req.body as PayPayWebhookBody;
-    const merchantOrderId = webhookData.merchant_order_id;
-    const tipData = await getPayPayDataFromRedis(merchantOrderId);
+    const paypayWebhookData = req.body as PayPayWebhookBody;
+    const merchantOrderId = paypayWebhookData.merchant_order_id;
+    const tipData = await redisRepository.get(merchantOrderId);
     if (tipData === null) {
       reply.status(404).send();
       return;
     }
-    await createTipData(tipData, webhookData.order_amount);
+    const updateTipData: TipData = JSON.parse(tipData);
+    await createTipData(updateTipData, paypayWebhookData.order_amount);
     done();
   },
 }));
