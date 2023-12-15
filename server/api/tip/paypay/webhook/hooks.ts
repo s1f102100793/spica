@@ -1,6 +1,6 @@
 import type { TipData } from '$/commonTypesWithClient/models';
 import { redisRepository } from '$/repository/redisRepository';
-import { createTipData } from '$/repository/tipRepository';
+import { tipRepository } from '$/repository/tipRepository';
 import { defineHooks } from './$relay';
 
 interface PayPayWebhookBody {
@@ -10,7 +10,7 @@ interface PayPayWebhookBody {
   expires_at: string | null;
   merchant_order_id: string;
   pos_id: string;
-  order_amount: string;
+  order_amount: number;
   merchant_id: string;
   state: string;
   order_id: string;
@@ -27,7 +27,7 @@ export default defineHooks(() => ({
       return;
     }
     const updateTipData: TipData = JSON.parse(tipData);
-    await createTipData(updateTipData, paypayWebhookData.order_amount);
+    await tipRepository.save(updateTipData, paypayWebhookData.order_amount);
     done();
   },
 }));
