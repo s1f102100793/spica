@@ -1,4 +1,3 @@
-import type { CompanyId, UserId } from '$/commonTypesWithClient/ids';
 import { savePayPayDataToRedis } from '$/repository/redisRepository';
 import { PAYPAY_CLIENT_ID, PAYPAY_CLIENT_SECRET, PAYPAY_MERCHANT_ID } from '$/service/envValues';
 import PayPaySDK from '@paypayopa/paypayopa-sdk-node';
@@ -34,8 +33,8 @@ export type PayPayData = {
 
 // eslint-disable-next-line complexity
 export const generateQRCode = async (
-  companyId: CompanyId,
-  employeeId: UserId | null,
+  companyId: string,
+  employeeId: string | null,
   companyName: string,
   employeeName: string | null,
   amount: number,

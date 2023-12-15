@@ -1,4 +1,4 @@
-import type { CompanyId, UserId } from 'commonTypesWithClient/ids';
+import type { CompanyId } from 'commonTypesWithClient/ids';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import type { ChangeEvent } from 'react';
@@ -10,14 +10,14 @@ import styles from './index.module.css';
 
 interface EmployeeTipPageProps {
   data: {
-    id: CompanyId;
+    id: string;
     name: string;
     EmployeeCompany:
       | {
           id: number;
-          employeeId: UserId;
+          employeeId: string;
           employee: { name: string };
-          companyId: CompanyId;
+          companyId: string;
           role: {
             id: number;
             roleName: string;
@@ -32,7 +32,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     query: { fields: 'EmployeeCompany' },
   });
 
-  const paths: { params: { companyId: CompanyId; userId: UserId } }[] = [];
+  const paths: { params: { companyId: string; userId: string } }[] = [];
 
   companiesResponse.forEach((company) => {
     if (company.employeeCompany) {
@@ -66,7 +66,7 @@ export const getStaticProps: GetStaticProps<
   return {
     props: {
       data: {
-        id: data.id as CompanyId,
+        id: data.id as string,
         name: data.name as string,
         EmployeeCompany: data.employeeCompany,
       },
@@ -77,8 +77,8 @@ export const getStaticProps: GetStaticProps<
 const UserTipPage: React.FC<EmployeeTipPageProps> = ({ data }) => {
   const router = useRouter();
   const pathSegments = router.asPath.split('/').filter(Boolean);
-  const companyId = (pathSegments[pathSegments.length - 2] || '') as CompanyId;
-  const employeeId = (pathSegments[pathSegments.length - 1] || '') as UserId;
+  const companyId = pathSegments[pathSegments.length - 2] || '';
+  const employeeId = pathSegments[pathSegments.length - 1] || '';
   const companyName = data.name;
   const employeeName = data.EmployeeCompany?.find(
     (employeeCompany) => employeeCompany.employeeId === employeeId

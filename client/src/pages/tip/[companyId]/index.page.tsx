@@ -9,7 +9,7 @@ import { apiClient } from 'src/utils/apiClient';
 import styles from './[userId]/index.module.css';
 
 interface CompanyTipPageProps {
-  data: { id: CompanyId; name: string };
+  data: { id: string; name: string };
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -44,7 +44,7 @@ export const getStaticProps: GetStaticProps<
   return {
     props: {
       data: {
-        id: data.id as CompanyId,
+        id: data.id as string,
         name: data.name as string,
       },
     },
@@ -53,7 +53,7 @@ export const getStaticProps: GetStaticProps<
 
 const CompanyTipPage: React.FC<CompanyTipPageProps> = ({ data }) => {
   const router = useRouter();
-  const companyId = router.query.companyId as CompanyId;
+  const companyId = router.query.companyId as string;
   const companyName = data.name;
 
   const [amount, setAmount] = useState('500');
