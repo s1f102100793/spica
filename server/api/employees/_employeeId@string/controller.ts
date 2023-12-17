@@ -2,6 +2,8 @@ import { getEmployee } from '$/repository/employeeRepository';
 import { defineController } from './$relay';
 
 export default defineController(() => ({
-  get: () => ({ status: 200, body: 'Hello' }),
-  post: async ({ params }) => ({ status: 201, body: await getEmployee(params.employeeId) }),
+  get: async ({ params: { employeeId }, query: { fields } }) => ({
+    status: 200,
+    body: await getEmployee(employeeId, fields),
+  }),
 }));

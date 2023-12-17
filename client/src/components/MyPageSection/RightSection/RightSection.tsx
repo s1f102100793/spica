@@ -91,9 +91,9 @@ export const RightSection: React.FC<RightSectionProps> = ({ employeeInformation 
         <div className={styles.jobList}>
           <h3 className={styles.jobTitle}>仕事先</h3>
           <div className={styles.jobHistoryList}>
-            {employeeInformation?.employeeCompanies.map((ec, index) => (
+            {employeeInformation?.employeeCompanies?.map((ec, index) => (
               <div className={styles.jobHistory} key={index}>
-                ・{ec.companyName}
+                ・{ec.company.name}
               </div>
             ))}
           </div>

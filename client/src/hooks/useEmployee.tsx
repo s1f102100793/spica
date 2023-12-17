@@ -3,7 +3,6 @@ import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
 import { userAtom } from 'src/atoms/user';
 import { apiClient } from 'src/utils/apiClient';
-import { returnNull } from 'src/utils/returnNull';
 
 export const useEmployee = () => {
   const [user] = useAtom(userAtom);
@@ -17,17 +16,16 @@ export const useEmployee = () => {
     if (!user) return null;
     const employeeInformation = await apiClient.employees
       ._employeeId(user.id)
-      .$post({})
-      .catch(returnNull);
+      .get({ query: { fields: 'name,email,profile' } });
 
-    if (employeeInformation) {
-      const names = employeeInformation.name.split(' ');
-      setFirstName(names[0]);
-      setLastName(names[1] || '');
-      setEmail(employeeInformation.email);
-      setProfileImage(employeeInformation.profileImage);
-      setEmployeeInformation(employeeInformation);
-    }
+    // if (employeeInformation) {
+    //   const names = employeeInformation.name.split(' ');
+    //   setFirstName(names[0]);
+    //   setLastName(names[1] || '');
+    //   setEmail(employeeInformation.email);
+    //   setProfileImage(employeeInformation.profileImage);
+    //   setEmployeeInformation(employeeInformation);
+    // }
 
     return employeeInformation;
   }, [user]);
