@@ -16,6 +16,7 @@ const Profile = () => {
     profileImage,
     setProfileImage,
     getEmployeeInformation,
+    updateEmployeeInformation,
   } = useEmployee();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -49,6 +50,9 @@ const Profile = () => {
   }, [getEmployeeInformation]);
 
   const handleEditClick = () => {
+    if (isEditing) {
+      updateEmployeeInformation();
+    }
     setIsEditing(!isEditing);
   };
 

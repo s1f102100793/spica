@@ -8,6 +8,6 @@ export default defineController(() => ({
   }),
   post: async ({ params: { employeeId }, body }) => ({
     status: 200,
-    body: await employeeRepository.save(employeeId, body.name, body.email, body.defaultIconURL),
+    body: await employeeRepository.save(employeeId, body.name, body.email, body.IconURL),
   }),
 }));

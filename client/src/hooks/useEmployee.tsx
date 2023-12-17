@@ -9,6 +9,7 @@ export const useEmployee = () => {
   const [employeeInformation, setEmployeeInformation] = useState<EmployeeModel | null>(null);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const name = `${firstName} ${lastName}`;
   const [email, setEmail] = useState('');
   const [profileImage, setProfileImage] = useState('');
 
@@ -30,6 +31,14 @@ export const useEmployee = () => {
     return employeeInformation;
   }, [user]);
 
+  const updateEmployeeInformation = async () => {
+    if (!user) return null;
+    await apiClient.employees
+      ._employeeId(user.id)
+      .$post({ body: { name, email, IconURL: profileImage } })
+      .then(setEmployeeInformation);
+  };
+
   return {
     firstName,
     setFirstName,
@@ -41,5 +50,6 @@ export const useEmployee = () => {
     setProfileImage,
     employeeInformation,
     getEmployeeInformation,
+    updateEmployeeInformation,
   };
 };

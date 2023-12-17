@@ -99,7 +99,7 @@ export const FormSection = () => {
           await apiClient.employees
             ._employeeId(user.uid)
             .$post({
-              body: { name: `${lastName} ${firstName}`, email, defaultIconURL },
+              body: { name: `${lastName} ${firstName}`, email, IconURL: defaultIconURL },
             })
             .catch(returnNull);
           router.push('/mypage');
