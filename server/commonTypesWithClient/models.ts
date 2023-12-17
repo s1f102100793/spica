@@ -20,7 +20,7 @@ export type TaskModel = z.infer<typeof taskParser>;
 
 export const employeeCompaniesParser = z.object({
   id: z.number(),
-  companyId: z.string(),
+  companyId: companyIdParser,
   roleId: z.number(),
   companyName: z.string(),
 });
@@ -29,8 +29,8 @@ export type EmployeeCompaniesModel = z.infer<typeof employeeCompaniesParser>;
 
 export const tipParser = z.object({
   id: z.number(),
-  employeeId: z.string(),
-  companyId: z.string(),
+  employeeId: userIdParser,
+  companyId: companyIdParser,
   amount: z.number(),
   createdAt: z.number(),
 });
@@ -39,7 +39,7 @@ export type TipModel = z.infer<typeof tipParser>;
 
 export const companyTipParser = z.object({
   id: z.number(),
-  companyId: z.string(),
+  companyId: companyIdParser,
   amount: z.number(),
   createdAt: z.number(),
 });
@@ -78,12 +78,29 @@ export type RoleModel = z.infer<typeof roleParser>;
 
 export const employeeCompanyParser = z.object({
   id: z.number(),
-  employeeId: z.string(),
-  companyId: z.string(),
+  employeeId: userIdParser,
+  employee: employeeParser,
+  companyId: companyIdParser,
   role: roleParser,
 });
 
 export type EmployeeCompanyModel = z.infer<typeof employeeCompanyParser>;
+
+export const employeeNameResponseParser = z.object({
+  name: z.string(),
+});
+
+export type EmployeeNameResponseModel = z.infer<typeof employeeNameResponseParser>;
+
+export const employeeCompanyResponseParser = z.object({
+  id: z.number(),
+  employeeId: userIdParser,
+  employee: employeeNameResponseParser,
+  companyId: companyIdParser,
+  role: roleParser,
+});
+
+export type EmployeeCompanyResponseModel = z.infer<typeof employeeCompanyResponseParser>;
 
 export const companyParser = z.object({
   id: companyIdParser.optional(),
@@ -103,8 +120,15 @@ export const companyResponseParser = z.object({
   address: z.string().optional(),
   description: z.string().optional(),
   tips: z.array(tipParser).optional(),
-  employeeCompany: z.array(employeeCompanyParser).optional(),
+  employeeCompany: z.array(employeeCompanyResponseParser).optional(),
   companyTip: z.array(companyTipParser).optional(),
 });
 
 export type CompanyResponseModel = z.infer<typeof companyResponseParser>;
+
+export type TipData = {
+  companyId: string;
+  employeeId: string;
+  feedback: string;
+  merchantPaymentId: string;
+};

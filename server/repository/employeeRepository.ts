@@ -1,5 +1,5 @@
 import type { EmployeeModel } from '$/commonTypesWithClient/models';
-import { userIdParser } from '$/service/idParsers';
+import { companyIdParser, userIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
 import type { Employee, EmployeeCompany, EmployeeProfile, Tip } from '@prisma/client';
 
@@ -30,14 +30,14 @@ const toEmployeeModel = (
       : undefined,
     employeeCompanies: prismaEmployee.EmployeeCompany?.map((ec) => ({
       id: ec.id,
-      companyId: ec.companyId,
+      companyId: companyIdParser.parse(ec.companyId),
       roleId: ec.roleId,
       companyName: ec.company.name,
     })),
     tips: prismaEmployee.Tip?.map((tip) => ({
       id: tip.id,
-      employeeId: tip.employeeId,
-      companyId: tip.companyId,
+      employeeId: userIdParser.parse(tip.employeeId),
+      companyId: companyIdParser.parse(tip.companyId),
       amount: tip.amount,
       createdAt: tip.createdAt.getTime(),
     })),
