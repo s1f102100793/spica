@@ -1,4 +1,4 @@
-import type { CompanyId, UserId } from 'commonTypesWithClient/ids';
+import type { CompanyId } from 'commonTypesWithClient/ids';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import type { ChangeEvent } from 'react';
@@ -10,14 +10,14 @@ import styles from './index.module.css';
 
 interface EmployeeTipPageProps {
   data: {
-    id: CompanyId | undefined;
-    name: string | undefined;
+    id: string;
+    name: string;
     EmployeeCompany:
       | {
           id: number;
-          employeeId: UserId;
+          employeeId: string;
           employee: { name: string };
-          companyId: CompanyId;
+          companyId: string;
           role: {
             id: number;
             roleName: string;
@@ -66,8 +66,8 @@ export const getStaticProps: GetStaticProps<
   return {
     props: {
       data: {
-        id: data.id,
-        name: data.name,
+        id: data.id as string,
+        name: data.name as string,
         EmployeeCompany: data.employeeCompany,
       },
     },
@@ -77,12 +77,12 @@ export const getStaticProps: GetStaticProps<
 const UserTipPage: React.FC<EmployeeTipPageProps> = ({ data }) => {
   const router = useRouter();
   const pathSegments = router.asPath.split('/').filter(Boolean);
-  const companyId = (pathSegments[pathSegments.length - 2] || '') as CompanyId;
-  const userId = (pathSegments[pathSegments.length - 1] || '') as UserId;
+  const companyId = pathSegments[pathSegments.length - 2] || '';
+  const employeeId = pathSegments[pathSegments.length - 1] || '';
   const companyName = data.name;
   const employeeName = data.EmployeeCompany?.find(
-    (employeeCompany) => employeeCompany.employeeId === userId
-  )?.employee.name;
+    (employeeCompany) => employeeCompany.employeeId === employeeId
+  )?.employee.name as string;
 
   const [amount, setAmount] = useState('500');
   const [feedback, setFeedback] = useState('');
@@ -92,7 +92,7 @@ const UserTipPage: React.FC<EmployeeTipPageProps> = ({ data }) => {
 
   const handleSendTip = async () => {
     const response = await apiClient.tip.paypay.$post({
-      body: { companyId, userId, amount: Number(amount), feedback },
+      body: { companyId, employeeId, companyName, employeeName, amount: Number(amount), feedback },
     });
     router.push(response);
   };
