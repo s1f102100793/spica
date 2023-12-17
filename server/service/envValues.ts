@@ -13,6 +13,8 @@ const S3_BUCKET = process.env.S3_BUCKET ?? '';
 const S3_ACCESS_KEY = process.env.S3_ACCESS_KEY ?? '';
 const S3_SECRET_KEY = process.env.S3_SECRET_KEY ?? '';
 const S3_REGION = process.env.S3_REGION ?? '';
+const REDIS_URL = process.env.REDIS_URL ?? '';
+const REDIS_PASSWORD = process.env.REDIS_PASSWORD ?? '';
 const MAILADDRESS = process.env.MAILADDRESS ?? '';
 const MAILPASSWORD = process.env.MAILPASSWORD ?? '';
 const PAYPAY_CLIENT_ID = process.env.PAYPAY_CLIENT_ID ?? '';
@@ -31,6 +33,8 @@ export {
   PAYPAY_CLIENT_SECRET,
   PAYPAY_MERCHANT_ID,
   PORT,
+  REDIS_PASSWORD,
+  REDIS_URL,
   S3_ACCESS_KEY,
   S3_BUCKET,
   S3_ENDPOINT,
