@@ -19,10 +19,11 @@ export const taskParser = z.object({
 export type TaskModel = z.infer<typeof taskParser>;
 
 export const employeeCompaniesParser = z.object({
-  id: z.number(),
-  companyId: companyIdParser,
-  roleId: z.number(),
-  companyName: z.string(),
+  id: z.number().optional(),
+  companyId: companyIdParser.optional(),
+  employeeId: userIdParser.optional(),
+  roleId: z.number().optional(),
+  companyName: z.string().optional(),
 });
 
 export type EmployeeCompaniesModel = z.infer<typeof employeeCompaniesParser>;

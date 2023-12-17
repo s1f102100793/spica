@@ -1,12 +1,12 @@
 import type { EmployeeModel } from '$/commonTypesWithClient/models';
 import { companyIdParser, userIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
-import type { Employee, EmployeeCompany, EmployeeProfile, Tip } from '@prisma/client';
+import type { Company, Employee, EmployeeCompany, EmployeeProfile, Tip } from '@prisma/client';
 
 const toEmployeeModel = (
   prismaEmployee: Employee & {
     profile?: EmployeeProfile | null;
-    EmployeeCompany?: (EmployeeCompany & { company: { name: string } })[];
+    EmployeeCompany?: (EmployeeCompany & { company?: Partial<Company> })[];
     Tip: Tip[];
   }
 ): EmployeeModel => {
@@ -22,7 +22,6 @@ const toEmployeeModel = (
     profile: prismaEmployee?.profile
       ? {
           id: prismaEmployee.profile.profileId,
-          employeeId: userIdParser.parse(prismaEmployee.profile.employeeId),
           profileImage: prismaEmployee.profile.profileImage,
           createdAt: prismaEmployee.profile.createdAt.getTime(),
           updatedAt: prismaEmployee.profile.updatedAt.getTime(),
@@ -32,7 +31,7 @@ const toEmployeeModel = (
       id: ec.id,
       companyId: companyIdParser.parse(ec.companyId),
       roleId: ec.roleId,
-      companyName: ec.company.name,
+      companyName: ec.company?.name,
     })),
     tips: prismaEmployee.Tip?.map((tip) => ({
       id: tip.id,
@@ -45,22 +44,18 @@ const toEmployeeModel = (
 };
 
 export const getEmployee = async (firebaseUid: string, fields: string) => {
-  try {
-    const selectFields = createSelectFields(fields);
+  const selectFields = createSelectFields(fields);
 
-    const prismaEmployee = await prismaClient.employee.findUnique({
-      where: { firebaseUid },
-      select: selectFields,
-    });
+  const prismaEmployee = await prismaClient.employee.findUnique({
+    where: { firebaseUid },
+    select: selectFields,
+  });
 
-    if (!prismaEmployee) {
-      throw new Error('Employee not found');
-    }
-
-    return toEmployeeModel(prismaEmployee);
-  } catch (e) {
-    console.log(e);
+  if (!prismaEmployee) {
+    throw new Error('Employee not found');
   }
+
+  return toEmployeeModel(prismaEmployee);
 };
 
 export const createEmployee = async (name: string, email: string, firebaseUid: string) => {

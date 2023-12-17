@@ -16,16 +16,16 @@ export const useEmployee = () => {
     if (!user) return null;
     const employeeInformation = await apiClient.employees
       ._employeeId(user.id)
-      .get({ query: { fields: 'name,email,profile' } });
+      .$get({ query: { fields: 'name,email,profile,EmployeeCompany' } });
 
-    // if (employeeInformation) {
-    //   const names = employeeInformation.name.split(' ');
-    //   setFirstName(names[0]);
-    //   setLastName(names[1] || '');
-    //   setEmail(employeeInformation.email);
-    //   setProfileImage(employeeInformation.profileImage);
-    //   setEmployeeInformation(employeeInformation);
-    // }
+    if (employeeInformation !== null) {
+      const names = employeeInformation.name?.split(' ') as string[];
+      setFirstName(names[0]);
+      setLastName(names[1]);
+      setEmail(employeeInformation.email as string);
+      setProfileImage(employeeInformation.profile?.profileImage as string);
+      setEmployeeInformation(employeeInformation as EmployeeModel);
+    }
 
     return employeeInformation;
   }, [user]);
