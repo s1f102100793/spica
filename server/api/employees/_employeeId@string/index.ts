@@ -6,4 +6,8 @@ export type Methods = DefineMethods<{
     query: { fields: string };
     resBody: EmployeeModel;
   };
+  post: {
+    reqBody: { name: string; email: string; defaultIconURL: string };
+    resBody: EmployeeModel;
+  };
 }>;

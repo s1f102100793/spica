@@ -43,30 +43,20 @@ const toEmployeeModel = (
   };
 };
 
-export const getEmployee = async (firebaseUid: string, fields: string) => {
-  const selectFields = createSelectFields(fields);
-
-  const prismaEmployee = await prismaClient.employee.findUnique({
-    where: { firebaseUid },
-    select: selectFields,
-  });
-
-  if (!prismaEmployee) {
-    throw new Error('Employee not found');
-  }
-
-  return toEmployeeModel(prismaEmployee);
-};
-
-export const createEmployee = async (name: string, email: string, firebaseUid: string) => {
-  try {
-    const prismaEmployee = await prismaClient.employee.create({
-      data: {
+export const employeeRepository = {
+  save: async (firebaseUid: string, name: string, email: string, profileImage: string) => {
+    const prismaEmployee = await prismaClient.employee.upsert({
+      where: { firebaseUid },
+      create: {
+        firebaseUid,
         name,
         email,
-        firebaseUid,
-        createdAt: new Date(),
-        profile: { create: { profileImage: '/images/default.png', createdAt: new Date() } },
+        profile: { create: { profileImage } },
+      },
+      update: {
+        name,
+        email,
+        profile: { update: { profileImage } },
       },
       include: {
         profile: true,
@@ -75,9 +65,18 @@ export const createEmployee = async (name: string, email: string, firebaseUid: s
       },
     });
     return toEmployeeModel(prismaEmployee);
-  } catch (e) {
-    console.log(e);
-  }
+  },
+  get: async (firebaseUid: string, fields: string) => {
+    const selectFields = createSelectFields(fields);
+    const prismaEmployee = await prismaClient.employee.findUnique({
+      where: { firebaseUid },
+      select: selectFields,
+    });
+    if (!prismaEmployee) {
+      throw new Error('Employee not found');
+    }
+    return toEmployeeModel(prismaEmployee);
+  },
 };
 
 const createSelectFields = (fields: string) => {
