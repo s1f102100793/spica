@@ -9,6 +9,6 @@ export type Methods = DefineMethods<{
   post: {
     reqFormat: FormData;
     reqBody: { name: string; email: string; IconURL: File | string };
-    resBody: EmployeeModel | null;
+    resBody: EmployeeModel;
   };
 }>;

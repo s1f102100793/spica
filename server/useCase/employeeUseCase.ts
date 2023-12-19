@@ -8,11 +8,9 @@ export const employeeUseCase = {
       const IconURL = await s3Repository.upload(keyName, firebaseUid, profileImage);
       const result = await employeeRepository.save(firebaseUid, name, email, IconURL);
       return result;
-    } else if (profileImage !== null) {
+    } else {
       const result = await employeeRepository.save(firebaseUid, name, email, profileImage);
       return result;
-    } else {
-      return null;
     }
   },
 };
