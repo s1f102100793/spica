@@ -5,7 +5,7 @@ export const employeeUseCase = {
   save: async (firebaseUid: string, name: string, email: string, profileImage: Buffer | string) => {
     if (typeof profileImage !== 'string') {
       const keyName = 'profileImages';
-      const IconURL = await s3Repository.uploadProfileImage(keyName, firebaseUid, profileImage);
+      const IconURL = await s3Repository.upload(keyName, firebaseUid, profileImage);
       const result = await employeeRepository.save(firebaseUid, name, email, IconURL);
       return result;
     } else if (profileImage !== null) {
