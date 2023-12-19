@@ -15,6 +15,7 @@ const Profile = () => {
     setEmail,
     profileImage,
     setProfileImage,
+    setFile,
     getEmployeeInformation,
     updateEmployeeInformation,
   } = useEmployee();
@@ -39,8 +40,9 @@ const Profile = () => {
 
   const handleChangeProfileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      const imageURL = URL.createObjectURL(file);
+      const profileFile = e.target.files[0];
+      setFile(profileFile);
+      const imageURL = URL.createObjectURL(profileFile);
       setProfileImage(imageURL);
     }
   };

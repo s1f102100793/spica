@@ -1,4 +1,5 @@
 import { employeeRepository } from '$/repository/employeeRepository';
+import { employeeUseCase } from '$/useCase/employeeUseCase';
 import { defineController } from './$relay';
 
 export default defineController(() => ({
@@ -6,8 +7,16 @@ export default defineController(() => ({
     status: 200,
     body: await employeeRepository.get(employeeId, fields),
   }),
-  post: async ({ params: { employeeId }, body }) => ({
-    status: 200,
-    body: await employeeRepository.save(employeeId, body.name, body.email, body.IconURL),
-  }),
+  post: async ({ params: { employeeId }, body }) => {
+    let iconUrl;
+    if (typeof body.IconURL === 'string') {
+      iconUrl = body.IconURL;
+    } else {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      iconUrl = await body.IconURL.toBuffer();
+    }
+    const result = await employeeUseCase.save(employeeId, body.name, body.email, iconUrl);
+    return { status: 200, body: result };
+  },
 }));

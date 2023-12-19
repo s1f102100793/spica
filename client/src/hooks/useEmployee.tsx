@@ -12,6 +12,7 @@ export const useEmployee = () => {
   const name = `${firstName} ${lastName}`;
   const [email, setEmail] = useState('');
   const [profileImage, setProfileImage] = useState('');
+  const [file, setFile] = useState<File | null>(null);
 
   const getEmployeeInformation = useCallback(async () => {
     if (!user) return null;
@@ -33,9 +34,10 @@ export const useEmployee = () => {
 
   const updateEmployeeInformation = async () => {
     if (!user) return null;
+    if (!file) return null;
     await apiClient.employees
       ._employeeId(user.id)
-      .$post({ body: { name, email, IconURL: profileImage } })
+      .$post({ body: { name, email, IconURL: file } })
       .then(setEmployeeInformation);
   };
 
@@ -48,6 +50,7 @@ export const useEmployee = () => {
     setEmail,
     profileImage,
     setProfileImage,
+    setFile,
     employeeInformation,
     getEmployeeInformation,
     updateEmployeeInformation,
