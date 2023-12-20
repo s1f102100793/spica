@@ -1,5 +1,8 @@
 import type { CompanyId } from 'commonTypesWithClient/ids';
-import type { EmployeeCompanyPairModel } from 'commonTypesWithClient/models';
+import type {
+  EmployeeCompanyPairModel,
+  EmployeeTipPageInfoModel,
+} from 'commonTypesWithClient/models';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import type { ChangeEvent } from 'react';
@@ -15,16 +18,9 @@ interface EmployeeTipPageProps {
     name: string;
     EmployeeCompany:
       | {
-          id: number;
           employeeId: string;
           employee: { name: string };
-          companyId: string;
-          role: {
-            id: number;
-            roleName: string;
-          };
-        }[]
-      | undefined;
+        }[];
   };
 }
 
@@ -51,21 +47,16 @@ export const getStaticProps: GetStaticProps<
   if (!params?.companyId) {
     return { notFound: true };
   }
-  const data = await apiClient.companies
+  const data = (await apiClient.companies
     ._companyId(params.companyId)
-    .$get({ query: { fields: 'id,name,EmployeeCompany' } });
-
-  // dataの型を確認してからpropsに渡す
-  if (Array.isArray(data) || typeof data === 'undefined') {
-    return { notFound: true };
-  }
+    .$get({ query: { fields: 'id,name,EmployeeCompany' } })) as EmployeeTipPageInfoModel;
 
   return {
     props: {
       data: {
-        id: data.id as string,
-        name: data.name as string,
-        EmployeeCompany: data.employeeCompany,
+        id: data.id,
+        name: data.name,
+        EmployeeCompany: data.EmployeeCompany,
       },
     },
   };

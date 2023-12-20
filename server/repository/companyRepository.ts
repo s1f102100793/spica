@@ -1,127 +1,10 @@
-import type { EmployeeCompanyPairModel } from '$/commonTypesWithClient/models';
-import { type CompanyResponseModel } from '$/commonTypesWithClient/models';
+import type {
+  CompanyTipPageInfoModel,
+  EmployeeCompanyPairModel,
+  EmployeeTipPageInfoModel,
+} from '$/commonTypesWithClient/models';
 import { companyIdParser, userIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
-import type { Company, CompanyTip, Employee, EmployeeCompany, Tip } from '@prisma/client';
-
-type SelectFields = Record<
-  string,
-  boolean | { select: Record<string, boolean | { select: Record<string, boolean> }> }
->;
-
-const toCompanyModel = (
-  prismaCompany: Partial<Company> & {
-    Tip?: Tip[];
-    EmployeeCompany?: (EmployeeCompany & { role: { roleName: string }; employee: Employee })[];
-    CompanyTip?: CompanyTip[];
-  }
-): CompanyResponseModel => {
-  return {
-    id:
-      prismaCompany?.id !== null && prismaCompany?.id !== undefined
-        ? companyIdParser.parse(prismaCompany.id)
-        : undefined,
-    name: prismaCompany?.name,
-    address: prismaCompany?.address,
-    description: prismaCompany?.description,
-    tips: prismaCompany?.Tip?.map((tip) => ({
-      id: tip.id,
-      employeeId: userIdParser.parse(tip.employeeId),
-      companyId: companyIdParser.parse(tip.companyId),
-      amount: tip.amount,
-      createdAt: tip.createdAt.getTime(),
-    })),
-    employeeCompany: prismaCompany?.EmployeeCompany?.map((ec) => ({
-      id: ec.id,
-      employee: {
-        name: ec.employee.name,
-      },
-      employeeId: userIdParser.parse(ec.employeeId),
-      companyId: companyIdParser.parse(ec.companyId),
-      role: {
-        id: ec.roleId,
-        roleName: ec.role.roleName,
-      },
-    })),
-    companyTip: prismaCompany?.CompanyTip?.map((ct) => ({
-      id: ct.id,
-      companyId: companyIdParser.parse(ct.companyId),
-      amount: ct.amount,
-      createdAt: ct.createdAt.getTime(),
-    })),
-  };
-};
-
-const createSelectFieldForEmployeeCompany = () => ({
-  select: {
-    id: true,
-    employeeId: true,
-    employee: {
-      select: {
-        name: true,
-      },
-    },
-    companyId: true,
-    role: {
-      select: {
-        id: true,
-        roleName: true,
-      },
-    },
-  },
-});
-
-const createSelectFields = (fields: string): SelectFields => {
-  const fieldsArray = fields.split(',');
-  const selectFields: SelectFields = {};
-
-  if (fieldsArray.includes('*')) {
-    if (fieldsArray.length > 1) {
-      throw new Error("Invalid fields: '*' cannot be combined with other fields");
-    }
-    return {
-      id: true,
-      name: true,
-      address: true,
-      description: true,
-      tips: true,
-      EmployeeCompany: createSelectFieldForEmployeeCompany(),
-      CompanyTip: true,
-    };
-  }
-
-  fieldsArray.forEach((field) => {
-    selectFields[field] =
-      field === 'EmployeeCompany' ? createSelectFieldForEmployeeCompany() : true;
-  });
-
-  return selectFields;
-};
-
-export const getCompanyInfo = async (companyId: string, fields: string) => {
-  const selectFields = createSelectFields(fields);
-
-  const prismaCompanyInfo = await prismaClient.company.findUnique({
-    where: { id: companyId },
-    select: selectFields,
-  });
-
-  if (!prismaCompanyInfo) {
-    throw new Error('Company not found');
-  }
-
-  return toCompanyModel(prismaCompanyInfo);
-};
-
-export const getAllCompanyInfo = async (fields: string) => {
-  const selectFields = createSelectFields(fields);
-
-  const prismaAllCompanyInfo = await prismaClient.company.findMany({
-    select: selectFields,
-  });
-
-  return prismaAllCompanyInfo.map((company) => toCompanyModel(company));
-};
 
 const toEmployeeCompanyPairsModel = (
   prismaEmployeeCompanies: {
@@ -157,5 +40,74 @@ export const allCompanyRepository = {
       },
     });
     return toEmployeeCompanyPairsModel(prismaAllCompanyEmployeeCompany);
+  },
+};
+
+const toCompanyTipPageInfoModel = (prismaCompanyTipPageInfoModel: {
+  id: string;
+  name: string;
+}): CompanyTipPageInfoModel => ({
+  id: companyIdParser.parse(prismaCompanyTipPageInfoModel.id),
+  name: prismaCompanyTipPageInfoModel.name,
+});
+
+const toEmployeeTipPageInfoModel = (prismaTipPageCompanyInfo: {
+  id: string;
+  name: string;
+  EmployeeCompany: {
+    employeeId: string;
+    employee: {
+      name: string;
+    };
+  }[];
+}): EmployeeTipPageInfoModel => ({
+  id: companyIdParser.parse(prismaTipPageCompanyInfo.id),
+  name: prismaTipPageCompanyInfo.name,
+  EmployeeCompany: prismaTipPageCompanyInfo.EmployeeCompany.map((ec) => ({
+    employeeId: userIdParser.parse(ec.employeeId),
+    employee: {
+      name: ec.employee.name,
+    },
+  })),
+});
+export const companyRepository = {
+  getCompanyTipPageInfo: async (companyId: string) => {
+    const prismaEmployeeInfo = await prismaClient.company.findUnique({
+      where: { id: companyId },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    if (!prismaEmployeeInfo) {
+      throw new Error('Company not found');
+    }
+    return toCompanyTipPageInfoModel(prismaEmployeeInfo);
+  },
+  getEmployeeTipPageInfo: async (companyId: string) => {
+    const prismaCompanyInfo = await prismaClient.company.findUnique({
+      where: { id: companyId },
+      select: {
+        id: true,
+        name: true,
+        EmployeeCompany: {
+          select: {
+            employeeId: true,
+            employee: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!prismaCompanyInfo) {
+      throw new Error('Company not found');
+    }
+
+    return toEmployeeTipPageInfoModel(prismaCompanyInfo);
   },
 };

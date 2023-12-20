@@ -1,9 +1,12 @@
 import type { DefineMethods } from 'aspida';
-import type { CompanyResponseModel } from 'commonTypesWithClient/models';
+import type {
+  CompanyTipPageInfoModel,
+  EmployeeTipPageInfoModel,
+} from 'commonTypesWithClient/models';
 
 export type Methods = DefineMethods<{
   get: {
     query: { fields: string };
-    resBody: CompanyResponseModel;
+    resBody: EmployeeTipPageInfoModel | CompanyTipPageInfoModel | null;
   };
 }>;

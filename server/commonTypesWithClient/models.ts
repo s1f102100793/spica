@@ -87,16 +87,16 @@ export const employeeCompanyParser = z.object({
 
 export type EmployeeCompanyModel = z.infer<typeof employeeCompanyParser>;
 
-export const employeeNameResponseParser = z.object({
+export const employeeNameParser = z.object({
   name: z.string(),
 });
 
-export type EmployeeNameResponseModel = z.infer<typeof employeeNameResponseParser>;
+export type EmployeeNameeModel = z.infer<typeof employeeNameParser>;
 
 export const employeeCompanyResponseParser = z.object({
   id: z.number(),
   employeeId: userIdParser,
-  employee: employeeNameResponseParser,
+  employee: employeeNameParser,
   companyId: companyIdParser,
   role: roleParser,
 });
@@ -140,3 +140,25 @@ export const EmployeeCompanyPairParser = z.object({
 });
 
 export type EmployeeCompanyPairModel = z.infer<typeof EmployeeCompanyPairParser>;
+
+export const TipPageEmployeeCompanyParser = z.object({
+  employeeId: userIdParser,
+  employee: employeeNameParser,
+});
+
+export type TipPageEmployeeCompanyModel = z.infer<typeof TipPageEmployeeCompanyParser>;
+
+export const EmployeeTipPageInfoParser = z.object({
+  id: companyIdParser,
+  name: z.string(),
+  EmployeeCompany: z.array(TipPageEmployeeCompanyParser),
+});
+
+export type EmployeeTipPageInfoModel = z.infer<typeof EmployeeTipPageInfoParser>;
+
+export const CompanyTipPageInfoParser = z.object({
+  id: companyIdParser,
+  name: z.string(),
+});
+
+export type CompanyTipPageInfoModel = z.infer<typeof CompanyTipPageInfoParser>;
