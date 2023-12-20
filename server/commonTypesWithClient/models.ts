@@ -19,10 +19,11 @@ export const taskParser = z.object({
 export type TaskModel = z.infer<typeof taskParser>;
 
 export const employeeCompaniesParser = z.object({
-  id: z.number(),
-  companyId: companyIdParser,
-  roleId: z.number(),
-  companyName: z.string(),
+  id: z.number().optional(),
+  companyId: companyIdParser.optional(),
+  employeeId: userIdParser.optional(),
+  roleId: z.number().optional(),
+  companyName: z.string().optional(),
 });
 
 export type EmployeeCompaniesModel = z.infer<typeof employeeCompaniesParser>;
@@ -46,16 +47,25 @@ export const companyTipParser = z.object({
 
 export type CompanyTipModel = z.infer<typeof companyTipParser>;
 
+export const employeeProfileParser = z.object({
+  id: z.number().optional(),
+  employeeId: userIdParser.optional(),
+  profileImage: z.string().optional(),
+  createdAt: z.number().optional(),
+  updatedAt: z.number().optional(),
+});
+
+export type EmployeeProfileModel = z.infer<typeof employeeProfileParser>;
+
 export const employeeParser = z.object({
-  name: z.string(),
-  email: z.string().email(),
-  firebaseUid: userIdParser,
-  createdAt: z.number(),
-  isDeleted: z.boolean(),
-  profileId: z.number().optional(),
-  profileImage: z.string(),
-  employeeCompanies: z.array(employeeCompaniesParser),
-  tips: z.array(tipParser),
+  name: z.string().optional(),
+  email: z.string().email().optional(),
+  firebaseUid: userIdParser.optional(),
+  createdAt: z.number().optional(),
+  isDeleted: z.boolean().optional(),
+  profile: employeeProfileParser.optional(),
+  employeeCompanies: z.array(employeeCompaniesParser).optional(),
+  tips: z.array(tipParser).optional(),
 });
 
 export type EmployeeModel = z.infer<typeof employeeParser>;
@@ -94,13 +104,13 @@ export const employeeCompanyResponseParser = z.object({
 export type EmployeeCompanyResponseModel = z.infer<typeof employeeCompanyResponseParser>;
 
 export const companyParser = z.object({
-  id: companyIdParser,
-  name: z.string(),
-  address: z.string(),
-  description: z.string(),
-  tips: z.array(tipParser),
-  employeeCompany: z.array(employeeCompanyParser),
-  companyTip: z.array(companyTipParser),
+  id: companyIdParser.optional(),
+  name: z.string().optional(),
+  address: z.string().optional(),
+  description: z.string().optional(),
+  tips: z.array(tipParser).optional(),
+  employeeCompany: z.array(employeeCompanyParser).optional(),
+  companyTip: z.array(companyTipParser).optional(),
 });
 
 export type CompanyModel = z.infer<typeof companyParser>;

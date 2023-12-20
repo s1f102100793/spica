@@ -31,7 +31,7 @@ model EmployeeProfile {
   employeeId   String   @unique
   profileImage String   @default("/images/default.png")
   createdAt    DateTime @default(now())
-  uodatedAt    DateTime @updatedAt
+  updatedAt    DateTime @updatedAt
   employee     Employee @relation(fields: [employeeId], references: [firebaseUid], onDelete: Cascade)
 }
 
