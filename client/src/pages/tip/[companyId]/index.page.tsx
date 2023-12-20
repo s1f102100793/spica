@@ -13,16 +13,11 @@ interface CompanyTipPageProps {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const companiesResponse = await apiClient.companies.$get({ query: { fields: 'id' } });
-
-  if (Array.isArray(companiesResponse)) {
-    const paths = companiesResponse.map((company) => ({
-      params: { companyId: company?.id },
-    }));
-    return { paths, fallback: false };
-  }
-
-  return { paths: [], fallback: false };
+  const companyIds = (await apiClient.companies.$get({ query: { fields: 'id' } })) as CompanyId[];
+  const paths = companyIds.map((companyId) => ({
+    params: { companyId },
+  }));
+  return { paths, fallback: false };
 };
 
 export const getStaticProps: GetStaticProps<

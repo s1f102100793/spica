@@ -1,4 +1,5 @@
 import type { CompanyId } from 'commonTypesWithClient/ids';
+import type { EmployeeCompanyPairModel } from 'commonTypesWithClient/models';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import type { ChangeEvent } from 'react';
@@ -28,20 +29,16 @@ interface EmployeeTipPageProps {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const companiesResponse = await apiClient.companies.$get({
+  const employeeCompanyList = (await apiClient.companies.$get({
     query: { fields: 'EmployeeCompany' },
-  });
+  })) as EmployeeCompanyPairModel[];
 
   const paths: { params: { companyId: string; userId: string } }[] = [];
 
-  companiesResponse.forEach((company) => {
-    if (company.employeeCompany) {
-      company.employeeCompany.forEach((employeeCompany) => {
-        paths.push({
-          params: { companyId: employeeCompany.companyId, userId: employeeCompany.employeeId },
-        });
-      });
-    }
+  employeeCompanyList.forEach((company) => {
+    paths.push({
+      params: { companyId: company.companyId, userId: company.employeeId },
+    });
   });
 
   return { paths, fallback: false };
