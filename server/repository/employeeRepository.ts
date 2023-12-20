@@ -1,4 +1,5 @@
 import type { EmployeeModel } from '$/commonTypesWithClient/models';
+import { companyIdParser, userIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
 import type { Employee, EmployeeCompany, EmployeeProfile, Tip } from '@prisma/client';
 
@@ -12,21 +13,21 @@ const toEmployeeModel = (
   return {
     name: prismaEmployee.name,
     email: prismaEmployee.email,
-    firebaseUid: prismaEmployee.firebaseUid,
+    firebaseUid: userIdParser.parse(prismaEmployee.firebaseUid),
     createdAt: prismaEmployee.createdAt.getTime(),
     isDeleted: prismaEmployee.isDeleted,
     profileId: prismaEmployee.profile?.profileId,
     profileImage: prismaEmployee.profile?.profileImage ?? '/images/default.png',
     employeeCompanies: prismaEmployee.EmployeeCompany.map((ec) => ({
       id: ec.id,
-      companyId: ec.companyId,
+      companyId: companyIdParser.parse(ec.companyId),
       roleId: ec.roleId,
       companyName: ec.company.name,
     })),
     tips: prismaEmployee.Tip.map((tip) => ({
       id: tip.id,
-      employeeId: tip.employeeId,
-      companyId: tip.companyId,
+      employeeId: userIdParser.parse(tip.employeeId),
+      companyId: companyIdParser.parse(tip.companyId),
       amount: tip.amount,
       createdAt: tip.createdAt.getTime(),
     })),
@@ -56,22 +57,17 @@ export const createEmployee = async (name: string, email: string, firebaseUid: s
 };
 
 export const getEmployee = async (firebaseUid: string): Promise<EmployeeModel | null> => {
-  try {
-    const prismaEmployee = await prismaClient.employee.findUnique({
-      where: { firebaseUid },
-      include: {
-        profile: true,
-        EmployeeCompany: { include: { company: { select: { name: true } } } },
-        Tip: true,
-      },
-    });
-    if (prismaEmployee !== null) {
-      return toEmployeeModel(prismaEmployee);
-    } else {
-      return null;
-    }
-  } catch (e) {
-    console.log(e);
+  const prismaEmployee = await prismaClient.employee.findUnique({
+    where: { firebaseUid },
+    include: {
+      profile: true,
+      EmployeeCompany: { include: { company: { select: { name: true } } } },
+      Tip: true,
+    },
+  });
+  if (prismaEmployee !== null) {
+    return toEmployeeModel(prismaEmployee);
+  } else {
     return null;
   }
 };

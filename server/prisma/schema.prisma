@@ -70,6 +70,7 @@ model Tip {
   company    Company  @relation(fields: [companyId], references: [id])
   companyId  String
   amount     Int
+  feedback   String
   createdAt  DateTime @default(now())
 }
 

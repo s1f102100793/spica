@@ -1,28 +1,29 @@
+import Link from 'next/link';
 import styles from './PossibleSection.module.css';
 
 export const PossibleSection = () => {
   const possibles = [
     {
-      name: '経験、スキルの確認',
+      name: '従業員のパフォーマンス追跡',
       imageUrl: '/home/ExperienceandSkillVerification.png',
     },
     {
-      name: '同僚からのフィードバック',
+      name: '個別のチップ受領履歴の把握',
       imageUrl: '/home/Feedback.png',
     },
     {
-      name: 'マッチする職場の確認',
-      imageUrl: '/home/MatchaTheWorkplace.png',
+      name: '顧客からの直接フィードバック',
+      imageUrl: '/home/Feedback.png',
     },
     {
-      name: '最適な職場を新たに探索',
+      name: 'フィードバック分析',
       imageUrl: '/home/ExploreNewOptimalWorkplaces.png',
     },
   ];
 
   return (
     <div className={styles.container}>
-      <h1>Spicaでできること</h1>
+      <h1>スピカでできること</h1>
       <div className={styles.possibles}>
         {possibles.map((possible, index) => (
           <div key={index} className={styles.possibleItem}>
@@ -31,6 +32,9 @@ export const PossibleSection = () => {
           </div>
         ))}
       </div>
+      <Link href="/signup" className={styles.account}>
+        アカウント開設
+      </Link>
     </div>
   );
 };
