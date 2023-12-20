@@ -1,3 +1,4 @@
+import type { EmployeeCompanyPairModel } from '$/commonTypesWithClient/models';
 import { type CompanyResponseModel } from '$/commonTypesWithClient/models';
 import { companyIdParser, userIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
@@ -61,7 +62,6 @@ const createSelectFieldForEmployeeCompany = () => ({
       },
     },
     companyId: true,
-    roleId: true,
     role: {
       select: {
         id: true,
@@ -121,4 +121,41 @@ export const getAllCompanyInfo = async (fields: string) => {
   });
 
   return prismaAllCompanyInfo.map((company) => toCompanyModel(company));
+};
+
+const toEmployeeCompanyPairsModel = (
+  prismaEmployeeCompanies: {
+    EmployeeCompany: {
+      employeeId: string;
+      companyId: string;
+    }[];
+  }[]
+): EmployeeCompanyPairModel[] => {
+  return prismaEmployeeCompanies.flatMap((company) =>
+    company.EmployeeCompany.map((empComp) => ({
+      employeeId: userIdParser.parse(empComp.employeeId),
+      companyId: companyIdParser.parse(empComp.companyId),
+    }))
+  );
+};
+
+export const allCompanyRepository = {
+  getCompanyId: async () => {
+    const prismaAllCompanyId = await prismaClient.company.findMany({
+      select: {
+        id: true,
+      },
+    });
+    return prismaAllCompanyId.map((company) => companyIdParser.parse(company.id));
+  },
+  getEmployeeCompany: async () => {
+    const prismaAllCompanyEmployeeCompany = await prismaClient.company.findMany({
+      select: {
+        EmployeeCompany: {
+          select: { employeeId: true, companyId: true },
+        },
+      },
+    });
+    return toEmployeeCompanyPairsModel(prismaAllCompanyEmployeeCompany);
+  },
 };
