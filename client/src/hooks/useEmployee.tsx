@@ -37,7 +37,7 @@ export const useEmployee = () => {
     if (!file) return null;
     await apiClient.employees
       ._employeeId(user.id)
-      .$post({ body: { name, email, IconURL: file } })
+      .$post({ body: { name, email, iconUrl: file } })
       .then(setEmployeeInformation);
   };
 

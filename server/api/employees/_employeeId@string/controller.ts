@@ -9,8 +9,8 @@ export default defineController(() => ({
   }),
   post: async ({ params: { employeeId }, body }) => {
     let iconUrl;
-    if (typeof body.IconURL === 'string') {
-      iconUrl = body.IconURL;
+    if (typeof body.iconUrl === 'string') {
+      iconUrl = body.iconUrl;
     } else {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore

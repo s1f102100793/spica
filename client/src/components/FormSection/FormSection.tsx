@@ -29,7 +29,7 @@ export const FormSection = () => {
   const [errors, setErrors] = useState<ErrorsType>({});
   const [verificationCode, setVerificationCode] = useState<string[]>([]);
   const [sentCode, setSentCode] = useState<string | null>(null);
-  const defaultIconURL = '/images/default.png';
+  const defaultIconUrl = '/images/default.png';
 
   // eslint-disable-next-line complexity
   const validateForm = () => {
@@ -99,7 +99,7 @@ export const FormSection = () => {
           await apiClient.employees
             ._employeeId(user.uid)
             .$post({
-              body: { name: `${lastName} ${firstName}`, email, IconURL: defaultIconURL },
+              body: { name: `${lastName} ${firstName}`, email, iconUrl: defaultIconUrl },
             })
             .catch(returnNull);
           router.push('/mypage');
