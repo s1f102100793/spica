@@ -1,4 +1,4 @@
-import type { EmployeeModel } from 'commonTypesWithClient/models';
+import type { EmployeeModel, EmployeeProfilePageModel } from 'commonTypesWithClient/models';
 import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
 import { userAtom } from 'src/atoms/user';
@@ -32,6 +32,19 @@ export const useEmployee = () => {
     return employeeInformation;
   }, [user]);
 
+  const getEmployeeProfileInfo = useCallback(async () => {
+    if (!user) return null;
+    const employeeInformation = (await apiClient.employees
+      ._employeeId(user.id)
+      .$get({ query: { fields: 'profile' } })) as EmployeeProfilePageModel;
+
+    const names = employeeInformation.name?.split(' ') as string[];
+    setFirstName(names[0]);
+    setLastName(names[1]);
+    setEmail(employeeInformation.email);
+    setProfileImage(employeeInformation.profileImage);
+  }, [user]);
+
   const updateEmployeeInformation = async () => {
     if (!user) return null;
     if (!file) return null;
@@ -53,6 +66,7 @@ export const useEmployee = () => {
     setFile,
     employeeInformation,
     getEmployeeInformation,
+    getEmployeeProfileInfo,
     updateEmployeeInformation,
   };
 };

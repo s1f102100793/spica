@@ -2,6 +2,14 @@ import { employeeRepository } from '$/repository/employeeRepository';
 import { s3Repository } from '$/repository/s3Repository';
 
 export const employeeUseCase = {
+  get: async (firebaseUid: string, fields: string) => {
+    switch (fields) {
+      case 'profile':
+        return await employeeRepository.getProfileInfo(firebaseUid);
+      default:
+        return null;
+    }
+  },
   save: async (firebaseUid: string, name: string, email: string, profileImage: Buffer | string) => {
     if (typeof profileImage !== 'string') {
       const keyName = 'profileImages';

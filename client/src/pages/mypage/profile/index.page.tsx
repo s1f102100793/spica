@@ -16,7 +16,7 @@ const Profile = () => {
     profileImage,
     setProfileImage,
     setFile,
-    getEmployeeInformation,
+    getEmployeeProfileInfo,
     updateEmployeeInformation,
   } = useEmployee();
   const [isEditing, setIsEditing] = useState(false);
@@ -48,8 +48,8 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    getEmployeeInformation();
-  }, [getEmployeeInformation]);
+    getEmployeeProfileInfo();
+  }, [getEmployeeProfileInfo]);
 
   const handleEditClick = () => {
     if (isEditing) {
