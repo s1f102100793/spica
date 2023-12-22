@@ -14,7 +14,7 @@ export default defineController(() => ({
     } else {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
-      iconUrl = await body.IconURL.toBuffer();
+      iconUrl = await body.iconUrl.toBuffer();
     }
     const result = await employeeUseCase.save(employeeId, body.name, body.email, iconUrl);
     return { status: 200, body: result };
