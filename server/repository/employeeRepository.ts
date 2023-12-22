@@ -1,5 +1,4 @@
-import type { EmployeeModel } from '$/commonTypesWithClient/models';
-import { FIREBASE_SERVER_KEY } from '$/service/envValues';
+import type { EmployeeModel, EmployeeProfilePageModel } from '$/commonTypesWithClient/models';
 import { companyIdParser, userIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
 import type { Company, Employee, EmployeeCompany, EmployeeProfile, Tip } from '@prisma/client';
@@ -44,6 +43,18 @@ const toEmployeeModel = (
   };
 };
 
+const toEmployeeProfilePageModel = (prismaEmployeeProfile: {
+  name: string;
+  email: string;
+  profile: {
+    profileImage: string;
+  };
+}): EmployeeProfilePageModel => ({
+  name: prismaEmployeeProfile.name,
+  email: prismaEmployeeProfile.email,
+  profileImage: prismaEmployeeProfile.profile.profileImage,
+});
+
 export const employeeRepository = {
   save: async (firebaseUid: string, name: string, email: string, profileImage: string) => {
     const prismaEmployee = await prismaClient.employee.upsert({
@@ -68,7 +79,6 @@ export const employeeRepository = {
     return toEmployeeModel(prismaEmployee);
   },
   get: async (firebaseUid: string, fields: string) => {
-    console.log(FIREBASE_SERVER_KEY);
     const selectFields = createSelectFields(fields);
     const prismaEmployee = await prismaClient.employee.findUnique({
       where: { firebaseUid },
@@ -78,6 +88,29 @@ export const employeeRepository = {
       throw new Error('Employee not found');
     }
     return toEmployeeModel(prismaEmployee);
+  },
+  getProfileInfo: async (firebaseUid: string) => {
+    const prismaEmployeeProfile = await prismaClient.employee.findUnique({
+      where: { firebaseUid },
+      select: {
+        name: true,
+        email: true,
+        profile: {
+          select: {
+            profileImage: true,
+          },
+        },
+      },
+    });
+    if (!prismaEmployeeProfile) {
+      throw new Error('Employee not found');
+    }
+    const profile = prismaEmployeeProfile.profile || { profileImage: '/images/default.png' };
+
+    return toEmployeeProfilePageModel({
+      ...prismaEmployeeProfile,
+      profile,
+    });
   },
 };
 

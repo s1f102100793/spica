@@ -190,3 +190,10 @@ export const CompanyDashboardParser = z.object({
 });
 
 export type CompanyDashboardModel = z.infer<typeof CompanyDashboardParser>;
+export const employeeProfilePageParser = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  profileImage: z.string(),
+});
+
+export type EmployeeProfilePageModel = z.infer<typeof employeeProfilePageParser>;
