@@ -8,7 +8,7 @@ export default defineController(() => ({
     body: await employeeRepository.get(employeeId, fields),
   }),
   post: async ({ params: { employeeId }, body }) => {
-    let iconUrl;
+    let iconUrl: Buffer | string;
     if (typeof body.iconUrl === 'string') {
       iconUrl = body.iconUrl;
     } else {

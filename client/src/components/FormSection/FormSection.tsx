@@ -29,7 +29,7 @@ export const FormSection = () => {
   const [errors, setErrors] = useState<ErrorsType>({});
   const [verificationCode, setVerificationCode] = useState<string[]>([]);
   const [sentCode, setSentCode] = useState<string | null>(null);
-  const defaultIconUrl = '/images/default.png';
+  const defaultIconUrl = '/images/default.png' as string;
 
   // eslint-disable-next-line complexity
   const validateForm = () => {
