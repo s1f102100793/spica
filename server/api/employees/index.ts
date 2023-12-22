@@ -4,5 +4,4 @@ export type Methods = DefineMethods<{
   get: {
     resBody: string;
   };
-  post: { reqBody: { name: string; email: string; firebaseUid: string } };
 }>;

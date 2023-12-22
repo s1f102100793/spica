@@ -3,9 +3,12 @@ import type { EmployeeModel } from 'commonTypesWithClient/models';
 
 export type Methods = DefineMethods<{
   get: {
-    resBody: string;
+    query: { fields: string };
+    resBody: EmployeeModel;
   };
   post: {
-    resBody: EmployeeModel | null;
+    reqFormat: FormData;
+    reqBody: { name: string; email: string; iconUrl: Blob | string };
+    resBody: EmployeeModel;
   };
 }>;

@@ -1,4 +1,4 @@
-import type { ErrorsType } from '../FormSectioon';
+import type { ErrorsType } from '../FormSection';
 
 type StepOneSectionProps = {
   firstName: string;

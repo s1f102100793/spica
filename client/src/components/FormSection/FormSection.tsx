@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
+import { returnNull } from 'src/utils/returnNull';
 import { signUpWithEmail } from 'src/utils/signup';
 import styles from './FormSection.module.css';
 import { StepOneSection } from './StepSection/StepOneSection';
@@ -28,6 +29,7 @@ export const FormSection = () => {
   const [errors, setErrors] = useState<ErrorsType>({});
   const [verificationCode, setVerificationCode] = useState<string[]>([]);
   const [sentCode, setSentCode] = useState<string | null>(null);
+  const defaultIconUrl = '/images/default.png' as string;
 
   // eslint-disable-next-line complexity
   const validateForm = () => {
@@ -94,9 +96,12 @@ export const FormSection = () => {
       } else if (currentStep === 3) {
         try {
           const user = await signUpWithEmail(email, password);
-          await apiClient.employees.$post({
-            body: { name: `${lastName} ${firstName}`, email, firebaseUid: user.uid },
-          });
+          await apiClient.employees
+            ._employeeId(user.uid)
+            .$post({
+              body: { name: `${lastName} ${firstName}`, email, iconUrl: defaultIconUrl },
+            })
+            .catch(returnNull);
           router.push('/mypage');
         } catch (error) {
           console.error('Error signing up:', error);

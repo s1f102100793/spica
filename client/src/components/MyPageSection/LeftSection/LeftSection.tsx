@@ -20,11 +20,15 @@ export const LeftSection: React.FC<LeftSectionProps> = ({ employeeInformation })
   };
 
   useEffect(() => {
-    if (employeeInformation && employeeInformation.employeeCompanies !== null) {
+    if (
+      employeeInformation &&
+      employeeInformation.employeeCompanies !== null &&
+      employeeInformation.employeeCompanies !== undefined
+    ) {
       const extractedData = employeeInformation.employeeCompanies.map((company) => ({
-        companyId: company.companyId,
-        roleId: company.roleId,
-        companyName: company.companyName,
+        companyId: company.companyId as string,
+        roleId: company.roleId as number,
+        companyName: company.companyName as string,
       }));
       setCompanyRoleList(extractedData);
     }
@@ -35,7 +39,7 @@ export const LeftSection: React.FC<LeftSectionProps> = ({ employeeInformation })
       <div className={styles.icon}>
         <div
           className={styles.iconImage}
-          style={{ backgroundImage: `url(${employeeInformation?.profileImage})` }}
+          style={{ backgroundImage: `url(${employeeInformation?.profile?.profileImage})` }}
         />
       </div>
       <div className={styles.userInfo}>

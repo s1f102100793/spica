@@ -26,16 +26,20 @@ export const RightSection: React.FC<RightSectionProps> = ({ employeeInformation 
     labels: [],
     datasets: [],
   });
-
   const [trophyList, setTrophyList] = useState<TrophyAchievement[]>([]);
 
   useEffect(() => {
     if (employeeInformation && employeeInformation.tips !== null) {
-      const total = employeeInformation.tips.reduce((sum, tip) => sum + tip.amount, 0);
-      setTotalEarned(total);
-      const analyzedTrophies = analyzeTrophies(employeeInformation.tips);
+      const total = employeeInformation?.tips?.reduce((sum, tip) => sum + tip.amount, 0);
+      setTotalEarned(total as number);
+      const tipsData =
+        employeeInformation.tips?.map((tip) => ({
+          amount: tip.amount,
+          createdAt: tip.createdAt,
+        })) || [];
+      const analyzedTrophies = analyzeTrophies(tipsData);
       setTrophyList(analyzedTrophies);
-      const monthlyTips = calculateMonthlyTips(employeeInformation.tips);
+      const monthlyTips = calculateMonthlyTips(tipsData);
       setMonthlyTipData({
         labels: Object.keys(monthlyTips),
         datasets: [
@@ -91,9 +95,9 @@ export const RightSection: React.FC<RightSectionProps> = ({ employeeInformation 
         <div className={styles.jobList}>
           <h3 className={styles.jobTitle}>仕事先</h3>
           <div className={styles.jobHistoryList}>
-            {employeeInformation?.employeeCompanies.map((ec, index) => (
+            {employeeInformation?.employeeCompanies?.map((ec, index) => (
               <div className={styles.jobHistory} key={index}>
-                ・{ec.companyName}
+                ・{ec?.companyName}
               </div>
             ))}
           </div>
