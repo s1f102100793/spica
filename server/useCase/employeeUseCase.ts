@@ -6,6 +6,8 @@ export const employeeUseCase = {
     switch (fields) {
       case 'profile':
         return await employeeRepository.getProfileInfo(firebaseUid);
+      case 'mypage':
+        return await employeeRepository.getMypageInfo(firebaseUid);
       default:
         return null;
     }

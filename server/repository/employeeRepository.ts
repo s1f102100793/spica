@@ -1,4 +1,8 @@
-import type { EmployeeModel, EmployeeProfilePageModel } from '$/commonTypesWithClient/models';
+import type {
+  EmployeeModel,
+  EmployeeMypageModel,
+  EmployeeProfilePageModel,
+} from '$/commonTypesWithClient/models';
 import { companyIdParser, userIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
 import type { Company, Employee, EmployeeCompany, EmployeeProfile, Tip } from '@prisma/client';
@@ -55,6 +59,35 @@ const toEmployeeProfilePageModel = (prismaEmployeeProfile: {
   profileImage: prismaEmployeeProfile.profile.profileImage,
 });
 
+const toEmployeeMypageModel = (prismaEmployeeMyPage: {
+  name: string;
+  profile: {
+    profileImage: string;
+  };
+  EmployeeCompany: {
+    company: {
+      name: string;
+    };
+    companyId: string;
+    roleId: number;
+  }[];
+  Tip: Tip[];
+}): EmployeeMypageModel => ({
+  name: prismaEmployeeMyPage.name,
+  profileImage: prismaEmployeeMyPage.profile.profileImage,
+  employeeCompany: prismaEmployeeMyPage.EmployeeCompany.map((ec) => ({
+    companyId: companyIdParser.parse(ec.companyId),
+    companyName: ec.company.name,
+    roleId: ec.roleId,
+  })),
+  tips: prismaEmployeeMyPage.Tip.map((tip) => ({
+    id: tip.id,
+    companyId: companyIdParser.parse(tip.companyId),
+    amount: tip.amount,
+    createdAt: tip.createdAt.getTime(),
+  })),
+});
+
 export const employeeRepository = {
   save: async (firebaseUid: string, name: string, email: string, profileImage: string) => {
     const prismaEmployee = await prismaClient.employee.upsert({
@@ -109,6 +142,39 @@ export const employeeRepository = {
 
     return toEmployeeProfilePageModel({
       ...prismaEmployeeProfile,
+      profile,
+    });
+  },
+  getMypageInfo: async (firebaseUid: string) => {
+    const prismaEmployeeMyPage = await prismaClient.employee.findUnique({
+      where: { firebaseUid },
+      select: {
+        name: true,
+        profile: {
+          select: {
+            profileImage: true,
+          },
+        },
+        EmployeeCompany: {
+          select: {
+            company: {
+              select: {
+                name: true,
+              },
+            },
+            companyId: true,
+            roleId: true,
+          },
+        },
+        Tip: true,
+      },
+    });
+    if (!prismaEmployeeMyPage) {
+      throw new Error('Employee not found');
+    }
+    const profile = prismaEmployeeMyPage.profile || { profileImage: '/images/default.png' };
+    return toEmployeeMypageModel({
+      ...prismaEmployeeMyPage,
       profile,
     });
   },

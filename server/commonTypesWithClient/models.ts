@@ -197,3 +197,25 @@ export const employeeProfilePageParser = z.object({
 });
 
 export type EmployeeProfilePageModel = z.infer<typeof employeeProfilePageParser>;
+
+export const mypageEmployeeCompanyParser = z.object({
+  companyId: companyIdParser,
+  companyName: z.string(),
+  roleId: z.number(),
+});
+
+export const EmployeeMypagetipParser = z.object({
+  id: z.number(),
+  companyId: companyIdParser,
+  amount: z.number(),
+  createdAt: z.number(),
+});
+
+export const employeeMypageParser = z.object({
+  name: z.string(),
+  profileImage: z.string(),
+  employeeCompany: z.array(mypageEmployeeCompanyParser),
+  tips: z.array(EmployeeMypagetipParser),
+});
+
+export type EmployeeMypageModel = z.infer<typeof employeeMypageParser>;
