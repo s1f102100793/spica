@@ -43,10 +43,15 @@ export const useEmployee = () => {
   const updateEmployeeInformation = async () => {
     if (!user) return null;
     if (!file) return null;
-    await apiClient.employees
+    const employeeInformation = (await apiClient.employees
       ._employeeId(user.id)
       .$post({ body: { name, email, iconUrl: file } })
-      .then(setEmployeeInformation);
+      .then(setEmployeeInformation)) as EmployeeMypageModel;
+
+    const names = employeeInformation.name?.split(' ');
+    setFirstName(names[0]);
+    setLastName(names[1]);
+    setProfileImage(employeeInformation.profileImage);
   };
 
   return {
