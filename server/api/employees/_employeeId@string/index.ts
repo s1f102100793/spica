@@ -1,10 +1,14 @@
 import type { DefineMethods } from 'aspida';
-import type { EmployeeModel, EmployeeProfilePageModel } from 'commonTypesWithClient/models';
+import type {
+  EmployeeModel,
+  EmployeeMypageModel,
+  EmployeeProfilePageModel,
+} from 'commonTypesWithClient/models';
 
 export type Methods = DefineMethods<{
   get: {
     query: { fields: string };
-    resBody: EmployeeProfilePageModel | null;
+    resBody: EmployeeProfilePageModel | EmployeeMypageModel | null;
   };
   post: {
     reqFormat: FormData;
