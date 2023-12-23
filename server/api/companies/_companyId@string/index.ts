@@ -1,5 +1,6 @@
 import type { DefineMethods } from 'aspida';
 import type {
+  CompanyDashboardModel,
   CompanyTipPageInfoModel,
   EmployeeTipPageInfoModel,
 } from 'commonTypesWithClient/models';
@@ -7,6 +8,6 @@ import type {
 export type Methods = DefineMethods<{
   get: {
     query: { fields: string };
-    resBody: EmployeeTipPageInfoModel | CompanyTipPageInfoModel | null;
+    resBody: EmployeeTipPageInfoModel | CompanyTipPageInfoModel | CompanyDashboardModel | null;
   };
 }>;

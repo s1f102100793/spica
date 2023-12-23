@@ -1,6 +1,28 @@
+import type { CompanyDashboardModel } from 'commonTypesWithClient/models';
+import { useCallback, useEffect, useState } from 'react';
+import { useRouteCompanyId } from 'src/hooks/useRouteCompanyId';
+import { apiClient } from 'src/utils/apiClient';
 import styles from './RightDashBoardSection.module.css';
 
 export const RighDashBoardtSection = () => {
+  const { companyId } = useRouteCompanyId();
+
+  const [monthlyTotal, setMonthlyTotal] = useState(0);
+  const [averageTip, setAverageTip] = useState(0);
+  const [comparisonWithLastMonth, setComparisonWithLastMonth] = useState(0);
+  const [totalTips, setTotalTips] = useState(0);
+
+  const getDashboardPagData = useCallback(async () => {
+    if (companyId === undefined) return null;
+    const dashboardData = (await apiClient.companies
+      ._companyId(companyId as string)
+      .$get({ query: { fields: 'dashboard' } })) as CompanyDashboardModel;
+  }, [companyId]);
+
+  useEffect(() => {
+    getDashboardPagData();
+  }, [getDashboardPagData]);
+
   const tipRankings = [
     { userName: 'ユーザー1', amount: '500' },
     { userName: 'ユーザー2', amount: '450' },
@@ -35,19 +57,19 @@ export const RighDashBoardtSection = () => {
           <div className={styles.pickupContent}>
             <div className={styles.pickupItem}>
               <div className={styles.itemTitle}>今月のチップ金額</div>
-              <div className={styles.itemContent}>¥ 0</div>
+              <div className={styles.itemContent}>¥ {monthlyTotal}</div>
             </div>
             <div className={styles.pickupItem}>
               <div className={styles.itemTitle}>平均チップ金額</div>
-              <div className={styles.itemContent}>¥ 0</div>
+              <div className={styles.itemContent}>¥ {averageTip}</div>
             </div>
             <div className={styles.pickupItem}>
               <div className={styles.itemTitle}>先月チップとの比較</div>
-              <div className={styles.itemContent}>0 %</div>
+              <div className={styles.itemContent}>{comparisonWithLastMonth} %</div>
             </div>
             <div className={styles.pickupItem}>
               <div className={styles.itemTitle}>累計チップ額</div>
-              <div className={styles.itemContent}>¥ 0</div>
+              <div className={styles.itemContent}>¥ {totalTips}</div>
             </div>
           </div>
         </div>

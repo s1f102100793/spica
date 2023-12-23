@@ -7,6 +7,8 @@ export const companyUseCase = {
         return companyRepository.getCompanyTipPageInfo(companyId);
       case 'id,name,EmployeeCompany':
         return companyRepository.getEmployeeTipPageInfo(companyId);
+      case 'dashboard':
+        return companyRepository.getCompanyDashboard(companyId);
       default:
         return null;
     }

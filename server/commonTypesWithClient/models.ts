@@ -162,3 +162,31 @@ export const CompanyTipPageInfoParser = z.object({
 });
 
 export type CompanyTipPageInfoModel = z.infer<typeof CompanyTipPageInfoParser>;
+
+export const CompanyDashboardTipsParser = z.object({
+  employeeId: userIdParser,
+  employeeName: z.string(),
+  amount: z.number(),
+  feedback: z.string(),
+  createdAt: z.number(),
+});
+
+export const CompanyDashboardEmployeeCompanyParser = z.object({
+  employeeId: userIdParser,
+  employeeName: z.string(),
+});
+
+export const CompanyDashboardCompanyTipParser = z.object({
+  amount: z.number(),
+  feedback: z.string(),
+  createdAt: z.number(),
+});
+
+export const CompanyDashboardParser = z.object({
+  name: z.string(),
+  tips: z.array(CompanyDashboardTipsParser),
+  EmployeeCompany: z.array(CompanyDashboardEmployeeCompanyParser),
+  companyTip: z.array(CompanyDashboardCompanyTipParser),
+});
+
+export type CompanyDashboardModel = z.infer<typeof CompanyDashboardParser>;
