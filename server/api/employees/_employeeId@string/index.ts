@@ -1,9 +1,5 @@
 import type { DefineMethods } from 'aspida';
-import type {
-  EmployeeModel,
-  EmployeeMypageModel,
-  EmployeeProfilePageModel,
-} from 'commonTypesWithClient/models';
+import type { EmployeeMypageModel, EmployeeProfilePageModel } from 'commonTypesWithClient/models';
 
 export type Methods = DefineMethods<{
   get: {
@@ -13,6 +9,6 @@ export type Methods = DefineMethods<{
   post: {
     reqFormat: FormData;
     reqBody: { name: string; email: string; iconUrl: Blob | string };
-    resBody: EmployeeModel;
+    resBody: EmployeeMypageModel;
   };
 }>;
