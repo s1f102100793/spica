@@ -123,6 +123,15 @@ export const useCalculateTip = (dashboardData: CompanyDashboardModel | null) => 
     return members;
   }, [dashboardData]);
 
+  const memberIdList = useMemo(() => {
+    if (!dashboardData) return [];
+
+    return dashboardData.EmployeeCompany.map((employee) => ({
+      name: employee.employeeName,
+      employeeId: employee.employeeId,
+    }));
+  }, [dashboardData]);
+
   return {
     monthlyTotal,
     averageTip,
@@ -131,5 +140,6 @@ export const useCalculateTip = (dashboardData: CompanyDashboardModel | null) => 
     monthlyRankings,
     monthlyFeedbacks,
     membersList,
+    memberIdList,
   };
 };
