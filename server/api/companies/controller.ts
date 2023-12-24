@@ -12,9 +12,9 @@ export default defineController(() => ({
       };
     } catch (err) {
       if (err instanceof InvalidFieldsError) {
-        throw { status: 400, body: { error: err.message } };
+        return { status: 400, body: { error: err.message } };
       } else {
-        throw { status: 500, body: { error: 'Internal Server Error' } };
+        return { status: 500, body: { error: 'Internal Server Error' } };
       }
     }
   },
