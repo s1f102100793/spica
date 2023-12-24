@@ -1,9 +1,9 @@
-import type { EmployeeMypageModel } from 'commonTypesWithClient/models';
+import type { EmployeeMyPageModel } from 'commonTypesWithClient/models';
 import { useEffect, useState } from 'react';
 import styles from './LeftSection.module.css';
 
 type LeftSectionProps = {
-  employeeInformation: EmployeeMypageModel | null;
+  employeeInformation: EmployeeMyPageModel | null;
 };
 
 export const LeftSection: React.FC<LeftSectionProps> = ({ employeeInformation }) => {

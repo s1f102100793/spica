@@ -1,4 +1,4 @@
-import type { EmployeeMypageModel, EmployeeProfilePageModel } from 'commonTypesWithClient/models';
+import type { EmployeeMyPageModel, EmployeeProfilePageModel } from 'commonTypesWithClient/models';
 import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
 import { userAtom } from 'src/atoms/user';
@@ -6,7 +6,7 @@ import { apiClient } from 'src/utils/apiClient';
 
 export const useEmployee = () => {
   const [user] = useAtom(userAtom);
-  const [employeeInformation, setEmployeeInformation] = useState<EmployeeMypageModel | null>(null);
+  const [employeeInformation, setEmployeeInformation] = useState<EmployeeMyPageModel | null>(null);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const name = `${firstName} ${lastName}`;
@@ -14,11 +14,11 @@ export const useEmployee = () => {
   const [profileImage, setProfileImage] = useState('');
   const [file, setFile] = useState<File | null>(null);
 
-  const getEmployeeMypagInfo = useCallback(async () => {
+  const getEmployeeMyPageInfo = useCallback(async () => {
     if (!user) return null;
     const employeeInformation = (await apiClient.employees
       ._employeeId(user.id)
-      .$get({ query: { fields: 'mypage' } })) as EmployeeMypageModel;
+      .$get({ query: { fields: 'mypage' } })) as EmployeeMyPageModel;
 
     const names = employeeInformation.name?.split(' ');
     setFirstName(names[0]);
@@ -46,7 +46,7 @@ export const useEmployee = () => {
     const employeeInformation = (await apiClient.employees
       ._employeeId(user.id)
       .$post({ body: { name, email, iconUrl: file } })
-      .then(setEmployeeInformation)) as EmployeeMypageModel;
+      .then(setEmployeeInformation)) as EmployeeMyPageModel;
 
     const names = employeeInformation.name?.split(' ');
     setFirstName(names[0]);
@@ -65,7 +65,7 @@ export const useEmployee = () => {
     setProfileImage,
     setFile,
     employeeInformation,
-    getEmployeeMypagInfo,
+    getEmployeeMyPageInfo,
     getEmployeeProfileInfo,
     updateEmployeeInformation,
   };
