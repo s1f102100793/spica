@@ -94,6 +94,35 @@ export const useCalculateTip = (dashboardData: CompanyDashboardModel | null) => 
     return sortedFeedbacks;
   }, [dashboardData, currentMonth, currentYear]);
 
+  const membersList = useMemo(() => {
+    if (!dashboardData) return [];
+
+    const members = dashboardData.EmployeeCompany.map((employee) => ({
+      name: employee.employeeName,
+      monthlyTipCount: 0,
+      averageMonthlyTip: 0,
+      monthlyTipAmount: 0,
+      totalTipAmount: 0,
+    }));
+
+    dashboardData.tips.forEach((tip) => {
+      const member = members.find((member) => member.name === tip.employeeName);
+      if (member) {
+        member.monthlyTipCount += 1;
+        member.monthlyTipAmount += tip.amount;
+        member.totalTipAmount += tip.amount;
+      }
+    });
+
+    members.forEach((member) => {
+      if (member.monthlyTipCount > 0) {
+        member.averageMonthlyTip = member.monthlyTipAmount / member.monthlyTipCount;
+      }
+    });
+
+    return members;
+  }, [dashboardData]);
+
   return {
     monthlyTotal,
     averageTip,
@@ -101,5 +130,6 @@ export const useCalculateTip = (dashboardData: CompanyDashboardModel | null) => 
     totalTips,
     monthlyRankings,
     monthlyFeedbacks,
+    membersList,
   };
 };

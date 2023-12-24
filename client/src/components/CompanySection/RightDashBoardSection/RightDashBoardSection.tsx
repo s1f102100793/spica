@@ -17,7 +17,7 @@ export const RighDashBoardtSection = () => {
     monthlyFeedbacks,
   } = useCalculateTip(data);
 
-  const getDashboardPagData = useCallback(async () => {
+  const getDashboardPageData = useCallback(async () => {
     if (companyId === undefined) return null;
     const dashboardData = (await apiClient.companies
       ._companyId(companyId as string)
@@ -26,8 +26,8 @@ export const RighDashBoardtSection = () => {
   }, [companyId]);
 
   useEffect(() => {
-    getDashboardPagData();
-  }, [getDashboardPagData]);
+    getDashboardPageData();
+  }, [getDashboardPageData]);
 
   const leftColumnFeedbacks = monthlyFeedbacks.slice(0, 5);
   const rightColumnFeedbacks = monthlyFeedbacks.slice(5, 10);
