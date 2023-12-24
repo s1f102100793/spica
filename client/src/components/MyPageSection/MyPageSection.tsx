@@ -5,13 +5,13 @@ import styles from './MySection.module.css';
 import { RightSection } from './RightSection/RightSection';
 
 export const MyPageSection = () => {
-  const { employeeInformation, getEmployeeMypagInfo } = useEmployee();
+  const { employeeInformation, getEmployeeMyPageInfo } = useEmployee();
 
   useEffect(() => {
     if (!employeeInformation) {
-      getEmployeeMypagInfo();
+      getEmployeeMyPageInfo();
     }
-  }, [employeeInformation, getEmployeeMypagInfo]);
+  }, [employeeInformation, getEmployeeMyPageInfo]);
 
   return (
     <div className={styles.container}>

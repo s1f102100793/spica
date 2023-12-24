@@ -1,4 +1,4 @@
-import type { EmployeeMypageModel, EmployeeProfilePageModel } from '$/commonTypesWithClient/models';
+import type { EmployeeMyPageModel, EmployeeProfilePageModel } from '$/commonTypesWithClient/models';
 import { companyIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
 import type { Tip } from '@prisma/client';
@@ -15,7 +15,7 @@ const toEmployeeProfilePageModel = (prismaEmployeeProfile: {
   profileImage: prismaEmployeeProfile.profile.profileImage,
 });
 
-const toEmployeeMypageModel = (prismaEmployeeMyPage: {
+const toEmployeeMyPageModel = (prismaEmployeeMyPage: {
   name: string;
   profile: {
     profileImage: string;
@@ -28,7 +28,7 @@ const toEmployeeMypageModel = (prismaEmployeeMyPage: {
     roleId: number;
   }[];
   Tip: Tip[];
-}): EmployeeMypageModel => ({
+}): EmployeeMyPageModel => ({
   name: prismaEmployeeMyPage.name,
   profileImage: prismaEmployeeMyPage.profile.profileImage,
   employeeCompany: prismaEmployeeMyPage.EmployeeCompany.map((ec) => ({
@@ -67,7 +67,7 @@ export const employeeRepository = {
     });
     const profile = prismaEmployee.profile || { profileImage: '/images/default.png' };
 
-    return toEmployeeMypageModel({
+    return toEmployeeMyPageModel({
       ...prismaEmployee,
       profile,
     });
@@ -123,7 +123,7 @@ export const employeeRepository = {
       throw new Error('Employee not found');
     }
     const profile = prismaEmployeeMyPage.profile || { profileImage: '/images/default.png' };
-    return toEmployeeMypageModel({
+    return toEmployeeMyPageModel({
       ...prismaEmployeeMyPage,
       profile,
     });

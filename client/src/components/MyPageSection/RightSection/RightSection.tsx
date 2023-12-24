@@ -1,6 +1,6 @@
 import type { ChartData } from 'chart.js';
 import { BarController, BarElement, CategoryScale, Chart, LinearScale } from 'chart.js';
-import type { EmployeeMypageModel } from 'commonTypesWithClient/models';
+import type { EmployeeMyPageModel } from 'commonTypesWithClient/models';
 import { useRouter } from 'next/router';
 import QRCode from 'qrcode';
 import React, { useEffect, useState } from 'react';
@@ -13,7 +13,7 @@ import styles from './RightSection.module.css';
 Chart.register(CategoryScale, LinearScale, BarElement, BarController);
 
 type RightSectionProps = {
-  employeeInformation: EmployeeMypageModel | null;
+  employeeInformation: EmployeeMyPageModel | null;
 };
 
 export const RightSection: React.FC<RightSectionProps> = ({ employeeInformation }) => {
