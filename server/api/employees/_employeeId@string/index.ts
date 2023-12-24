@@ -3,7 +3,7 @@ import type { EmployeeMyPageModel, EmployeeProfilePageModel } from 'commonTypesW
 
 export type Methods = DefineMethods<{
   get: {
-    query: { fields: string };
+    query: { context: string };
     resBody: EmployeeProfilePageModel | EmployeeMyPageModel | null;
   };
   post: {

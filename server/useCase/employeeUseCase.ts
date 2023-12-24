@@ -2,8 +2,8 @@ import { employeeRepository } from '$/repository/employeeRepository';
 import { s3Repository } from '$/repository/s3Repository';
 
 export const employeeUseCase = {
-  get: async (firebaseUid: string, fields: string) => {
-    switch (fields) {
+  get: async (firebaseUid: string, context: string) => {
+    switch (context) {
       case 'profile':
         return await employeeRepository.getProfileInfo(firebaseUid);
       case 'mypage':
