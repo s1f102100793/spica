@@ -2,10 +2,6 @@ import { employeeUseCase } from '$/useCase/employeeUseCase';
 import { defineController } from './$relay';
 
 export default defineController(() => ({
-  get: async ({ params: { employeeId }, query: { context } }) => ({
-    status: 200,
-    body: await employeeUseCase.get(employeeId, context),
-  }),
   post: async ({ params: { employeeId }, body }) => {
     let iconUrl: Buffer | string;
     if (typeof body.iconUrl === 'string') {
