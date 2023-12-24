@@ -18,7 +18,7 @@ export const useEmployee = () => {
     if (!user) return null;
     const employeeInformation = (await apiClient.employees
       ._employeeId(user.id)
-      .$get({ query: { fields: 'mypage' } })) as EmployeeMyPageModel;
+      .$get({ query: { context: 'mypage' } })) as EmployeeMyPageModel;
 
     const names = employeeInformation.name?.split(' ');
     setFirstName(names[0]);
@@ -31,7 +31,7 @@ export const useEmployee = () => {
     if (!user) return null;
     const employeeInformation = (await apiClient.employees
       ._employeeId(user.id)
-      .$get({ query: { fields: 'profile' } })) as EmployeeProfilePageModel;
+      .$get({ query: { context: 'profile' } })) as EmployeeProfilePageModel;
 
     const names = employeeInformation.name?.split(' ') as string[];
     setFirstName(names[0]);
