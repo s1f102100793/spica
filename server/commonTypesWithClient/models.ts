@@ -133,3 +133,33 @@ export type TipData = {
   feedback: string;
   merchantPaymentId: string;
 };
+
+export const employeeProfilePageParser = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  profileImage: z.string(),
+});
+
+export type EmployeeProfilePageModel = z.infer<typeof employeeProfilePageParser>;
+
+export const employeeMyPageEmployeeCompanyParser = z.object({
+  companyId: companyIdParser,
+  companyName: z.string(),
+  roleId: z.number(),
+});
+
+export const employeeMyPagetipParser = z.object({
+  id: z.number(),
+  companyId: companyIdParser,
+  amount: z.number(),
+  createdAt: z.number(),
+});
+
+export const employeeMyPageParser = z.object({
+  name: z.string(),
+  profileImage: z.string(),
+  employeeCompany: z.array(employeeMyPageEmployeeCompanyParser),
+  tips: z.array(employeeMyPagetipParser),
+});
+
+export type EmployeeMyPageModel = z.infer<typeof employeeMyPageParser>;
