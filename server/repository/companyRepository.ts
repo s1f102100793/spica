@@ -1,3 +1,4 @@
+import { CompanyNotFoundError } from '$/commonTypesWithClient/errors';
 import type {
   CompanyTipPageInfoModel,
   EmployeeCompanyPairModel,
@@ -81,7 +82,7 @@ export const companyRepository = {
     });
 
     if (!prismaEmployeeInfo) {
-      return new Error('Company not found');
+      throw new CompanyNotFoundError('Company not found');
     }
     return toCompanyTipPageInfoModel(prismaEmployeeInfo);
   },
@@ -105,7 +106,7 @@ export const companyRepository = {
     });
 
     if (!prismaCompanyInfo) {
-      return new Error('Company not found');
+      throw new CompanyNotFoundError('Company not found');
     }
 
     return toEmployeeTipPageInfoModel(prismaCompanyInfo);

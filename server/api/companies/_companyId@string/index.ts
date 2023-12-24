@@ -7,6 +7,6 @@ import type {
 export type Methods = DefineMethods<{
   get: {
     query: { fields: string };
-    resBody: EmployeeTipPageInfoModel | CompanyTipPageInfoModel | Error;
+    resBody: EmployeeTipPageInfoModel | CompanyTipPageInfoModel;
   };
 }>;
