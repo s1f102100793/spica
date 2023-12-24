@@ -81,7 +81,7 @@ export const companyRepository = {
     });
 
     if (!prismaEmployeeInfo) {
-      throw new Error('Company not found');
+      return new Error('Company not found');
     }
     return toCompanyTipPageInfoModel(prismaEmployeeInfo);
   },
@@ -105,7 +105,7 @@ export const companyRepository = {
     });
 
     if (!prismaCompanyInfo) {
-      throw new Error('Company not found');
+      return new Error('Company not found');
     }
 
     return toEmployeeTipPageInfoModel(prismaCompanyInfo);

@@ -8,7 +8,7 @@ export const companyUseCase = {
       case 'id,name,EmployeeCompany':
         return companyRepository.getEmployeeTipPageInfo(companyId);
       default:
-        return null;
+        return new Error('Invalid fields parameter');
     }
   },
 };
@@ -21,7 +21,7 @@ export const allCompanyUseCase = {
       case 'EmployeeCompany':
         return allCompanyRepository.getEmployeeCompany();
       default:
-        return null;
+        return new Error('Invalid fields parameter');
     }
   },
 };
