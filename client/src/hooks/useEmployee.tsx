@@ -1,4 +1,4 @@
-import type { EmployeeMyPageModel, EmployeeProfilePageModel } from 'commonTypesWithClient/models';
+import type { EmployeeMyPageModel } from 'commonTypesWithClient/models';
 import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
 import { userAtom } from 'src/atoms/user';
@@ -16,9 +16,7 @@ export const useEmployee = () => {
 
   const getEmployeeMyPageInfo = useCallback(async () => {
     if (!user) return null;
-    const employeeInformation = (await apiClient.employees
-      ._employeeId(user.id)
-      .$get({ query: { context: 'mypage' } })) as EmployeeMyPageModel;
+    const employeeInformation = await apiClient.employees._employeeId(user.id).mypage.$get();
 
     const names = employeeInformation.name?.split(' ');
     setFirstName(names[0]);
@@ -29,9 +27,7 @@ export const useEmployee = () => {
 
   const getEmployeeProfileInfo = useCallback(async () => {
     if (!user) return null;
-    const employeeInformation = (await apiClient.employees
-      ._employeeId(user.id)
-      .$get({ query: { context: 'profile' } })) as EmployeeProfilePageModel;
+    const employeeInformation = await apiClient.employees._employeeId(user.id).profile.$get();
 
     const names = employeeInformation.name?.split(' ') as string[];
     setFirstName(names[0]);
