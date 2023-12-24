@@ -1,3 +1,4 @@
+import { InvalidFieldsError } from '$/commonTypesWithClient/errors';
 import { allCompanyRepository, companyRepository } from '$/repository/companyRepository';
 
 export const companyUseCase = {
@@ -10,7 +11,7 @@ export const companyUseCase = {
       case 'dashboard':
         return companyRepository.getCompanyDashboard(companyId);
       default:
-        return null;
+        throw new InvalidFieldsError('Invalid fields parameter');
     }
   },
 };
@@ -23,7 +24,7 @@ export const allCompanyUseCase = {
       case 'EmployeeCompany':
         return allCompanyRepository.getEmployeeCompany();
       default:
-        return null;
+        throw new InvalidFieldsError('Invalid fields parameter');
     }
   },
 };

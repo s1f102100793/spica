@@ -1,3 +1,4 @@
+import { CompanyNotFoundError } from '$/commonTypesWithClient/errors';
 import type {
   CompanyDashboardModel,
   CompanyTipPageInfoModel,
@@ -124,7 +125,7 @@ export const companyRepository = {
     });
 
     if (!prismaEmployeeInfo) {
-      throw new Error('Company not found');
+      throw new CompanyNotFoundError('Company not found');
     }
     return toCompanyTipPageInfoModel(prismaEmployeeInfo);
   },
@@ -148,9 +149,8 @@ export const companyRepository = {
     });
 
     if (!prismaCompanyInfo) {
-      throw new Error('Company not found');
+      throw new CompanyNotFoundError('Company not found');
     }
-
     return toEmployeeTipPageInfoModel(prismaCompanyInfo);
   },
   getCompanyDashboard: async (companyId: string) => {
@@ -194,7 +194,6 @@ export const companyRepository = {
     if (!prismaCompanyDashboard) {
       throw new Error('Company not found');
     }
-
     return toCompanyDashboardModel(prismaCompanyDashboard);
   },
 };
