@@ -78,6 +78,7 @@ model CompanyTip {
   id        Int      @id @default(autoincrement())
   companyId String
   amount    Int
+  feedback  String
   createdAt DateTime @default(now())
   company   Company  @relation(fields: [companyId], references: [id])
 }
