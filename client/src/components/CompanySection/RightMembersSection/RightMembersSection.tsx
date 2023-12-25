@@ -1,4 +1,5 @@
-import { Autocomplete, TextField } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { Autocomplete, Button, Modal, TextField } from '@mui/material';
 import type { CompanyDashboardModel } from 'commonTypesWithClient/models';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useCalculateTip } from 'src/hooks/useCaluculateTip';
@@ -20,6 +21,8 @@ export const RightMembersSection = () => {
   const { companyId } = useRouteCompanyId();
   const [data, setData] = useState<CompanyDashboardModel | null>(null);
   const { membersList } = useCalculateTip(data);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const getMembersPageData = useCallback(async () => {
     if (companyId === undefined) return null;
     const membersData = (await apiClient.companies
@@ -57,6 +60,33 @@ export const RightMembersSection = () => {
       setSortType(newValue.value);
     }
   };
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const renderModalContent = () => (
+    <div className={styles.modal}>
+      <div className={styles.modalContent}>
+        <div className={styles.modalTitle}>
+          <p>メンバーを追加する</p>
+          <CloseIcon onClick={handleCloseModal} className={styles.closeButton} />
+        </div>
+        <div className={styles.modalInput}>
+          <div className={styles.nameInput}>
+            <TextField id="standard-basic" label="性" />
+            <TextField id="standard-basic" label="名" />
+          </div>
+          <TextField id="standard-basic" className={styles.mailInput} label="メールアドレス" />
+        </div>
+        <Button className={styles.addButton}>追加</Button>
+      </div>
+    </div>
+  );
 
   return (
     <div className={styles.container}>
@@ -99,7 +129,18 @@ export const RightMembersSection = () => {
               ))}
             </tbody>
           </table>
-          <button className={styles.addMemberButton}>メンバーを追加する</button>
+          <button className={styles.addMemberButton} onClick={handleOpenModal}>
+            メンバーを追加する
+          </button>
+          <Modal
+            className={styles.modal}
+            open={isModalOpen}
+            onClose={handleCloseModal}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
+            {renderModalContent()}
+          </Modal>
         </div>
       </div>
     </div>
