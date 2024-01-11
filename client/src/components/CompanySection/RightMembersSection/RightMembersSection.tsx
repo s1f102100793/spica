@@ -1,5 +1,10 @@
-import { Autocomplete, TextField } from '@mui/material';
-import { useMemo, useState } from 'react';
+import CloseIcon from '@mui/icons-material/Close';
+import { Autocomplete, Button, Modal, TextField } from '@mui/material';
+import type { CompanyDashboardModel } from 'commonTypesWithClient/models';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCalculateTip } from 'src/hooks/useCaluculateTip';
+import { useRouteCompanyId } from 'src/hooks/useRouteCompanyId';
+import { apiClient } from 'src/utils/apiClient';
 import styles from './RightMembersSection.module.css';
 
 type Member = {
@@ -13,88 +18,36 @@ type Member = {
 type SortType = 'monthlyTipCount' | 'averageMonthlyTip' | 'monthlyTipAmount' | 'totalTipAmount';
 
 export const RightMembersSection = () => {
-  const [members, setMembers] = useState<Member[]>([
-    {
-      name: '山田 太郎',
-      monthlyTipCount: 5,
-      averageMonthlyTip: 300,
-      monthlyTipAmount: 1500,
-      totalTipAmount: 8000,
-    },
-    {
-      name: '佐藤 花子',
-      monthlyTipCount: 8,
-      averageMonthlyTip: 250,
-      monthlyTipAmount: 2000,
-      totalTipAmount: 12000,
-    },
-    {
-      name: '鈴木 一郎',
-      monthlyTipCount: 3,
-      averageMonthlyTip: 500,
-      monthlyTipAmount: 1500,
-      totalTipAmount: 4500,
-    },
-    {
-      name: '高橋 次郎',
-      monthlyTipCount: 7,
-      averageMonthlyTip: 350,
-      monthlyTipAmount: 2450,
-      totalTipAmount: 9800,
-    },
-    {
-      name: '田中 美咲',
-      monthlyTipCount: 6,
-      averageMonthlyTip: 400,
-      monthlyTipAmount: 2400,
-      totalTipAmount: 14400,
-    },
-    {
-      name: '伊藤 浩',
-      monthlyTipCount: 4,
-      averageMonthlyTip: 450,
-      monthlyTipAmount: 1800,
-      totalTipAmount: 7200,
-    },
-    {
-      name: '渡辺 京子',
-      monthlyTipCount: 9,
-      averageMonthlyTip: 350,
-      monthlyTipAmount: 3150,
-      totalTipAmount: 12600,
-    },
-    {
-      name: '小林 大輔',
-      monthlyTipCount: 2,
-      averageMonthlyTip: 600,
-      monthlyTipAmount: 1200,
-      totalTipAmount: 2400,
-    },
-    {
-      name: '加藤 あゆみ',
-      monthlyTipCount: 10,
-      averageMonthlyTip: 200,
-      monthlyTipAmount: 2000,
-      totalTipAmount: 20000,
-    },
-    {
-      name: '吉田 良平',
-      monthlyTipCount: 1,
-      averageMonthlyTip: 1000,
-      monthlyTipAmount: 1000,
-      totalTipAmount: 1000,
-    },
-  ]);
+  const { companyId } = useRouteCompanyId();
+  const [data, setData] = useState<CompanyDashboardModel | null>(null);
+  const { membersList } = useCalculateTip(data);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const name = `${firstName} ${lastName}`;
+  const [email, setEmail] = useState('');
+
+  const getMembersPageData = useCallback(async () => {
+    if (companyId === undefined) return null;
+    const membersData = (await apiClient.companies
+      ._companyId(companyId as string)
+      .$get({ query: { fields: 'dashboard' } })) as CompanyDashboardModel;
+    setData(membersData);
+  }, [companyId]);
+
+  useEffect(() => {
+    getMembersPageData();
+  }, [getMembersPageData]);
 
   const [sortType, setSortType] = useState<SortType>('monthlyTipAmount');
 
   const sortedMembers = useMemo(() => {
-    return [...members].sort((a, b) => {
+    return [...membersList].sort((a, b) => {
       const aValue = a[sortType as keyof Member];
       const bValue = b[sortType as keyof Member];
       return (bValue as number) - (aValue as number);
     });
-  }, [members, sortType]);
+  }, [membersList, sortType]);
 
   const sortOptions: { label: string; value: SortType }[] = [
     { label: '今月のチップ回数', value: 'monthlyTipCount' },
@@ -110,6 +63,62 @@ export const RightMembersSection = () => {
     if (newValue) {
       setSortType(newValue.value);
     }
+  };
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const renderModalContent = () => (
+    <div className={styles.modal}>
+      <div className={styles.modalContent}>
+        <div className={styles.modalTitle}>
+          <p>メンバーを追加する</p>
+          <CloseIcon onClick={handleCloseModal} className={styles.closeButton} />
+        </div>
+        <div className={styles.modalInput}>
+          <div className={styles.nameInput}>
+            <TextField
+              id="standard-basic-firstname"
+              label="性"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+            <TextField
+              id="standard-basic-lastname"
+              label="名"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </div>
+          <TextField
+            id="standard-basic-email"
+            className={styles.mailInput}
+            label="メールアドレス"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <Button className={styles.addButton} onClick={addCompanyMember}>
+          追加
+        </Button>
+      </div>
+    </div>
+  );
+
+  const addCompanyMember = async () => {
+    if (companyId === undefined) return null;
+    await apiClient.companies
+      ._companyId(companyId as string)
+      .invitation.$post({ body: { email, name } });
+    handleCloseModal();
+    setFirstName('');
+    setLastName('');
+    setEmail('');
   };
 
   return (
@@ -153,7 +162,18 @@ export const RightMembersSection = () => {
               ))}
             </tbody>
           </table>
-          <button className={styles.addMemberButton}>メンバーを追加する</button>
+          <button className={styles.addMemberButton} onClick={handleOpenModal}>
+            メンバーを追加する
+          </button>
+          <Modal
+            className={styles.modal}
+            open={isModalOpen}
+            onClose={handleCloseModal}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
+            {renderModalContent()}
+          </Modal>
         </div>
       </div>
     </div>

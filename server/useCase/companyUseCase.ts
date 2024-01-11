@@ -8,9 +8,14 @@ export const companyUseCase = {
         return companyRepository.getCompanyTipPageInfo(companyId);
       case 'id,name,EmployeeCompany':
         return companyRepository.getEmployeeTipPageInfo(companyId);
+      case 'dashboard':
+        return companyRepository.getCompanyDashboard(companyId);
       default:
         throw new InvalidFieldsError('Invalid fields parameter');
     }
+  },
+  invite: async (companyId: string, email: string, employeeName: string) => {
+    console.log(companyId, email, employeeName);
   },
 };
 
