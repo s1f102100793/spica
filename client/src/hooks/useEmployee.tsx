@@ -1,4 +1,4 @@
-import type { EmployeeModel } from 'commonTypesWithClient/models';
+import type { EmployeeMyPageModel } from 'commonTypesWithClient/models';
 import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
 import { userAtom } from 'src/atoms/user';
@@ -6,7 +6,7 @@ import { apiClient } from 'src/utils/apiClient';
 
 export const useEmployee = () => {
   const [user] = useAtom(userAtom);
-  const [employeeInformation, setEmployeeInformation] = useState<EmployeeModel | null>(null);
+  const [employeeInformation, setEmployeeInformation] = useState<EmployeeMyPageModel | null>(null);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const name = `${firstName} ${lastName}`;
@@ -14,31 +14,40 @@ export const useEmployee = () => {
   const [profileImage, setProfileImage] = useState('');
   const [file, setFile] = useState<File | null>(null);
 
-  const getEmployeeInformation = useCallback(async () => {
+  const getEmployeeMyPageInfo = useCallback(async () => {
     if (!user) return null;
-    const employeeInformation = await apiClient.employees
-      ._employeeId(user.id)
-      .$get({ query: { fields: 'name,email,profile,EmployeeCompany' } });
+    const employeeInformation = await apiClient.employees._employeeId(user.id).mypage.$get();
 
-    if (employeeInformation !== null) {
-      const names = employeeInformation.name?.split(' ') as string[];
-      setFirstName(names[0]);
-      setLastName(names[1]);
-      setEmail(employeeInformation.email as string);
-      setProfileImage(employeeInformation.profile?.profileImage as string);
-      setEmployeeInformation(employeeInformation as EmployeeModel);
-    }
+    const names = employeeInformation.name?.split(' ');
+    setFirstName(names[0]);
+    setLastName(names[1]);
+    setProfileImage(employeeInformation.profileImage);
+    setEmployeeInformation(employeeInformation);
+  }, [user]);
 
-    return employeeInformation;
+  const getEmployeeProfileInfo = useCallback(async () => {
+    if (!user) return null;
+    const employeeInformation = await apiClient.employees._employeeId(user.id).profile.$get();
+
+    const names = employeeInformation.name?.split(' ') as string[];
+    setFirstName(names[0]);
+    setLastName(names[1]);
+    setEmail(employeeInformation.email);
+    setProfileImage(employeeInformation.profileImage);
   }, [user]);
 
   const updateEmployeeInformation = async () => {
     if (!user) return null;
     if (!file) return null;
-    await apiClient.employees
+    const employeeInformation = (await apiClient.employees
       ._employeeId(user.id)
       .$post({ body: { name, email, iconUrl: file } })
-      .then(setEmployeeInformation);
+      .then(setEmployeeInformation)) as EmployeeMyPageModel;
+
+    const names = employeeInformation.name?.split(' ');
+    setFirstName(names[0]);
+    setLastName(names[1]);
+    setProfileImage(employeeInformation.profileImage);
   };
 
   return {
@@ -52,7 +61,8 @@ export const useEmployee = () => {
     setProfileImage,
     setFile,
     employeeInformation,
-    getEmployeeInformation,
+    getEmployeeMyPageInfo,
+    getEmployeeProfileInfo,
     updateEmployeeInformation,
   };
 };

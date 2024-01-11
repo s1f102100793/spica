@@ -1,6 +1,6 @@
 import type { ChartData } from 'chart.js';
 import { BarController, BarElement, CategoryScale, Chart, LinearScale } from 'chart.js';
-import type { EmployeeModel } from 'commonTypesWithClient/models';
+import type { EmployeeMyPageModel } from 'commonTypesWithClient/models';
 import { useRouter } from 'next/router';
 import QRCode from 'qrcode';
 import React, { useEffect, useState } from 'react';
@@ -13,7 +13,7 @@ import styles from './RightSection.module.css';
 Chart.register(CategoryScale, LinearScale, BarElement, BarController);
 
 type RightSectionProps = {
-  employeeInformation: EmployeeModel | null;
+  employeeInformation: EmployeeMyPageModel | null;
 };
 
 export const RightSection: React.FC<RightSectionProps> = ({ employeeInformation }) => {
@@ -31,12 +31,11 @@ export const RightSection: React.FC<RightSectionProps> = ({ employeeInformation 
   useEffect(() => {
     if (employeeInformation && employeeInformation.tips !== null) {
       const total = employeeInformation?.tips?.reduce((sum, tip) => sum + tip.amount, 0);
-      setTotalEarned(total as number);
-      const tipsData =
-        employeeInformation.tips?.map((tip) => ({
-          amount: tip.amount,
-          createdAt: tip.createdAt,
-        })) || [];
+      setTotalEarned(total);
+      const tipsData = employeeInformation.tips.map((tip) => ({
+        amount: tip.amount,
+        createdAt: tip.createdAt,
+      }));
       const analyzedTrophies = analyzeTrophies(tipsData);
       setTrophyList(analyzedTrophies);
       const monthlyTips = calculateMonthlyTips(tipsData);
@@ -95,7 +94,7 @@ export const RightSection: React.FC<RightSectionProps> = ({ employeeInformation 
         <div className={styles.jobList}>
           <h3 className={styles.jobTitle}>仕事先</h3>
           <div className={styles.jobHistoryList}>
-            {employeeInformation?.employeeCompanies?.map((ec, index) => (
+            {employeeInformation?.employeeCompany.map((ec, index) => (
               <div className={styles.jobHistory} key={index}>
                 ・{ec?.companyName}
               </div>

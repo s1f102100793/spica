@@ -1,48 +1,48 @@
-import type { EmployeeModel } from '$/commonTypesWithClient/models';
-import { FIREBASE_SERVER_KEY } from '$/service/envValues';
-import { companyIdParser, userIdParser } from '$/service/idParsers';
+import type { EmployeeMyPageModel, EmployeeProfilePageModel } from '$/commonTypesWithClient/models';
+import { companyIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
-import type { Company, Employee, EmployeeCompany, EmployeeProfile, Tip } from '@prisma/client';
+import type { Tip } from '@prisma/client';
 
-const toEmployeeModel = (
-  prismaEmployee: Employee & {
-    profile?: EmployeeProfile | null;
-    EmployeeCompany?: (EmployeeCompany & { company?: Partial<Company> })[];
-    Tip: Tip[];
-  }
-): EmployeeModel => {
-  return {
-    firebaseUid:
-      prismaEmployee?.firebaseUid !== null && prismaEmployee?.firebaseUid !== undefined
-        ? userIdParser.parse(prismaEmployee.firebaseUid)
-        : undefined,
-    name: prismaEmployee?.name,
-    email: prismaEmployee?.email,
-    createdAt: prismaEmployee.createdAt?.getTime(),
-    isDeleted: prismaEmployee?.isDeleted,
-    profile: prismaEmployee?.profile
-      ? {
-          id: prismaEmployee.profile.profileId,
-          profileImage: prismaEmployee.profile.profileImage,
-          createdAt: prismaEmployee.profile.createdAt.getTime(),
-          updatedAt: prismaEmployee.profile.updatedAt.getTime(),
-        }
-      : undefined,
-    employeeCompanies: prismaEmployee.EmployeeCompany?.map((ec) => ({
-      id: ec.id,
-      companyId: companyIdParser.parse(ec.companyId),
-      roleId: ec.roleId,
-      companyName: ec.company?.name,
-    })),
-    tips: prismaEmployee.Tip?.map((tip) => ({
-      id: tip.id,
-      employeeId: userIdParser.parse(tip.employeeId),
-      companyId: companyIdParser.parse(tip.companyId),
-      amount: tip.amount,
-      createdAt: tip.createdAt.getTime(),
-    })),
+const toEmployeeProfilePageModel = (prismaEmployeeProfile: {
+  name: string;
+  email: string;
+  profile: {
+    profileImage: string;
   };
-};
+}): EmployeeProfilePageModel => ({
+  name: prismaEmployeeProfile.name,
+  email: prismaEmployeeProfile.email,
+  profileImage: prismaEmployeeProfile.profile.profileImage,
+});
+
+const toEmployeeMyPageModel = (prismaEmployeeMyPage: {
+  name: string;
+  profile: {
+    profileImage: string;
+  };
+  EmployeeCompany: {
+    company: {
+      name: string;
+    };
+    companyId: string;
+    roleId: number;
+  }[];
+  Tip: Tip[];
+}): EmployeeMyPageModel => ({
+  name: prismaEmployeeMyPage.name,
+  profileImage: prismaEmployeeMyPage.profile.profileImage,
+  employeeCompany: prismaEmployeeMyPage.EmployeeCompany.map((ec) => ({
+    companyId: companyIdParser.parse(ec.companyId),
+    companyName: ec.company.name,
+    roleId: ec.roleId,
+  })),
+  tips: prismaEmployeeMyPage.Tip.map((tip) => ({
+    id: tip.id,
+    companyId: companyIdParser.parse(tip.companyId),
+    amount: tip.amount,
+    createdAt: tip.createdAt.getTime(),
+  })),
+});
 
 export const employeeRepository = {
   save: async (firebaseUid: string, name: string, email: string, profileImage: string) => {
@@ -60,81 +60,72 @@ export const employeeRepository = {
         profile: { update: { profileImage } },
       },
       include: {
-        profile: true,
+        profile: { select: { profileImage: true } },
         EmployeeCompany: { include: { company: { select: { name: true } } } },
         Tip: true,
       },
     });
-    return toEmployeeModel(prismaEmployee);
-  },
-  get: async (firebaseUid: string, fields: string) => {
-    console.log(FIREBASE_SERVER_KEY);
-    const selectFields = createSelectFields(fields);
-    const prismaEmployee = await prismaClient.employee.findUnique({
-      where: { firebaseUid },
-      select: selectFields,
+    const profile = prismaEmployee.profile || { profileImage: '/images/default.png' };
+
+    return toEmployeeMyPageModel({
+      ...prismaEmployee,
+      profile,
     });
-    if (!prismaEmployee) {
-      throw new Error('Employee not found');
-    }
-    return toEmployeeModel(prismaEmployee);
   },
-};
-
-const createSelectFields = (fields: string) => {
-  const selectFields: Record<
-    string,
-    boolean | { select: Record<string, boolean | { select: Record<string, boolean> }> }
-  > = {};
-  const fieldsArray = fields.split(',');
-
-  if (fieldsArray.includes('*')) {
-    if (fieldsArray.length > 1) {
-      throw new Error("Invalid fields: '*' cannot be combined with other fields");
-    }
-    return {
-      firebaseUid: true,
-      name: true,
-      email: true,
-      createdAt: true,
-      isDeleted: true,
-      profile: createSelectFieldForProfile(),
-      EmployeeCompany: createSelectFieldForEmployeeCompany(),
-      Tip: true,
-    };
-  }
-
-  fieldsArray.forEach((field) => {
-    if (field === 'profile') {
-      selectFields[field] = createSelectFieldForProfile();
-    } else if (field === 'EmployeeCompany') {
-      selectFields[field] = createSelectFieldForEmployeeCompany();
-    } else {
-      selectFields[field] = true;
-    }
-  });
-
-  return selectFields;
-};
-
-const createSelectFieldForProfile = () => ({
-  select: {
-    profileId: true,
-    profileImage: true,
-    createdAt: true,
-    updatedAt: true,
-  },
-});
-
-const createSelectFieldForEmployeeCompany = () => ({
-  select: {
-    id: true,
-    companyId: true,
-    roleId: true,
-    company: {
+  getProfileInfo: async (firebaseUid: string) => {
+    const prismaEmployeeProfile = await prismaClient.employee.findUnique({
+      where: { firebaseUid },
       select: {
         name: true,
+        email: true,
+        profile: {
+          select: {
+            profileImage: true,
+          },
+        },
       },
-    },
+    });
+    if (!prismaEmployeeProfile) {
+      throw new Error('Employee not found');
+    }
+    const profile = prismaEmployeeProfile.profile || { profileImage: '/images/default.png' };
+
+    return toEmployeeProfilePageModel({
+      ...prismaEmployeeProfile,
+      profile,
+    });
   },
-});
+  getMypageInfo: async (firebaseUid: string) => {
+    const prismaEmployeeMyPage = await prismaClient.employee.findUnique({
+      where: { firebaseUid },
+      select: {
+        name: true,
+        profile: {
+          select: {
+            profileImage: true,
+          },
+        },
+        EmployeeCompany: {
+          select: {
+            company: {
+              select: {
+                name: true,
+              },
+            },
+            companyId: true,
+            roleId: true,
+          },
+        },
+        Tip: true,
+      },
+    });
+    if (!prismaEmployeeMyPage) {
+      throw new Error('Employee not found');
+    }
+    const profile = prismaEmployeeMyPage.profile || { profileImage: '/images/default.png' };
+    return toEmployeeMyPageModel({
+      ...prismaEmployeeMyPage,
+      profile,
+    });
+  },
+};

@@ -1,9 +1,9 @@
-import type { EmployeeModel } from 'commonTypesWithClient/models';
+import type { EmployeeMyPageModel } from 'commonTypesWithClient/models';
 import { useEffect, useState } from 'react';
 import styles from './LeftSection.module.css';
 
 type LeftSectionProps = {
-  employeeInformation: EmployeeModel | null;
+  employeeInformation: EmployeeMyPageModel | null;
 };
 
 export const LeftSection: React.FC<LeftSectionProps> = ({ employeeInformation }) => {
@@ -20,15 +20,11 @@ export const LeftSection: React.FC<LeftSectionProps> = ({ employeeInformation })
   };
 
   useEffect(() => {
-    if (
-      employeeInformation &&
-      employeeInformation.employeeCompanies !== null &&
-      employeeInformation.employeeCompanies !== undefined
-    ) {
-      const extractedData = employeeInformation.employeeCompanies.map((company) => ({
-        companyId: company.companyId as string,
-        roleId: company.roleId as number,
-        companyName: company.companyName as string,
+    if (employeeInformation !== null) {
+      const extractedData = employeeInformation.employeeCompany.map((company) => ({
+        companyId: company.companyId,
+        roleId: company.roleId,
+        companyName: company.companyName,
       }));
       setCompanyRoleList(extractedData);
     }
@@ -39,7 +35,7 @@ export const LeftSection: React.FC<LeftSectionProps> = ({ employeeInformation })
       <div className={styles.icon}>
         <div
           className={styles.iconImage}
-          style={{ backgroundImage: `url(${employeeInformation?.profile?.profileImage})` }}
+          style={{ backgroundImage: `url(${employeeInformation?.profileImage})` }}
         />
       </div>
       <div className={styles.userInfo}>
