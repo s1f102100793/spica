@@ -22,6 +22,10 @@ export const RightMembersSection = () => {
   const [data, setData] = useState<CompanyDashboardModel | null>(null);
   const { membersList } = useCalculateTip(data);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const name = `${firstName} ${lastName}`;
+  const [email, setEmail] = useState('');
 
   const getMembersPageData = useCallback(async () => {
     if (companyId === undefined) return null;
@@ -78,15 +82,44 @@ export const RightMembersSection = () => {
         </div>
         <div className={styles.modalInput}>
           <div className={styles.nameInput}>
-            <TextField id="standard-basic" label="性" />
-            <TextField id="standard-basic" label="名" />
+            <TextField
+              id="standard-basic-firstname"
+              label="性"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+            <TextField
+              id="standard-basic-lastname"
+              label="名"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
           </div>
-          <TextField id="standard-basic" className={styles.mailInput} label="メールアドレス" />
+          <TextField
+            id="standard-basic-email"
+            className={styles.mailInput}
+            label="メールアドレス"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
-        <Button className={styles.addButton}>追加</Button>
+        <Button className={styles.addButton} onClick={addCompanyMember}>
+          追加
+        </Button>
       </div>
     </div>
   );
+
+  const addCompanyMember = async () => {
+    if (companyId === undefined) return null;
+    await apiClient.companies
+      ._companyId(companyId as string)
+      .invitation.$post({ body: { email, name } });
+    handleCloseModal();
+    setFirstName('');
+    setLastName('');
+    setEmail('');
+  };
 
   return (
     <div className={styles.container}>

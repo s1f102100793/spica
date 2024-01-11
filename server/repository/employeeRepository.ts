@@ -1,4 +1,5 @@
 import type { EmployeeModel } from '$/commonTypesWithClient/models';
+import { FIREBASE_SERVER_KEY } from '$/service/envValues';
 import { companyIdParser, userIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
 import type { Company, Employee, EmployeeCompany, EmployeeProfile, Tip } from '@prisma/client';
@@ -67,6 +68,7 @@ export const employeeRepository = {
     return toEmployeeModel(prismaEmployee);
   },
   get: async (firebaseUid: string, fields: string) => {
+    console.log(FIREBASE_SERVER_KEY);
     const selectFields = createSelectFields(fields);
     const prismaEmployee = await prismaClient.employee.findUnique({
       where: { firebaseUid },

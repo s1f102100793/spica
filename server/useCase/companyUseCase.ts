@@ -14,6 +14,9 @@ export const companyUseCase = {
         throw new InvalidFieldsError('Invalid fields parameter');
     }
   },
+  invite: async (companyId: string, email: string, employeeName: string) => {
+    console.log(companyId, email, employeeName);
+  },
 };
 
 export const allCompanyUseCase = {
